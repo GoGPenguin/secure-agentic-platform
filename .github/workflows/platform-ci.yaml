@@ -16,3 +16,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Lint Helm chart
+        run: helm lint charts/web-app
+
+      - name: Render frontend
+        run: helm template frontend charts/web-app -f environments/frontend-values.yaml
+
+      - name: Render backend
+        run: helm template backend charts/web-app -f environments/backend-values.yaml
+
+      - name: Render sandbox
+        run: helm template sandbox charts/web-app -f environments/sandbox-values.yaml
