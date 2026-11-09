@@ -1,891 +1,186 @@
-# Secure Agentic Platform
-## Project Context & Progress Snapshot
+# Secure Agentic Platform — Project Context
 
-**Last updated:** 2026-11-09  
-**Roadmap:** Secure Agentic Platform — 36 Weeks  
-**Current progress:** Week 1–3 completed (core milestones)  
-**Current focus:** Platform Engineering, GitOps, Kubernetes Security  
+**Last updated:** 2026-11-09
+**Roadmap:** Secure Agentic Platform — 36 Weeks
+**Current milestone:** W04-B5 — Immutable Image Promotion and Rollback
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
 
----
+## Goal and learning approach
 
-# 1. Project Overview
+Build a GitOps-driven platform for cloud-native applications, progressing through platform engineering, cloud security, AI infrastructure, and secure agents. The Platform API uses TypeScript/NestJS; a future AI Incident Agent will use Python.
 
-## Goal
+Act as a senior Platform Engineering mentor: explain decisions and trade-offs, offer hands-on challenges, review user-written code and YAML, encourage independent debugging, and validate outcomes using observable evidence. Avoid complete copy-paste solutions unless requested. Use the roadmap Excel when available to determine subsequent milestones; it has not been inspected in this session.
 
-Build a secure, scalable, GitOps-driven platform for deploying and operating cloud-native applications, progressing toward:
+Preserve existing workloads and prefer incremental, reversible changes. Do not recreate the cluster, reinstall Argo CD, or delete Applications unless explicitly required for recovery or an exercise.
 
-- Platform Engineering
-- Cloud Security / DevSecOps
-- AI Infrastructure
-- Secure AI Agents
-- Agentic Platform Architecture
+## Current checkpoint and evidence boundaries
 
-The project follows a 36-week hands-on learning roadmap.
+The last inspected branch is `feature/promote-platform-api-0.1.1`. Its HEAD before this documentation update is `be8de59` (`chore(gitops): promote platform API to v0.1.1`). The working tree was clean before the documentation edits. Source release v0.1.1 and repository hygiene changes were confirmed on fetched `origin/main` at `a6aa378`.
 
-Learning approach:
+The user confirmed Platform API v0.1.0 was deployed. The current branch selects v0.1.1 Digest B. Local promotion validation passed, but promotion merge, live v0.1.1 rollout, and the digest rollback exercise have not been verified in this session. Do not report them as completed without evidence.
 
-1. Understand architecture and core concepts.
-2. Implement features through hands-on challenges.
-3. Debug real problems.
-4. Validate using observable evidence.
-5. Document results and Git commits.
-6. Progress incrementally toward production-oriented architecture.
+| Milestone | Status and evidence |
+| --- | --- |
+| Weeks 1–3 | Core Kubernetes, Helm, GitOps, ApplicationSet, and AppProject milestones completed |
+| App-of-Apps | Implemented; root previously observed Synced/Healthy; clean recovery untested |
+| W04-A | API, unit/HTTP tests, production container, and CI validation completed |
+| W04-B1 | Backward-compatible chart digest support and schema merged in PR #4 |
+| W04-B2 | Protected-main publishing implemented and merged in PR #5 |
+| W04-B3 | Published image anonymous pull, amd64 compatibility, startup, and HTTP smoke tests confirmed by user |
+| W04-B4 | Platform API ApplicationSet metadata and values merged in PR #6; v0.1.0 deployment confirmed by user |
+| W04-B5 release | Source v0.1.1 merged in PR #7; hygiene follow-up merged in PR #8 |
+| W04-B5 promotion | Digest-only change prepared and locally validated; branch commit `be8de59` |
+| W04-B5 rollback | Pending controlled promotion verification, then a reviewed restoration of Digest A |
 
----
-
-# 2. Current Technology Stack
-
-| Category | Technology |
-|---|---|
-| Container orchestration | Kubernetes |
-| Local cluster | kind |
-| GitOps controller | Argo CD |
-| Application generation | Argo CD ApplicationSet |
-| GitOps security | Argo CD AppProject |
-| Platform bootstrap | App-of-Apps |
-| Package management | Helm |
-| Template engine | Helm templates |
-| Source control | Git + GitHub |
-| Container image | Nginx |
-| Configuration management | YAML |
-| Local OS | Linux |
-| GitOps reconciliation | Argo CD automated sync |
-| Security model | Repository, namespace and resource restrictions |
-
----
-
-# 3. Repository Directory Structure
-
-The following represents the intended repository layout after the App-of-Apps implementation.
+## Repository and controller architecture
 
 ```text
-secure-agentic-platform/
-│
-├── README.md
-│
-├── infrastructure/
-│   └── kind/
-│       └── cluster.yml
-│
-├── bootstrap/
-│   └── argocd/
-│       │
-│       ├── root.yaml
-│       │
-│       ├── control-plane/
-│       │   ├── secure-platform.yaml
-│       │   └── platform-apps.yaml
-│       │
-│       └── apps/
-│           ├── frontend.yaml
-│           ├── backend.yaml
-│           └── demo-app.yaml
-│
-├── app-configs/
-│   ├── frontend.yaml
-│   ├── backend.yaml
-│   └── sandbox.yaml
-│
-├── charts/
-│   └── web-app/
-│       ├── Chart.yaml
-│       ├── values.yaml
-│       │
-│       └── templates/
-│           ├── _helpers.tpl
-│           ├── deployment.yaml
-│           ├── service.yaml
-│           ├── serviceaccount.yaml
-│           ├── hpa.yaml
-│           ├── ingress.yaml
-│           ├── httproute.yaml
-│           ├── NOTES.txt
-│           └── tests/
-│
-├── environments/
-│   ├── frontend-values.yaml
-│   ├── backend-values.yaml
-│   └── sandbox-values.yaml
-│
-├── applications/
-│   └── demo-app/
-│       ├── deployment.yml
-│       └── service.yml
-│
-└── docs/
-    ├── architecture/
-    └── gitops/
+infrastructure/kind/cluster.yml                    local cluster topology
+bootstrap/argocd/root.yaml                        platform-root bootstrap
+bootstrap/argocd/control-plane/secure-platform.yaml AppProject
+bootstrap/argocd/control-plane/platform-apps.yaml   ApplicationSet
+app-configs/{frontend,backend,sandbox,platform-api}.yaml
+                                                  generator metadata
+environments/*-values.yaml                        per-application configuration
+charts/web-app/                                   shared Helm chart and digest schema
+services/platform-api/                            application, tests, Dockerfile, lockfile
+.github/workflows/platform-ci.yaml                validation and publishing
+docs/PROJECT_CONTEXT.md                           continuation context
 ```
 
-**Directory verification note:** The `control-plane/` and `root.yaml` structure reflects the App-of-Apps design implemented according to the user's confirmation. The final on-disk tree has not been independently inspected. Legacy `demo-app` manifests may still exist in Git, although the corresponding live Application and Deployment were previously absent.
-
-## Directory Responsibilities
-
-| Directory | Responsibility |
-|---|---|
-| `infrastructure/kind/` | Kubernetes cluster configuration |
-| `bootstrap/argocd/root.yaml` | Root Application bootstrap |
-| `bootstrap/argocd/control-plane/` | GitOps-managed platform configuration |
-| `bootstrap/argocd/apps/` | Legacy standalone Application definitions |
-| `app-configs/` | ApplicationSet Git generator input |
-| `charts/web-app/` | Shared reusable Helm chart |
-| `environments/` | Application-specific Helm values |
-| `applications/demo-app/` | Original Kubernetes manifest exercise |
-| `docs/` | Technical documentation |
-
-**Important:** Frontend and backend are now managed by ApplicationSet. Their old standalone Application YAML files should not be reconciled independently by another controller.
-
----
-
-# 4. Current GitOps Architecture
-
-## Architecture Pattern
-
-The platform combines:
-
-1. App-of-Apps
-2. ApplicationSet Git File Generator
-3. AppProject security boundaries
-4. Helm-based application deployment
-
-```text
-                    GitHub Repository
-                           |
-                           v
-                    platform-root
-                   (Root Application)
-                           |
-                +----------+----------+
-                |                     |
-                v                     v
-           AppProject             ApplicationSet
-         secure-platform           platform-apps
-                |                     |
-                |              Git File Generator
-                |                     |
-                |                     v
-                |                 app-configs/
-                |                     |
-                |          +----------+----------+
-                |          |          |          |
-                |          v          v          v
-                |       frontend   backend    sandbox
-                |          |          |          |
-                +----------+----------+----------+
-                                      |
-                                      v
-                               Helm Chart
-                               charts/web-app
-                                      |
-                                      v
-                                Kubernetes
-                                 kind cluster
-                                      |
-                                      v
-                                 gitops-apps
-```
+`platform-root` watches `bootstrap/argocd/control-plane` on `main`, using the default AppProject in the `argocd` namespace. Wave -1 creates the AppProject before the wave 0 ApplicationSet. The root does not watch its own `root.yaml`. The permissive default bootstrap project remains a future hardening item.
 
-## Controller Responsibilities
+`platform-apps` uses the Git file generator over `app-configs/*.yaml`, Go templates, and `missingkey=error`. Each file supplies `name`, `namespace`, and `valuesFile`. The generated Application uses:
 
-### Root Application
+- Project `secure-platform`.
+- Destination `https://kubernetes.default.svc`, namespace `gitops-apps`.
+- Repository `https://github.com/GoGPenguin/secure-agentic-platform.git`, revision `main`.
+- Chart path `charts/web-app`, release name matching the application name.
+- A second source with `ref: chart-repo`, loading `$chart-repo/{{.valuesFile}}`.
 
-Name:
+Root and generated Applications self-heal automatically with pruning disabled. ApplicationSet uses `applicationsSync: create-update` and `preserveResourcesOnDeletion: true`. These are committed settings; inspect actual finalizers before relying on deletion protection.
 
-`platform-root`
+Legacy files in `bootstrap/argocd/apps/` and `applications/demo-app/` remain historical exercises outside the root's source path. Do not apply standalone frontend/backend Applications alongside ApplicationSet ownership. The original demo app was previously removed from the live cluster.
 
-Responsibilities:
+## Applications and chart behavior
 
-- Manage `secure-platform` AppProject.
-- Manage `platform-apps` ApplicationSet.
-- Reconcile platform configuration from Git.
+| Application | Deployment | Replicas | Image / container and Service port |
+| --- | --- | --- | --- |
+| frontend | frontend-web-app | 2 | nginx:1.16.0 / 80 |
+| backend | backend-web-app | 1 | httpd:latest / 80 |
+| sandbox | sandbox-web-app | 1 | nginx:1.16.0 / 80 |
+| platform-api | platform-api-web-app | 1 | GHCR digest / 3000 |
 
-Bootstrap mechanism:
+Before B2, frontend/backend/sandbox and the root were observed Synced/Healthy; existing deployments had all replicas available. No new live health check was run for this documentation update.
 
-- Root Application initially installed manually.
-- Its source points to the control-plane manifests.
-- Root auto-reconciliation is part of the implemented design; live verification evidence should be retained.
+Chart version is `0.2.0`; `appVersion` remains `1.16.0`. The API version is independent of chart appVersion. Shared helpers implement:
 
-### ApplicationSet
+- Nonempty `image.digest`: `repository@digest`, taking precedence over tag.
+- Empty digest: existing `repository:tag`, falling back to chart appVersion for an empty tag.
+- Schema validation: digest must be empty or `sha256:` plus exactly 64 hexadecimal characters.
+- Explicit `container.port` takes precedence; omission falls back to `service.port`.
+- Service `targetPort` and HTTP probes use named container port `http`.
 
-Name:
+B1 validation proved existing renders differed only in `helm.sh/chart` labels caused by the required chart version increment. That Pod template label can trigger a rollout. B5 promotion comparison had no chart changes: only the API Deployment image changed; existing workload manifests matched byte-for-byte.
 
-`platform-apps`
+The chart includes a Helm test-hook Pod. It is outside the AppProject allowlist and is skipped by Argo CD; normal managed resources are ServiceAccount, Service, and Deployment. The chart does not currently expose Pod/container securityContext or imagePullSecrets configuration.
 
-Generator:
+## Platform API implementation
 
-```yaml
-generators:
-  - git:
-      repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
-      revision: main
-      files:
-        - path: app-configs/*.yaml
-```
+NestJS 12, TypeScript ESM, Vitest, Supertest, and pnpm. Relative application imports use `.js`. Follow `services/platform-api/AGENTS.md` when changing application code.
 
-Responsibilities:
+`InfoModule` owns `InfoController` and `InfoService`; `HealthModule` independently owns the health routes. No database, authentication, broker, external service checks, or AI functionality has been added. The starter `/` endpoint remains.
 
-- Discover application configuration files.
-- Generate Argo CD Applications.
-- Update generated Application specifications.
-- Manage existing frontend, backend and sandbox Applications.
+| Route | HTTP 200 body |
+| --- | --- |
+| `/api/v1/info` | `{"service":"platform-api","version":"0.1.1"}` for v0.1.1 |
+| `/health/live` | `{"status":"ok"}` |
+| `/health/ready` | `{"status":"ready"}` |
 
-Configuration:
+InfoService loads service name and version from `package.json` through `createRequire`. The package file must remain beside `dist` in runtime artifacts. Version 0.1.1 changed only package metadata and the two explicit test expectations; the dependency lockfile remained valid without changes. Readiness currently reflects HTTP application availability, not external dependencies or shutdown draining.
 
-```yaml
-goTemplate: true
+The Dockerfile and CI use Node.js `24.22.2`; Docker installs pnpm `12.16.1`. Frozen lockfile installs are used. Separate build and production dependency stages produce a runtime with `dist`, production `node_modules`, and `package.json`. It starts `node dist/main.js` as user `node` (UID/GID 1000 in local verification), with `NODE_ENV=production` and port 3000. The base is `node:24.22.2-bookworm-slim`, version-tagged rather than digest-pinned.
 
-goTemplateOptions:
-  - missingkey=error
+Platform API Helm values configure one replica, `IfNotPresent`, ClusterIP port 3000, requests of 100m CPU/128Mi memory, and limits of 500m CPU/256Mi memory. Dedicated ServiceAccount `platform-api` sets `automountServiceAccountToken: false`; the Deployment has no override, so the application Pod inherits false. Liveness uses `/health/live` with 15s delay/10s period; readiness uses `/health/ready` with 5s delay/5s period. Both have 2s timeouts and failure threshold 3. Ingress, HTTPRoute, and HPA are disabled.
 
-syncPolicy:
-  applicationsSync: create-update
-```
+## CI and publishing security
 
-The implementation also proposed:
+`.github/workflows/platform-ci.yaml` runs on PRs targeting main and pushes to main. Helm Validation and Platform API CI are independent jobs. Helm CI lints the chart and renders frontend/backend/sandbox. API CI installs frozen dependencies, runs unit and HTTP tests, builds TypeScript, and builds Docker. Platform API Helm values currently require the separate local validation shown below.
 
-```yaml
-preserveResourcesOnDeletion: true
-```
+The publishing job requires both validation jobs and runs only on main pushes. Workflow permissions default to `contents: read`; only publishing adds `packages: write`. Checkout credential persistence is disabled. Publishing uses temporary `GITHUB_TOKEN`, SHA-pinned Docker actions, explicit local build context, and `linux/amd64`. It adds source/revision OCI labels, tags images `sha-<full-commit-sha>`, captures the registry digest, validates its format, and writes the immutable reference to job outputs and summary.
 
-Verify its live configuration and existing Application finalizers before relying on deletion protection.
+There is no PAT, PR publishing, direct Kubernetes deployment, repository commit, or automatic GitOps promotion from CI. GitHub branch protection is established per user confirmation; remote settings were not re-audited here. A successful main push publishes an artifact; it does not itself change the deployed digest. Even a GitOps-only merge currently triggers validation and publishing again, so retain the explicitly approved artifact identity.
 
-### AppProject
+## Image identity, promotion, and rollback
 
-Name:
+Repository: `ghcr.io/gogpenguin/secure-agentic-platform/platform-api`.
 
-`secure-platform`
+| Artifact | Version | Registry digest |
+| --- | --- | --- |
+| A | 0.1.0 | `sha256:48ec5b5fe780bcd39fc5e1e09912b08acf4ccb777f1e37fab49d80452222b3c5` |
+| B | 0.1.1 | `sha256:a7b7c1b24d3d260938beb4ba959e2e0530fe04c59ecd24f1c3072fb37159a861` |
 
-Responsibilities:
+Current branch values select B. The last user-confirmed deployed version was A. Publication of both artifacts was supplied as project evidence; no live B promotion or rollback was performed by the agent. Anonymous pull and local startup/smoke verification were confirmed by the user before B4. No Kubernetes registry credential was introduced.
 
-- Restrict allowed Git repositories.
-- Restrict Kubernetes destinations.
-- Restrict resource kinds.
-- Apply least-privilege deployment boundaries.
+Promotion procedure:
 
-Allowed repository:
+1. Confirm the application release and publishing run on protected main.
+2. Record the published digest; verify architecture, anonymous pull, and runtime behavior.
+3. Start from latest main with a clean working tree.
+4. Change only `image.digest` in `environments/platform-api-values.yaml`.
+5. Lint and render; compare against baselines and preserve other applications.
+6. Submit a reviewed PR; after merge, observe existing Argo CD reconciliation.
+7. Record Application health/sync, Deployment image, rollout, running image IDs, and HTTP version.
 
-```text
-https://github.com/GoGPenguin/secure-agentic-platform.git
-```
+Rollback procedure (pending execution): create another reviewed GitOps PR restoring A, or revert the isolated promotion change without reverting unrelated configuration. Preserve both artifacts in GHCR. After merge, verify the Deployment returns to A and the API reports 0.1.0 while probes succeed. Do not use direct kubectl deployment, helm upgrade, or an Argo rollback that conflicts with Git desired state. Source package metadata may remain 0.1.1 while the older image is intentionally deployed.
 
-Allowed cluster:
+Historical Git-based rollback of frontend replicas was completed with revert `084eb32` of change `836242d`; this does not constitute evidence of the new API digest rollback exercise.
 
-```text
-https://kubernetes.default.svc
-```
+## Verification evidence and commands
 
-Allowed namespace:
+Latest local v0.1.1 release checks: frozen install passed; two unit tests passed; four HTTP tests passed; TypeScript and Docker builds passed. The locally built container returned 200 and exact expected bodies for info (0.1.1), liveness, and readiness.
 
-```text
-gitops-apps
-```
+Latest promotion checks: Helm lint passed; rendered API Deployment used exact B; comparing complete before/after renderings showed only one image substitution; frontend/backend/sandbox renderings were byte-for-byte unchanged. Baselines were saved under `/tmp/platform-api-promotion-5_nc5wyu` during the session. Temporary artifacts are not durable repository evidence.
 
-Allowed namespace-scoped resource kinds:
-
-```text
-Service
-ServiceAccount
-Deployment
-```
-
-No unrestricted cluster-scoped resource whitelist is configured.
-
----
-
-# 5. ApplicationSet Configuration
-
-## Git File Generator
-
-Application metadata is separated from Helm values.
-
-Example:
-
-`app-configs/frontend.yaml`
-
-```yaml
-name: frontend
-namespace: gitops-apps
-valuesFile: environments/frontend-values.yaml
-```
-
-`app-configs/backend.yaml`
-
-```yaml
-name: backend
-namespace: gitops-apps
-valuesFile: environments/backend-values.yaml
-```
-
-`app-configs/sandbox.yaml`
-
-```yaml
-name: sandbox
-namespace: gitops-apps
-valuesFile: environments/sandbox-values.yaml
-```
-
-ApplicationSet uses Go templates:
-
-```text
-{{.name}}
-{{.namespace}}
-{{.valuesFile}}
-```
-
-Helm release names are dynamically generated using:
-
-```yaml
-helm:
-  releaseName: '{{.name}}'
-```
-
-Each Application uses the same reusable Helm chart:
-
-```text
-charts/web-app
-```
-
-Application-specific values are loaded using Argo CD multiple sources:
-
-```text
-$chart-repo/environments/<application>-values.yaml
-```
-
-## ApplicationSet Ownership
-
-Verified Kubernetes ownership:
-
-```text
-NAME       OWNER
-backend    platform-apps
-frontend   platform-apps
-sandbox    platform-apps
-```
-
-Verified ApplicationSet status:
-
-```text
-Health: Healthy
-Resources Count: 3
-```
-
-ApplicationSet controller events confirmed:
-
-```text
-created Application "sandbox"
-updated Application "backend"
-updated Application "frontend"
-```
-
----
-
-# 6. Deployed Applications
-
-Most recently verified Application state:
-
-| Application | Project | Sync | Health | Owner |
-|---|---|---|---|---|
-| frontend | secure-platform | Synced | Healthy | platform-apps |
-| backend | secure-platform | Synced | Healthy | platform-apps |
-| sandbox | secure-platform | Synced | Healthy | platform-apps |
-
-Deployment configuration:
-
-| Deployment | Namespace | Desired replicas |
-|---|---|---|
-| frontend-web-app | gitops-apps | 2 |
-| backend-web-app | gitops-apps | 1 |
-| sandbox-web-app | gitops-apps | 1 |
-
-All three Applications were confirmed healthy during the ApplicationSet migration.
-
-The original `demo-app` was removed from the live cluster and is not part of the current ApplicationSet.
-
----
-
-# 7. Helm Architecture
-
-Reusable chart:
-
-```text
-charts/web-app
-```
-
-Supported configuration:
-
-- Replica count
-- Container image
-- Image tag
-- Service type and port
-- ServiceAccount
-- CPU and memory requests
-- CPU and memory limits
-- Liveness probe
-- Readiness probe
-- Ingress
-- HTTPRoute
-- HorizontalPodAutoscaler
-
-## Resource Naming
-
-The Helm chart uses:
-
-```text
-web-app.fullname
-```
-
-The resulting resource name is based on Helm release name and chart naming overrides.
-
-Examples:
-
-```text
-frontend → frontend-web-app
-backend  → backend-web-app
-sandbox  → sandbox-web-app
-```
-
-This allows multiple Applications to reuse one chart without duplicating Deployment and Service manifests.
-
----
-
-# 8. Security Implementation
-
-## AppProject Least Privilege
-
-Implemented restrictions:
-
-```yaml
-sourceRepos:
-  - https://github.com/GoGPenguin/secure-agentic-platform.git
-
-destinations:
-  - namespace: gitops-apps
-    server: https://kubernetes.default.svc
-
-namespaceResourceWhitelist:
-  - group: ""
-    kind: ServiceAccount
-  - group: ""
-    kind: Service
-  - group: apps
-    kind: Deployment
-```
-
-Cluster-scoped resources are not broadly permitted.
-
-## Security Test 1 — Unauthorized Destination
-
-Test:
-
-```text
-Application: security-test
-Destination: kube-system
-Project: secure-platform
-```
-
-Observed:
-
-```text
-InvalidSpecError
-
-application destination server
-'https://kubernetes.default.svc'
-and namespace 'kube-system'
-do not match any of the allowed destinations
-in project 'secure-platform'
-```
-
-Result:
-
-**PASS — Unauthorized destination rejected.**
-
-Temporary Application deleted after testing.
-
-## Security Test 2 — Unauthorized Repository
-
-Test repository:
-
-```text
-https://github.com/argoproj/argo-cd.git
-```
-
-Observed:
-
-```text
-InvalidSpecError
-
-application repo
-https://github.com/argoproj/argo-cd.git
-is not permitted in project 'secure-platform'
-```
-
-Result:
-
-**PASS — Unauthorized repository rejected.**
-
-Temporary Application deleted after testing.
-
-## Security Model
-
-AppProject provides Argo CD authorization boundaries.
-
-It does not replace:
-
-- Kubernetes RBAC
-- NetworkPolicy
-- Pod Security Admission
-- Git repository access controls
-- Secret management
-- Container image security
-
-These remain relevant to future roadmap milestones.
-
----
-
-# 9. App-of-Apps Bootstrap Automation
-
-## Implemented Design
-
-Root Application:
-
-```text
-platform-root
-```
-
-Git source path:
-
-```text
-bootstrap/argocd/control-plane
-```
-
-Managed resources:
-
-```text
-AppProject/secure-platform
-ApplicationSet/platform-apps
-```
-
-Root Application uses:
-
-```yaml
-project: default
-```
-
-This is a temporary bootstrap design for the learning environment.
-
-Production-oriented improvement:
-
-Use a dedicated bootstrap AppProject with tightly controlled repository permissions.
-
-## Sync Order
-
-```text
-Wave -1 → AppProject
-Wave  0 → ApplicationSet
-```
-
-AppProject is created before the ApplicationSet is reconciled.
-
-## Safety Controls
-
-Recommended configuration:
-
-- Root automatic pruning disabled.
-- ApplicationSet `applicationsSync: create-update`.
-- No root Application cascading-deletion finalizer.
-- Preserve existing resource names.
-- Avoid deleting existing Applications during migration.
-- Review Argo CD diffs before major configuration changes.
-
-## Important Limitation
-
-The root Application watches:
-
-```text
-bootstrap/argocd/control-plane/
-```
-
-It does not watch:
-
-```text
-bootstrap/argocd/root.yaml
-```
-
-Therefore, changes to `root.yaml` itself still require an explicit bootstrap update unless another mechanism is introduced.
-
-## Verification Status
-
-App-of-Apps implementation was confirmed by the user.
-
-The following evidence should be recorded separately:
-
-```text
-argocd app get platform-root
-argocd app resources platform-root
-```
-
-The root auto-reconciliation annotation test was proposed but its final terminal output has not been provided.
-
-Do not treat disaster recovery on a clean cluster as validated yet.
-
----
-
-# 10. GitOps Reconciliation and Rollback
-
-Previously completed exercises include:
-
-### GitOps Reconciliation
-
-- Modify Git-managed Deployment configuration.
-- Commit and push changes.
-- Argo CD detects changes.
-- Argo CD reconciles Kubernetes resources.
-
-### GitOps Rollback
-
-A Git commit changed frontend replica configuration.
-
-The change was reverted using:
+From the repository root:
 
 ```bash
-git revert 836242d
+cd services/platform-api
+pnpm install --frozen-lockfile
+pnpm test
+pnpm run test:e2e
+pnpm run build
+cd ../..
+docker build -t platform-api:dev services/platform-api
+helm lint charts/web-app -f environments/platform-api-values.yaml
+helm template platform-api charts/web-app -n gitops-apps -f environments/platform-api-values.yaml
 ```
 
-Resulting revert commit:
-
-```text
-084eb32
-```
-
-Argo CD subsequently reconciled the reverted desired state.
-
-This demonstrated a Git-based rollback workflow.
-
----
-
-# 11. Important Git Commits
-
-| Commit | Description |
-|---|---|
-| `084eb32` | GitOps rollback using Git revert |
-| `4656733` | Introduced custom AppProject and frontend project migration |
-| `cf2511f` | Added frontend/backend configurations for ApplicationSet |
-
-GitHub repository:
-
-https://github.com/GoGPenguin/secure-agentic-platform
-
-The latest App-of-Apps commit hash has not been recorded in the conversation.
-
-Use:
+After a reviewed merge and reconciliation, inspect:
 
 ```bash
-git log -10 --oneline
+kubectl config current-context
+kubectl get applications -n argocd -o custom-columns='NAME:.metadata.name,PROJECT:.spec.project,OWNER:.metadata.ownerReferences[*].name,SYNC:.status.sync.status,HEALTH:.status.health.status'
+argocd app get platform-api
+kubectl -n gitops-apps rollout status deployment/platform-api-web-app
+kubectl -n gitops-apps get deployment platform-api-web-app -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+kubectl -n gitops-apps get pods -l app.kubernetes.io/instance=platform-api -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.status.containerStatuses[*].imageID}{"\n"}{end}'
+kubectl -n gitops-apps get serviceaccount platform-api -o yaml
+kubectl -n gitops-apps port-forward svc/platform-api-web-app 3000:3000
 ```
 
-to retrieve the most recent history.
+In another terminal, curl `/api/v1/info`, `/health/live`, and `/health/ready` on `http://localhost:3000`. For a multi-manifest image, runtime imageID can identify a platform manifest rather than the top-level index; inspect that relationship before concluding there is a mismatch.
 
----
+## Security boundaries and remaining limitations
 
-# 12. Roadmap Progress
+AppProject allows only this Git repository, the in-cluster destination in `gitops-apps`, and namespace resource kinds Service, ServiceAccount, and Deployment. Earlier unauthorized destination (`kube-system`) and repository tests were rejected with InvalidSpecError; temporary test Applications were removed. No unrestricted cluster-resource whitelist is configured.
 
-## Week 1 — Kubernetes Foundation
+AppProject does not replace Kubernetes RBAC, NetworkPolicy, Pod Security Admission, image scanning, or secret management. Remaining work includes monitoring/observability, security scanning, workload isolation, multi-cluster operations, private registry authentication if visibility changes, and bootstrap project hardening. Existing frontend/sandbox images and backend `latest` still use tags; immutable delivery currently applies to Platform API.
 
-Completed activities:
+The kind config defines one control plane and two workers but does not pin node images. Original Week 1 observations included Kubernetes v1.37.0 and Docker 29.9.3; these are historical observations, not a new environment audit. Argo CD installation and CLI version recording still need a tested reproducibility runbook. Clean-cluster restoration remains unvalidated.
 
-- Local Kubernetes kind cluster.
-- Kubernetes workload deployment.
-- Namespace and Deployment operations.
-- Pod and Service inspection.
-- Basic Kubernetes debugging.
+The tracked root `.gitignore` excludes dependencies, compiled output, caches, common credential paths, environment files, and Terraform state while retaining source, workflows, Helm/GitOps YAML, example environment files, and pnpm-lock.yaml. It cannot detect secrets embedded in arbitrary files.
 
-## Week 2 — Helm and GitOps Foundation
+## Next actions
 
-Completed activities:
-
-- Argo CD installation.
-- Application synchronization.
-- Reusable Helm chart.
-- Frontend/backend deployment.
-- GitOps reconciliation.
-- Git-based rollback.
-- Helm chart rendering and validation exercises.
-
-## Week 3 — Advanced GitOps
-
-### W03-A — ApplicationSet
-
-**Status: Done**
-
-Evidence:
-
-- Git File Generator configured.
-- Sandbox Application automatically generated.
-- Frontend/backend migrated to ApplicationSet.
-- OwnerReferences confirmed.
-- All three Applications Synced/Healthy.
-
-### W03-B — AppProject
-
-**Status: Done**
-
-Evidence:
-
-- Restricted AppProject created.
-- Repository allowlist implemented.
-- Destination restriction implemented.
-- Resource kinds restricted.
-- Unauthorized namespace rejected.
-- Unauthorized repository rejected.
-
-### Additional — App-of-Apps
-
-**Status: Implemented (user-confirmed)**
-
-Implemented:
-
-- Root Application architecture.
-- GitOps-managed control-plane configuration.
-- AppProject/ApplicationSet bootstrap design.
-
-Follow-up verification:
-
-- Confirm root Application ownership and health.
-- Confirm root auto-reconciliation with an actual Git change.
-- Test clean-cluster recovery later.
-
----
-
-# 13. Current Known Limitations
-
-The platform is suitable for learning and development but is not yet production-ready.
-
-Known limitations:
-
-1. Kubernetes runs locally using kind.
-2. No verified multi-cluster deployment.
-3. No verified production-grade secret management.
-4. No verified workload NetworkPolicy implementation.
-5. No verified CI security scanning pipeline.
-6. No verified Kubernetes RBAC hardening beyond AppProject restrictions.
-7. No validated disaster-recovery procedure on a fresh cluster.
-8. Root Application uses the permissive default AppProject.
-9. No demonstrated CI-based approval gates for platform configuration changes.
-10. No confirmed monitoring/observability stack.
-
-These limitations should inform future roadmap milestones rather than be treated as failures of Weeks 1–3.
-
----
-
-# 14. Useful Verification Commands
-
-## Kubernetes
-
-```bash
-kubectl get nodes
-
-kubectl get pods -A
-
-kubectl get deployments -A
-
-kubectl get deployments -n gitops-apps
-```
-
-## Argo CD
-
-```bash
-argocd app list
-
-argocd app get platform-root
-
-argocd app get frontend
-
-argocd app get backend
-
-argocd app get sandbox
-```
-
-## ApplicationSet
-
-```bash
-kubectl get applicationsets -n argocd
-
-kubectl describe applicationset platform-apps -n argocd
-```
-
-## AppProject
-
-```bash
-kubectl get appprojects -n argocd
-
-kubectl get appproject secure-platform -n argocd -o yaml
-```
-
-## Ownership
-
-```bash
-kubectl get applications -n argocd \
-  -o custom-columns='NAME:.metadata.name,PROJECT:.spec.project,OWNER:.metadata.ownerReferences[*].name,SYNC:.status.sync.status,HEALTH:.status.health.status'
-```
-
-## Repository
-
-```bash
-tree -L 5 -I '.git|node_modules|venv'
-
-git status
-
-git log -10 --oneline
-```
-
----
-
-# 15. Next Development Priorities
-
-Recommended sequence:
-
-1. Verify and document App-of-Apps reconciliation.
-2. Finalize the GitOps architecture README.
-3. Continue the next milestone from the 36-week Excel roadmap.
-4. Introduce security, CI/CD, observability and infrastructure automation according to roadmap priorities.
-5. Revisit disaster recovery when the platform has sufficient bootstrap automation.
-
-Avoid introducing unnecessary additional GitOps controller layers before the roadmap requires them.
-
----
-
-# 16. Instructions for Future ChatGPT Conversations
-
-When continuing this project:
-
-**Role:** Act as a senior Platform Engineering mentor.
-
-**Learning approach:**
-
-- Provide hands-on engineering challenges.
-- Explain architectural decisions and trade-offs.
-- Encourage independent debugging.
-- Review user-written YAML and code.
-- Avoid complete copy-paste solutions unless explicitly requested.
-- Use the roadmap Excel to determine the next milestone.
-- Preserve existing Kubernetes workloads.
-- Prefer incremental, reversible changes.
-- Verify success through actual commands and observed outputs.
-
-**Existing environment:**
-
-- Kubernetes kind cluster.
-- Argo CD.
-- Helm reusable chart.
-- ApplicationSet `platform-apps`.
-- AppProject `secure-platform`.
-- App-of-Apps root `platform-root`.
-- Frontend, backend and sandbox Applications.
-- GitHub repository `GoGPenguin/secure-agentic-platform`.
-
-**Important:** Do not instruct the user to recreate the cluster, reinstall Argo CD, delete Applications or repeat completed milestones unless recovery or an explicit exercise requires it.
-
-**Current checkpoint:** Week 3 core milestones completed. App-of-Apps implemented; final live root reconciliation evidence and clean-cluster recovery remain separate verification items.
-
-Continue from the latest unfinished milestone in the roadmap.
+Verify the promotion PR merge and B rollout with actual outputs. Then complete the reviewed digest rollback to A and record the observed endpoint version and workload health. Only then mark W04-B5 complete and select the next roadmap milestone. Do not repeat completed setup or add another deployment controller.

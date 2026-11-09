@@ -1,245 +1,133 @@
 # Secure Agentic Platform
 
-A hands-on learning project focused on **Platform Engineering, Kubernetes, GitOps, Cloud Security, and secure AI-agent operations**. Built incrementally over a 36-week roadmap.
+A 36-week hands-on learning project covering platform engineering, Kubernetes, GitOps, cloud security, and secure AI-agent operations. The Platform API uses TypeScript/NestJS; a future AI Incident Agent will use Python.
 
-> **Project status:** Week 1 lab completed on a running local cluster. A full clean-room rebuild has **not yet been tested**.
+**Current milestone:** W04-B5 — Immutable Image Promotion and Rollback. W04-A is complete. Platform API v0.1.1 is released in source; this branch promotes its published image by digest. Promotion rollout and digest rollback have not yet been verified in this session. A full clean-cluster rebuild remains untested.
+
+See [project context and evidence](docs/PROJECT_CONTEXT.md) for progress and remaining work.
 
 ## Architecture
 
 ```text
-GitHub: secure-agentic-platform
-  ├── infrastructure/kind/cluster.yml    # Local cluster topology
-  ├── bootstrap/argocd/demo-app.yaml     # Argo CD Application resource
-  └── applications/demo-app/             # Kubernetes desired state
-        ├── deployment.yaml
-        └── service.yaml
-                 │
-                 ▼
-           Argo CD (argocd namespace)
-                 │  compares Git with live resources
-                 ▼
-         kind: secure-platform
-         ├── 1 control-plane node
-         ├── 2 worker nodes
-         └── default namespace
-              ├── demo-app Deployment (3 replicas)
-              └── demo-app ClusterIP Service (port 80)
+Pull request → Helm Validation + Platform API CI
+Merge to main → repeat validation → Publish Platform API → GHCR
+                                                      │
+                                   published digest → reviewed GitOps PR
+                                                      │
+Git main → platform-root → secure-platform AppProject + platform-apps ApplicationSet
+                                                      │
+                                 app-configs/*.yaml + environments/*-values.yaml
+                                                      │
+                                         charts/web-app → kind / gitops-apps
+                                                      │
+                                   frontend, backend, sandbox, platform-api
 ```
 
-Argo CD is configured with **automated synchronization**, **self-healing enabled**, and **automatic pruning disabled**. The repository provides desired configuration; Argo CD reconciles it with the cluster.
+CI builds and publishes images; Argo CD reconciles deployments from Git. CI does not deploy directly to Kubernetes. Image promotion and rollback require reviewed Git changes under branch protection.
+
+`platform-root` manages `bootstrap/argocd/control-plane/`. The ApplicationSet reads `app-configs/*.yaml` from `main`, assigns unique Helm release names, and loads application values through the `$chart-repo` source reference. Automated self-healing is enabled and pruning is disabled. ApplicationSet uses `create-update` and `preserveResourcesOnDeletion: true`.
 
 ## Repository layout
 
-```text
-secure-agentic-platform/
-├── infrastructure/
-│   └── kind/
-│       └── cluster.yml
-├── bootstrap/
-│   └── argocd/
-│       └── demo-app.yaml
-├── applications/
-│   └── demo-app/
-│       ├── deployment.yaml
-│       └── service.yaml
-└── README.md
-```
-
-Additional `security/`, `observability/`, and platform directories will be introduced in later roadmap weeks.
-
-## Lab environment
-
-| Component | Version / configuration |
+| Path | Responsibility |
 | --- | --- |
-| Host OS | Ubuntu 26.04.1 LTS (x86_64) |
-| Host resources | 12 logical CPUs, 18.85 GiB RAM |
-| Docker Engine | 29.9.3 |
-| Kubernetes node image | `kindest/node:v1.37.0` |
-| Kubernetes | v1.37.0 |
-| Cluster | `secure-platform`: 1 control plane + 2 workers |
-| kind CLI | **TODO:** record `kind version` |
-| kubectl CLI | **TODO:** record `kubectl version --client` |
-| Argo CD | **TODO:** record server/CLI version and pin manifest release |
+| `infrastructure/kind/cluster.yml` | One control plane and two workers |
+| `bootstrap/argocd/root.yaml` | Initial root Application bootstrap |
+| `bootstrap/argocd/control-plane/` | AppProject and ApplicationSet |
+| `app-configs/` | ApplicationSet discovery metadata for four applications |
+| `environments/` | Application-specific Helm values and promoted image digest |
+| `charts/web-app/` | Shared chart, templates, and digest schema |
+| `services/platform-api/` | NestJS API, tests, pnpm lockfile, and Dockerfile |
+| `.github/workflows/platform-ci.yaml` | Validation and main-only GHCR publishing |
+| `applications/demo-app/`, `bootstrap/argocd/apps/` | Legacy learning manifests; outside the current root source path |
+| `docs/PROJECT_CONTEXT.md` | Progress snapshot and continuation guidance |
 
-The versions above describe the **observed lab environment**. For reproducible rebuilds, pin the kind node image and Argo CD installation manifest to versions that have been tested together.
+Do not reconcile legacy standalone Applications alongside ApplicationSet-managed applications.
 
-## Prerequisites
+## Platform API
 
-Install and verify:
+| Endpoint | HTTP 200 response |
+| --- | --- |
+| `GET /api/v1/info` | `{"service":"platform-api","version":"0.1.1"}` for the v0.1.1 image |
+| `GET /health/live` | `{"status":"ok"}` |
+| `GET /health/ready` | `{"status":"ready"}` |
 
-- Docker Engine, running and accessible to your user.
-- [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start/).
-- [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/).
-- Git.
-- Optionally, the [Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/).
+`package.json` is the single source of truth for service name and version. Readiness currently means the initialized HTTP application can serve requests; there are no external dependencies to check.
+
+Node.js **24.22.2** and pnpm **12.16.1** are used by CI and the Docker build. From the repository root:
 
 ```bash
-docker info
-kind version
-kubectl version --client
-git --version
+cd services/platform-api
+pnpm install --frozen-lockfile
+pnpm test
+pnpm run test:e2e
+pnpm run build
+pnpm run start:dev
 ```
 
-## Bootstrap from a clean local cluster
+The tests use Vitest and Supertest; the test scripts terminate without watch mode. Latest local release checks passed: two unit tests, four HTTP tests, TypeScript compilation, Docker build, and container smoke tests.
 
-> **Caution:** These commands create cluster resources. Double-check your current Kubernetes context before applying anything. Do not delete an existing cluster unless you intend to lose its state.
+## Container build
 
-### 1. Clone the repository
+From the repository root:
 
 ```bash
-git clone https://github.com/GoGPenguin/secure-agentic-platform.git
-cd secure-agentic-platform
+docker build -t platform-api:dev services/platform-api
+docker run --rm -p 127.0.0.1:3000:3000 platform-api:dev
 ```
 
-### 2. Create the kind cluster
+The multi-stage Dockerfile uses `node:24.22.2-bookworm-slim`, frozen dependency installs, and a separate production dependency stage. Runtime contains compiled code, production dependencies, and `package.json`; it executes `node dist/main.js` as the non-root `node` user with `NODE_ENV=production` and port 3000.
 
-The committed file `infrastructure/kind/cluster.yml` defines one control-plane and two worker nodes.
+## Immutable delivery
+
+Image repository: `ghcr.io/gogpenguin/secure-agentic-platform/platform-api`.
+
+| Release | Published digest | Status at this checkpoint |
+| --- | --- | --- |
+| v0.1.0 — A | `sha256:48ec5b5fe780bcd39fc5e1e09912b08acf4ccb777f1e37fab49d80452222b3c5` | Previously deployed, per user confirmation |
+| v0.1.1 — B | `sha256:a7b7c1b24d3d260938beb4ba959e2e0530fe04c59ecd24f1c3072fb37159a861` | Selected in this branch; live promotion verification pending |
+
+Helm chart **0.2.0** accepts optional `image.digest`. A digest takes precedence over `image.tag`, producing `repository@sha256:…`. Without a digest, tag behavior and the chart `appVersion` fallback remain intact. The schema rejects malformed digests. Chart `appVersion` remains **1.16.0** for existing workloads and is independent of the API package version.
+
+`container.port` overrides `service.port` for the container. Services and probes use named port `http`. Platform API runs one replica with container and Service port 3000, requests of 100m CPU/128Mi memory, limits of 500m CPU/256Mi memory, and a dedicated `platform-api` ServiceAccount with token automount disabled. Ingress, HTTPRoute, and autoscaling are disabled.
+
+The workflow runs independent Helm and API validation on PRs and main pushes. Only the publishing job receives `packages: write`; it requires both validations and runs only on main pushes. It uses temporary `GITHUB_TOKEN`, SHA-pinned Docker actions, and publishes `sha-<full-commit-sha>` tags for `linux/amd64`. The registry digest and immutable reference are recorded in job outputs and the summary. Deployment identity is the digest, not the tag. Current Helm CI renders frontend/backend/sandbox; Platform API values were also linted and rendered locally.
+
+Promotion: publish and verify the image, change only `image.digest` through a GitOps PR, compare manifests, merge after review, then observe Argo CD. Rollback: open another reviewed PR restoring retained Digest A (or revert only the promotion change), then verify reconciliation and HTTP version. Do not rebuild an old version as a substitute for restoring its original digest.
+
+## GitOps validation and access
 
 ```bash
-kind create cluster --config infrastructure/kind/cluster.yml --name secure-platform --wait 5m
+helm lint charts/web-app -f environments/platform-api-values.yaml
+helm template platform-api charts/web-app -n gitops-apps -f environments/platform-api-values.yaml
 kubectl config current-context
-kubectl get nodes -o wide
-```
-
-Expected: context `kind-secure-platform`, and **three** nodes in `Ready` state. The node image was `kindest/node:v1.37.0` during the original lab; **pin this explicitly in the cluster configuration** before claiming future rebuilds are version-identical.
-
-### 3. Install Argo CD
-
-```bash
-kubectl create namespace argocd
-```
-
-**Before running the next command:** replace `REPLACE_WITH_TESTED_ARGOCD_TAG` with the actual Argo CD release tag tested in this project (for example, a tag formatted `vX.Y.Z`). Do not leave this placeholder in a production or automated script.
-
-```bash
-ARGOCD_VERSION=v3.6.1+94037c4
-kubectl apply -n argocd --server-side --force-conflicts \
-  -f "https://raw.githubusercontent.com/argoproj/argo-cd/${ARGOCD_VERSION}/manifests/install.yaml"
-```
-
-This follows the official Argo CD installation pattern but substitutes a pinned release for the moving `stable` branch. The installation grants cluster-level permissions; inspect and trust the manifests before applying them.
-
-Verify:
-
-```bash
-kubectl get pods -n argocd
-kubectl get deployments -n argocd
-kubectl get crd applications.argoproj.io
-```
-
-Allow time for Argo CD components to start. All relevant running components should become ready; completed Jobs are normal.
-
-### 4. Bootstrap the Argo CD Application
-
-The initial Application must be created **once** after Argo CD is installed:
-
-```bash
-kubectl apply -n argocd -f bootstrap/argocd/demo-app.yaml
 kubectl get applications -n argocd
-```
-
-The Application points to the `main` branch and the `applications/demo-app` path in this repository. It deploys to the `default` namespace of the in-cluster Kubernetes API. This initial `kubectl apply` is the **bootstrap handoff**; Argo CD subsequently manages the application workloads.
-
-Because automated synchronization is enabled, the demo Deployment and Service should appear without a separate `argocd app sync` command.
-
-### 5. Verify application readiness
-
-Use explicit namespaces to avoid confusion with a context's default namespace:
-
-```bash
-kubectl get deployment demo-app -n default
-kubectl get pods -n default -l app=demo-app -o wide
-kubectl get service demo-app -n default
-kubectl rollout status deployment/demo-app -n default
-```
-
-Expected: **3/3** Deployment replicas available, with a ClusterIP Service on port 80. Pod placement across the two workers is not guaranteed to be evenly balanced.
-
-If the Argo CD CLI is configured and authenticated:
-
-```bash
-argocd app get demo-app
-```
-
-Expected: **`Synced`** and **`Healthy`** after reconciliation completes.
-
-### 6. Access the demo application
-
-In one terminal:
-
-```bash
-kubectl -n default port-forward svc/demo-app 8888:80
+argocd app get platform-api
+kubectl -n gitops-apps rollout status deployment/platform-api-web-app
+kubectl -n gitops-apps get deployment platform-api-web-app -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+kubectl -n gitops-apps port-forward svc/platform-api-web-app 3000:3000
 ```
 
 In another terminal:
 
 ```bash
-curl -I http://localhost:8888
+curl -i http://localhost:3000/api/v1/info
+curl -i http://localhost:3000/health/live
+curl -i http://localhost:3000/health/ready
 ```
 
-Expected: HTTP `200 OK` from NGINX. Port-forwarding is local and temporary; it stops when the command exits.
+Expect the version corresponding to the reconciled digest. Before/after local promotion renders changed only the Platform API Deployment image; frontend, backend, and sandbox manifests remained byte-for-byte unchanged.
 
-### 7. Optional: Access the Argo CD UI
+## Bootstrap and limitations
+
+An existing cluster should be continued in place. For a fresh lab, install Docker, kind, kubectl, Helm, and a tested Argo CD release; create the cluster using `infrastructure/kind/cluster.yml`. After Argo CD is ready and the workload namespace exists, the initial handoff is:
 
 ```bash
-kubectl -n argocd port-forward svc/argocd-server 8080:443
+kubectl apply -n argocd -f bootstrap/argocd/root.yaml
 ```
 
-Open `https://localhost:8080`. Your browser may warn about the self-signed certificate. Follow the [official first-login instructions](https://argo-cd.readthedocs.io/en/stable/getting_started/) to retrieve the bootstrap password if needed; **never commit it or paste it into documentation**.
+This is a bootstrap outline, not a validated disaster-recovery runbook. The node image and Argo CD installation release still need reproducible pins. Changes to `root.yaml` itself require a bootstrap update because the root watches only `control-plane/`.
 
-## GitOps behavior verified in Week 1
+AppProject restricts the repository, destination namespace, and resource kinds to Deployment, Service, and ServiceAccount. These boundaries do not replace RBAC, NetworkPolicy, Pod Security, or secret management. The chart's Helm test-hook Pod is skipped by Argo CD and is outside that allowlist. Retain deployment and rollback digests in GHCR. Anonymous image pulling has been verified for the published application image; package visibility must continue to allow cluster pulls without registry secrets.
 
-1. **Manual sync:** Argo CD detected that the Git-defined Deployment and Service were missing; a manual sync created them.
-2. **Git-driven change:** Updating `replicas` from `2` to `3` and pushing Git commit `fd9d585` changed the Application to `OutOfSync` until it was synchronized.
-3. **Self-healing:** With automated sync and self-heal enabled, Argo CD reconciled an out-of-band replica modification back to Git's desired count.
-4. **Declarative Application:** The existing Argo CD Application was adopted with `bootstrap/argocd/demo-app.yaml` and remained `Synced` and `Healthy`.
-
-**Interpretation:** `Synced` means the tracked live configuration matches Git; `Healthy` means Argo CD's health checks report that the resources are functioning as expected. An Application can be `OutOfSync` and still `Healthy`.
-
-## Troubleshooting
-
-| Symptom | First checks |
-| --- | --- |
-| Fewer than three nodes | `kubectl get nodes -o wide` and `kind get nodes --name secure-platform` |
-| Docker node missing | `docker ps` and kind cluster creation output |
-| `No resources found in argocd namespace` | Include `-n default` when inspecting `demo-app`; inspect `kubectl config view --minify` |
-| Argo CD shows `Missing` | Confirm repository access, revision/path, resource namespace, and whether initial sync completed |
-| Argo CD shows `OutOfSync` | Run `argocd app diff demo-app`; distinguish manual policy from automated policy |
-| Deployment not ready | `kubectl describe deployment demo-app -n default`, `kubectl get pods -n default`, and Pod events/logs |
-| Port-forward fails | Ensure the Service exists and has ready endpoints; verify local port `8888` is unused |
-
-## Security and operational notes
-
-- Do **not** commit kubeconfig files, passwords, tokens, private keys, `.env` secrets, or Terraform state.
-- This is a **local development lab**, not a production-ready high-availability deployment.
-- A single control-plane node is not highly available.
-- With automated **prune disabled**, removing resources from Git will not automatically delete their live counterparts.
-- `nginx:stable` is a moving image tag; pin an immutable digest when reproducibility becomes a strict requirement.
-- The cluster creation procedure has been exercised, but **complete clean-room restoration is still TODO**.
-
-## Useful commands
-
-```bash
-kubectl config current-context
-kubectl get nodes -o wide
-kubectl get pods -A
-kubectl get applications -n argocd
-kubectl -n default get deployments,pods,services -l app=demo-app
-argocd app get demo-app
-argocd app diff demo-app
-```
-
-## Official references
-
-- [kind quick start](https://kind.sigs.k8s.io/docs/user/quick-start/)
-- [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-- [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
-- [Argo CD getting started](https://argo-cd.readthedocs.io/en/stable/getting_started/)
-- [Argo CD Application specification](https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/)
-
-## Next milestones
-
-- [ ] Record and pin CLI, node image, and Argo CD versions.
-- [ ] Test a full rebuild from an empty cluster using this README.
-- [ ] Add a root Application (App of Apps) to manage child Applications declaratively.
-- [ ] Introduce Helm, environment overlays, observability, and security controls in later roadmap weeks.
+This remains a local, single-control-plane learning environment. Monitoring, security scanning, workload network isolation, hardened bootstrap permissions, and clean-cluster recovery remain future work. Never commit credentials, local environment secrets, kubeconfigs, or Terraform state; the root `.gitignore` excludes common generated and sensitive files.
