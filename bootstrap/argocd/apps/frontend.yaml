@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+    targetRevision: main
+    path: charts/web-apps
+    ref: chart-repo
+  - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+    targetRevision: main
+    helm:
+      valueFiles:
+      - $chart-repo/environments/frontend-values.yml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-apps
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true   
+    syncOptions:
+    - CreateNamespace=true
