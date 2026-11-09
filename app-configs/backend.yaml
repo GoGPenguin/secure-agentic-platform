@@ -1,0 +1,3 @@
+name: backend
+namespace: gitops-apps
+valuesFile: environments/backend-values.yaml
