@@ -1,18 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-app
+  name: backend
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+  sources:
+  - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
     targetRevision: main
-    path: applications/demo-app
+    path: charts/web-app
+    helm:
+      releaseName: backend
+      valueFiles:
+      - $chart-repo/environments/backend-values.yaml
+  - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+    targetRevision: main
+    ref: chart-repo
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: gitops-apps
   syncPolicy:
     automated:
       prune: false
       selfHeal: true   
+    syncOptions:
+    - CreateNamespace=true
