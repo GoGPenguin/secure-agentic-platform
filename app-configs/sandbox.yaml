@@ -1,0 +1,3 @@
+name: sandbox
+namespace: gitops-apps
+valuesFile: environments/sandbox-values.yaml
