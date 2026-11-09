@@ -20,7 +20,9 @@ jobs:
           version: v4.3.1
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Lint Helm chart
         run: helm lint charts/web-app
@@ -33,3 +35,44 @@ jobs:
 
       - name: Render sandbox
         run: helm template sandbox charts/web-app -f environments/sandbox-values.yaml
+
+  platform-api-ci:
+    name: Platform API CI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/platform-api
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+          package-manager-cache: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: '12.16.1'
+          package_json_file: services/platform-api/package.json
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Run HTTP-level tests
+        run: pnpm run test:e2e
+
+      - name: Build TypeScript application
+        run: pnpm run build
+
+      - name: Build Docker image
+        run: docker build -t platform-api:ci .
