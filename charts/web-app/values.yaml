@@ -8,9 +8,11 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  # Optional sha256 digest; takes precedence over tag when set.
+  digest: ""
 
-container:
-  port: 80
+# Set container.port to override the Service port used by the container.
+container: {}
 
 service:
   type: ClusterIP
