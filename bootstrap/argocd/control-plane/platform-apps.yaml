@@ -3,6 +3,9 @@ kind: ApplicationSet
 metadata:
   name: platform-apps
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
 spec:
   goTemplate: true
   goTemplateOptions:
@@ -13,31 +16,41 @@ spec:
         repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
         revision: main
         files:
-        - path: app-configs/*.yaml
+          - path: app-configs/*.yaml
+
   syncPolicy:
     applicationsSync: create-update
+    preserveResourcesOnDeletion: true
+
   template:
     metadata:
       name: '{{.name}}'
+
     spec:
       project: secure-platform
+
       sources:
-      - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
-        targetRevision: main
-        path: charts/web-app
-        helm:
-          releaseName: '{{.name}}'
-          valueFiles:
-          - '$chart-repo/{{.valuesFile}}'
-      - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
-        targetRevision: main
-        ref: chart-repo
+        - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+          targetRevision: main
+          path: charts/web-app
+
+          helm:
+            releaseName: '{{.name}}'
+            valueFiles:
+              - '$chart-repo/{{.valuesFile}}'
+
+        - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+          targetRevision: main
+          ref: chart-repo
+
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.namespace}}'
+
       syncPolicy:
         automated:
           prune: false
-          selfHeal: true   
+          selfHeal: true
+
         syncOptions:
-        - CreateNamespace=true
+          - CreateNamespace=true

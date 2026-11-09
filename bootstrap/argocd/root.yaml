@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-root
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+    targetRevision: main
+    path: bootstrap/argocd/control-plane
+
+    directory:
+      recurse: false
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: false
+
+    syncOptions:
+      - CreateNamespace=false
