@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "image": {
+      "type": "object",
+      "properties": {
+        "digest": {
+          "type": "string",
+          "description": "Empty for tag-based images, or a sha256 digest with 64 hexadecimal characters.",
+          "pattern": "^$|^sha256:[a-fA-F0-9]{64}$"
+        }
+      }
+    }
+  }
+}

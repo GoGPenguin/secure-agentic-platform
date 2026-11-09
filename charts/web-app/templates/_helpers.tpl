@@ -5,6 +5,25 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{/* Image digest takes precedence; retain the existing tag fallback otherwise. */}}
+{{- define "web-app.image" -}}
+{{- if .Values.image.digest -}}
+{{- printf "%s@%s" .Values.image.repository .Values.image.digest -}}
+{{- else -}}
+{{- printf "%s:%s" .Values.image.repository (.Values.image.tag | default .Chart.AppVersion) -}}
+{{- end -}}
+{{- end -}}
+
+{{/* Preserve Service port fallback when no container port is configured. */}}
+{{- define "web-app.containerPort" -}}
+{{- $container := .Values.container | default dict -}}
+{{- if hasKey $container "port" -}}
+{{- $container.port -}}
+{{- else -}}
+{{- .Values.service.port -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).

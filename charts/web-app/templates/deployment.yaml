@@ -26,11 +26,11 @@ spec:
       serviceAccountName: {{ include "web-app.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "web-app.image" . | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ include "web-app.containerPort" . }}
               protocol: TCP
           {{- with .Values.livenessProbe }}
           livenessProbe:
