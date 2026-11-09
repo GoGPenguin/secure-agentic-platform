@@ -1,0 +1,35 @@
+name: platform-ci
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  helm-validation:
+    name: Helm Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v4.3.1
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint Helm chart
+        run: helm lint charts/web-app
+
+      - name: Render frontend
+        run: helm template frontend charts/web-app -f environments/frontend-values.yaml
+
+      - name: Render backend
+        run: helm template backend charts/web-app -f environments/backend-values.yaml
+
+      - name: Render sandbox
+        run: helm template sandbox charts/web-app -f environments/sandbox-values.yaml
