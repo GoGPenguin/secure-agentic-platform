@@ -111,3 +111,7 @@ autoscaling:
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+
+# HTTP path used by the Helm connection test.
+connectionTest:
+  path: /

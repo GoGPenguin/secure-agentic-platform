@@ -2,7 +2,7 @@
 
 A 36-week hands-on learning project covering platform engineering, Kubernetes, GitOps, cloud security, and secure AI-agent operations. The Platform API uses TypeScript/NestJS; a future AI Incident Agent will use Python.
 
-**Current milestone:** W04-B5 — Immutable Image Promotion and Rollback. W04-A is complete. Platform API v0.1.1 is released in source; this branch promotes its published image by digest. Promotion rollout and digest rollback have not yet been verified in this session. A full clean-cluster rebuild remains untested.
+**Current milestone:** Week 4 complete, per user confirmation. Next: Week 5 — basic observability. Live promotion and rollback evidence was not re-audited during cleanup; a full clean-cluster rebuild remains untested.
 
 See [project context and evidence](docs/PROJECT_CONTEXT.md) for progress and remaining work.
 
@@ -39,10 +39,9 @@ CI builds and publishes images; Argo CD reconciles deployments from Git. CI does
 | `charts/web-app/` | Shared chart, templates, and digest schema |
 | `services/platform-api/` | NestJS API, tests, pnpm lockfile, and Dockerfile |
 | `.github/workflows/platform-ci.yaml` | Validation and main-only GHCR publishing |
-| `applications/demo-app/`, `bootstrap/argocd/apps/` | Legacy learning manifests; outside the current root source path |
 | `docs/PROJECT_CONTEXT.md` | Progress snapshot and continuation guidance |
 
-Do not reconcile legacy standalone Applications alongside ApplicationSet-managed applications.
+Legacy Week 1 standalone manifests have been removed; ApplicationSet is the workload discovery mechanism.
 
 ## Platform API
 
@@ -65,7 +64,7 @@ pnpm run build
 pnpm run start:dev
 ```
 
-The tests use Vitest and Supertest; the test scripts terminate without watch mode. Latest local release checks passed: two unit tests, four HTTP tests, TypeScript compilation, Docker build, and container smoke tests.
+The tests use Vitest and Supertest; the test scripts terminate without watch mode. Latest local release checks passed: one unit test, three HTTP tests, TypeScript compilation, Docker build, and container smoke tests.
 
 ## Container build
 
@@ -91,7 +90,7 @@ Helm chart **0.2.0** accepts optional `image.digest`. A digest takes precedence 
 
 `container.port` overrides `service.port` for the container. Services and probes use named port `http`. Platform API runs one replica with container and Service port 3000, requests of 100m CPU/128Mi memory, limits of 500m CPU/256Mi memory, and a dedicated `platform-api` ServiceAccount with token automount disabled. Ingress, HTTPRoute, and autoscaling are disabled.
 
-The workflow runs independent Helm and API validation on PRs and main pushes. Only the publishing job receives `packages: write`; it requires both validations and runs only on main pushes. It uses temporary `GITHUB_TOKEN`, SHA-pinned Docker actions, and publishes `sha-<full-commit-sha>` tags for `linux/amd64`. The registry digest and immutable reference are recorded in job outputs and the summary. Deployment identity is the digest, not the tag. Current Helm CI renders frontend/backend/sandbox; Platform API values were also linted and rendered locally.
+The workflow runs independent Helm and API validation on PRs and main pushes. Only the publishing job receives `packages: write`; it requires both validations and runs only on main pushes. It uses temporary `GITHUB_TOKEN`, SHA-pinned Docker actions, and publishes `sha-<full-commit-sha>` tags for `linux/amd64`. The registry digest and immutable reference are recorded in job outputs and the summary. Deployment identity is the digest, not the tag. Helm CI renders all four applications and explicitly lints Platform API values.
 
 Promotion: publish and verify the image, change only `image.digest` through a GitOps PR, compare manifests, merge after review, then observe Argo CD. Rollback: open another reviewed PR restoring retained Digest A (or revert only the promotion change), then verify reconciliation and HTTP version. Do not rebuild an old version as a substitute for restoring its original digest.
 
