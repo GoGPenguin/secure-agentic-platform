@@ -51,3 +51,6 @@ httpRoute:
 
 autoscaling:
   enabled: false
+
+connectionTest:
+  path: /health/ready

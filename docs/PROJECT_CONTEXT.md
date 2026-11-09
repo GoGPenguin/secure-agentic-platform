@@ -2,18 +2,20 @@
 
 **Last updated:** 2026-11-09
 **Roadmap:** Secure Agentic Platform — 36 Weeks
-**Current milestone:** W04-B5 — Immutable Image Promotion and Rollback
+**Current milestone:** Week 4 complete (user confirmation); next: Week 5 observability
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
 
 ## Goal and learning approach
 
 Build a GitOps-driven platform for cloud-native applications, progressing through platform engineering, cloud security, AI infrastructure, and secure agents. The Platform API uses TypeScript/NestJS; a future AI Incident Agent will use Python.
 
-Act as a senior Platform Engineering mentor: explain decisions and trade-offs, offer hands-on challenges, review user-written code and YAML, encourage independent debugging, and validate outcomes using observable evidence. Avoid complete copy-paste solutions unless requested. Use the roadmap Excel when available to determine subsequent milestones; it has not been inspected in this session.
+Act as a senior Platform Engineering mentor: explain decisions and trade-offs, offer hands-on challenges, review user-written code and YAML, encourage independent debugging, and validate outcomes using observable evidence. Avoid complete copy-paste solutions unless requested. Use the roadmap Excel when available to determine subsequent milestones; it was inspected during the repository cleanup.
 
 Preserve existing workloads and prefer incremental, reversible changes. Do not recreate the cluster, reinstall Argo CD, or delete Applications unless explicitly required for recovery or an exercise.
 
 ## Current checkpoint and evidence boundaries
+
+Cleanup update: the user confirms Week 4 is complete. The promotion/rollback details below are historical evidence boundaries from the earlier checkpoint, not the current task list. Cleanup did not independently repeat rollout or rollback. The Hello World endpoint and its tests, unused Mau deployment tooling, and bootstrap test annotation were removed. Application values now inherit shared defaults; Helm connection tests use /health/ready for the API.
 
 The last inspected branch is `feature/promote-platform-api-0.1.1`. Its HEAD before this documentation update is `be8de59` (`chore(gitops): promote platform API to v0.1.1`). The working tree was clean before the documentation edits. Source release v0.1.1 and repository hygiene changes were confirmed on fetched `origin/main` at `a6aa378`.
 
@@ -60,7 +62,7 @@ docs/PROJECT_CONTEXT.md                           continuation context
 
 Root and generated Applications self-heal automatically with pruning disabled. ApplicationSet uses `applicationsSync: create-update` and `preserveResourcesOnDeletion: true`. These are committed settings; inspect actual finalizers before relying on deletion protection.
 
-Legacy files in `bootstrap/argocd/apps/` and `applications/demo-app/` remain historical exercises outside the root's source path. Do not apply standalone frontend/backend Applications alongside ApplicationSet ownership. The original demo app was previously removed from the live cluster.
+Legacy standalone Applications and demo manifests were removed during cleanup. A read-only live check found only backend, frontend, sandbox, platform-api, and platform-root; the root source is control-plane/. Historical exercises remain in Git history.
 
 ## Applications and chart behavior
 
@@ -105,7 +107,7 @@ Platform API Helm values configure one replica, `IfNotPresent`, ClusterIP port 3
 
 ## CI and publishing security
 
-`.github/workflows/platform-ci.yaml` runs on PRs targeting main and pushes to main. Helm Validation and Platform API CI are independent jobs. Helm CI lints the chart and renders frontend/backend/sandbox. API CI installs frozen dependencies, runs unit and HTTP tests, builds TypeScript, and builds Docker. Platform API Helm values currently require the separate local validation shown below.
+`.github/workflows/platform-ci.yaml` runs on PRs targeting main and pushes to main. Helm Validation and Platform API CI are independent jobs. Helm CI lints the chart and renders all four applications, including explicit API values validation. API CI installs frozen dependencies, runs unit and HTTP tests, builds TypeScript, and builds Docker. Platform API Helm values are validated in CI and can also be checked locally with the commands below.
 
 The publishing job requires both validation jobs and runs only on main pushes. Workflow permissions default to `contents: read`; only publishing adds `packages: write`. Checkout credential persistence is disabled. Publishing uses temporary `GITHUB_TOKEN`, SHA-pinned Docker actions, explicit local build context, and `linux/amd64`. It adds source/revision OCI labels, tags images `sha-<full-commit-sha>`, captures the registry digest, validates its format, and writes the immutable reference to job outputs and summary.
 
@@ -183,4 +185,4 @@ The tracked root `.gitignore` excludes dependencies, compiled output, caches, co
 
 ## Next actions
 
-Verify the promotion PR merge and B rollout with actual outputs. Then complete the reviewed digest rollback to A and record the observed endpoint version and workload health. Only then mark W04-B5 complete and select the next roadmap milestone. Do not repeat completed setup or add another deployment controller.
+Begin Week 5: Prometheus/Grafana, request rate, error rate, latency, three PromQL queries, and generated traffic demonstrating metric changes. Preserve published rollback digests. Week 6 includes a clean-cluster recovery drill; reproducible bootstrap and recorded evidence remain important.

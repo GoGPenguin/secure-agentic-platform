@@ -39,6 +39,11 @@ jobs:
       - name: Render sandbox
         run: helm template sandbox charts/web-app -f environments/sandbox-values.yaml
 
+      - name: Validate Platform API chart values
+        run: |
+          helm lint charts/web-app -f environments/platform-api-values.yaml
+          helm template platform-api charts/web-app -f environments/platform-api-values.yaml
+
   platform-api-ci:
     name: Platform API CI
     runs-on: ubuntu-latest
