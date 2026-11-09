@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+    roadmap.openai.com/test: "gitops-bootstrap-success"
 spec:
   namespaceResourceWhitelist:
   - group: ''
