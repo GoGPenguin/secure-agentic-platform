@@ -10,7 +10,7 @@ describe('InfoService', () => {
     try {
       expect(module.get(InfoService).getInfo()).toEqual({
         service: 'platform-api',
-        version: '0.1.0',
+        version: '0.1.1',
       });
     } finally {
       await module.close();

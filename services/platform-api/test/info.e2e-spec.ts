@@ -25,6 +25,6 @@ describe('Info endpoint (e2e)', () => {
       .get('/api/v1/info')
       .expect(200)
       .expect('Content-Type', /application\/json/)
-      .expect({ service: 'platform-api', version: '0.1.0' });
+      .expect({ service: 'platform-api', version: '0.1.1' });
   });
 });
