@@ -12,6 +12,12 @@ configMapGenerator:
   - name: grafana-datasources
     files:
       - prometheus.yaml=config/datasources.yaml
+  - name: grafana-dashboard-provider
+    files:
+      - dashboard-provider.yaml=config/dashboard-provider.yaml
+  - name: grafana-dashboards
+    files:
+      - platform-api.json=dashboards/platform-api.json
 generatorOptions:
   # Match prune=false without accumulating obsolete generated ConfigMaps.
   disableNameSuffixHash: true

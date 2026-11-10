@@ -1,11 +1,11 @@
-# Grafana infrastructure (W05-B.3.2)
+# Grafana infrastructure and Dashboard as Code (W05-B.3.2–3)
 
 ## Ownership and deployment boundary
 
 `platform-root` owns the `grafana` Application in `argocd`. That Application
 uses the existing `secure-monitoring` AppProject and renders `monitoring/grafana`
 with Kustomize. It owns exactly one Deployment, ClusterIP Service,
-ServiceAccount and two ConfigMaps in `monitoring`. Existing Applications,
+ServiceAccount and four ConfigMaps in `monitoring`. Existing Applications,
 AppProjects and RBAC are unchanged. The root already owns the namespace.
 
 The required `monitoring/grafana-admin` Secret is owned by an authorized
@@ -16,11 +16,45 @@ sync waves cannot establish readiness of an externally managed Secret.
 Missing Secret keys prevent the Pod from starting; the Secret is not optional.
 Nonempty, strong values are an operator precondition.
 
-There are no dashboard JSON files or dashboard providers in this increment.
-The later HTTP 5xx panel must calculate **percentage of completed requests**,
-not errors per second: `100 * sum(rate(http_requests_total{job="platform-api",status_code=~"5.."}[$__rate_interval])) / sum(rate(http_requests_total{job="platform-api"}[$__rate_interval]))`.
-Handle absent 5xx series separately from missing targets; show no traffic as
-undefined rather than claiming a meaningful error percentage for a zero denominator.
+## Platform API dashboard
+
+`dashboards/platform-api.json` is the source of truth for dashboard UID
+`platform-api-overview` in the `Platform` folder. Every panel and query uses
+the provisioned Prometheus UID `prometheus`. There are four panels:
+
+| Panel | Calculation | Unit |
+| --- | --- | --- |
+| Request rate | Sum of completed response counter rates across replicas | Requests/second |
+| HTTP 5xx error percentage | 100 × 5xx response rate / total response rate | Percent (0–100) |
+| p95 request latency | Histogram quantile after summing rate buckets by `le` | Seconds |
+| Target health | Minimum `up` across currently discovered API targets | UP / DOWN |
+
+Rate queries use `$__rate_interval` with the existing 30s data-source scrape
+interval. Counters/histograms include all completed responses captured by the
+existing middleware, including health and metrics routes. No application or
+Prometheus configuration changes are required.
+
+For the error percentage, a missing 5xx series falls back to zero times the
+observed total request rate, not an unconditional zero vector. The denominator
+is filtered to positive traffic: idle traffic shows `No traffic / telemetry`
+rather than dividing by zero or claiming 0%. Missing request counters also
+show no value. Existing request counters with no new responses show a zero
+request rate. No observations yield no p95 value.
+
+All three traffic/latency panels require `min(up{job="platform-api"}) == 1`.
+This deliberately suppresses stale rate history and partial aggregates if
+any discovered target is down. Target health still displays DOWN; if no
+target series exists it displays `No telemetry`. A removed target cannot be
+distinguished from an intentionally removed replica when other targets are
+still discovered. These panels do not prove that every expected replica or
+metric exists. Lines do not bridge missing values.
+
+`config/dashboard-provider.yaml` uses file provisioning with
+`allowUiUpdates: false`, and the dashboard has `editable: false`. The dashboard
+requests read-only editing and saving to the provisioned dashboard is rejected.
+Administrators can still create separate copies; those are not managed
+artifacts. Export an intended change, update Git and review it through a PR.
+There are no alert rules in this increment.
 
 ## Create the admin Secret before deployment
 
@@ -151,13 +185,35 @@ On failure it prints the expected checksum; update the Deployment annotation
 with the configuration in the same PR. It never edits files. This check is
 manual in this increment; it has not been added to CI or branch protection.
 
+The checksum also includes `grafana-dashboard-provider`, generated from
+`config/dashboard-provider.yaml`. The validator additionally checks dashboard
+JSON structure, data-source UIDs, generated file contents and read-only mount
+paths. The `grafana-dashboards` ConfigMap is explicitly excluded from the
+checksum because Grafana polls dashboard JSON live. All other ConfigMap data
+continues to use the same canonical hashing algorithm described above.
+
+The provider mounts read-only at `/etc/grafana/provisioning/dashboards`;
+dashboard JSON mounts read-only at `/var/lib/grafana/dashboards`, matching
+the provider's `options.path`. Neither uses `subPath`. After a Git change,
+Argo CD updates the ConfigMap, Kubernetes eventually refreshes the projected
+directory, and Grafana polls it every 30 seconds. This avoids filesystem
+watch-event dependence; total propagation includes Argo and kubelet delays.
+The stable UID preserves the dashboard URL. JSON-only updates do not replace
+the Pod or erase ephemeral Grafana state. Provider/startup changes do trigger
+a rollout with the storage consequences described above.
+
+`disableDeletion: false` removes a dashboard when its file disappears while
+the provider remains active. Since Argo pruning is disabled, deleting a whole
+ConfigMap from Git does not remove the live object: removing resources/provider
+requires explicit cleanup. Do not assume deleting an entire generator deletes
+the provisioned dashboard.
+
 The data source has UID `prometheus`, server-side proxy access, the URL
 `http://prometheus.monitoring.svc.cluster.local:9090`, a 30s interval matching
 the existing scrape interval, and `editable: false` to prevent UI changes
 from becoming authoritative. No Prometheus credentials are needed here.
 Since automated pruning is disabled, removing a managed resource from Git
-requires deliberate cleanup. Future dashboard JSON should be mounted from
-Git and polled with `allowUiUpdates: false`; none is provisioned yet.
+requires deliberate cleanup.
 
 ## Credential rotation and recovery
 
@@ -198,9 +254,9 @@ reset init container and no guarantee of recovering unprovisioned state.
 
 ## Implementation verification and later runtime checks
 
-Local validation rendered five allowed monitoring resources and verified the
+Local validation rendered seven allowed monitoring resources and verified the
 checksum. Kubeconform v0.7.0 in strict mode against Kubernetes 1.35.0 schemas
-reported five valid resources, zero invalid, zero errors and zero skipped:
+reported seven valid resources, zero invalid, zero errors and zero skipped:
 
 ```bash
 kubectl kustomize monitoring/grafana | docker run --rm -i \
@@ -216,6 +272,27 @@ source UID `prometheus` confirmed the URL, default status and `readOnly: true`.
 This does not validate in-cluster DNS, projected-volume ownership, admission,
 or actual connectivity to the existing Prometheus. No Kubernetes deployment
 was performed during implementation.
+
+Dashboard validation also ran the pinned Grafana image with the new provider
+and JSON mounts. Retrieval by UID confirmed four panels, `editable: false`,
+the Prometheus data-source UID and `meta.provisioned: true`. An authenticated
+save attempt was rejected with HTTP 400, `Cannot save provisioned dashboard`.
+Grafana 13.2.3 still returned `meta.canSave: true` and `meta.canEdit: true` for
+the admin account; these permission metadata flags alone do not establish
+whether a provisioned dashboard can be saved. The backend rejection is the
+relevant verification.
+
+Eight local promtool scenarios were generated from the actual dashboard
+expressions with `$__rate_interval` replaced by 5m: healthy traffic without
+5xx series, nonzero error percentage, idle traffic, absent telemetry, healthy
+targets without request metrics, a down target, a partially down replica set,
+and histogram p95 aggregated across replicas. All passed (numeric comparisons
+rounded to six decimal places to avoid floating-point noise). Test fixtures
+were temporary; no recording or alert rules were added to the repository.
+Negative checksum tests for each of the three startup configuration files
+failed as expected; a dashboard-title-only change left the checksum unchanged
+and passed validation. Every temporary working-tree change was restored
+byte-for-byte.
 
 After an independently authorized deployment, check root and child health
 separately, Pod rollout, UID/GID and volume access, absence of the service
