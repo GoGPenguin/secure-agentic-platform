@@ -18,10 +18,10 @@ spec:
         app.kubernetes.io/name: prometheus
       annotations:
         # SHA-256 of the decoded ConfigMap data["prometheus.yml"] UTF-8 bytes.
-        checksum/config: 889adc783db90100e0c6d3a176e12cd518807ffb821dcc03da120315f3cff5a0
+        checksum/config: c4f50cd70f072578bc040700298c4462f5fe17b487b389a0d925c54ab4793ef0
     spec:
       serviceAccountName: prometheus
-      automountServiceAccountToken: false
+      automountServiceAccountToken: true
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
