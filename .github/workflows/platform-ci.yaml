@@ -12,6 +12,35 @@ permissions:
   contents: read
 
 jobs:
+  monitoring-validation:
+    name: Monitoring Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install YAML parser
+        run: |
+          python3 -m venv "$RUNNER_TEMP/monitoring-venv"
+          "$RUNNER_TEMP/monitoring-venv/bin/pip" install PyYAML==6.0.3
+
+      - name: Validate rollout checksum and extract configuration
+        run: |
+          "$RUNNER_TEMP/monitoring-venv/bin/python" scripts/validate-prometheus-config.py \
+            --output-config "$RUNNER_TEMP/prometheus.yml"
+
+      - name: Validate configuration with the deployed Prometheus image
+        run: |
+          prometheus_image=$("$RUNNER_TEMP/monitoring-venv/bin/python" -c 'import yaml; print(yaml.safe_load(open("monitoring/prometheus/deployment.yaml"))["spec"]["template"]["spec"]["containers"][0]["image"])')
+          docker run --rm --network none --read-only --user 65534:65534 \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --mount "type=bind,src=$RUNNER_TEMP/prometheus.yml,dst=/etc/prometheus/prometheus.yml,readonly" \
+            --entrypoint /bin/promtool "$prometheus_image" \
+            check config /etc/prometheus/prometheus.yml
+
   helm-validation:
     name: Helm Validation
     runs-on: ubuntu-latest
