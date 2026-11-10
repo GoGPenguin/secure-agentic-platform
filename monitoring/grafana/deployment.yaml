@@ -16,7 +16,7 @@ spec:
         app.kubernetes.io/name: grafana
       annotations:
         # Canonical ConfigMap data checksum; see scripts/validate-grafana-config.py.
-        checksum/config: 26427afca2c6499b17e8ffc55d337a867753c5f219759eb4436d15d7b4e67cc6
+        checksum/config: d1c249b07e748092c424ec51ae84268a2acb52deca8d319a182bc808d3be1846
     spec:
       serviceAccountName: grafana
       automountServiceAccountToken: false
@@ -84,6 +84,12 @@ spec:
             - name: datasources
               mountPath: /etc/grafana/provisioning/datasources
               readOnly: true
+            - name: dashboard-provider
+              mountPath: /etc/grafana/provisioning/dashboards
+              readOnly: true
+            - name: dashboards
+              mountPath: /var/lib/grafana/dashboards
+              readOnly: true
             - name: admin
               mountPath: /etc/grafana/admin
               readOnly: true
@@ -98,6 +104,12 @@ spec:
         - name: datasources
           configMap:
             name: grafana-datasources
+        - name: dashboard-provider
+          configMap:
+            name: grafana-dashboard-provider
+        - name: dashboards
+          configMap:
+            name: grafana-dashboards
         - name: admin
           secret:
             secretName: grafana-admin
