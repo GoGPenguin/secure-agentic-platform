@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+resources:
+  - deployment.yaml
+  - service.yaml
+  - serviceaccount.yaml
+configMapGenerator:
+  - name: grafana-config
+    files:
+      - grafana.ini=config/grafana.ini
+  - name: grafana-datasources
+    files:
+      - prometheus.yaml=config/datasources.yaml
+generatorOptions:
+  # Match prune=false without accumulating obsolete generated ConfigMaps.
+  disableNameSuffixHash: true
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
