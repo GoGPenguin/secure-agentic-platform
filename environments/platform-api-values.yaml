@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/gogpenguin/secure-agentic-platform/platform-api
-  digest: sha256:a7b7c1b24d3d260938beb4ba959e2e0530fe04c59ecd24f1c3072fb37159a861
+  digest: sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421
   pullPolicy: IfNotPresent
 
 container:
