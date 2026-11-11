@@ -22,6 +22,30 @@ spec:
     applicationsSync: create-update
     preserveResourcesOnDeletion: true
 
+  # Lists are replaced by the patch: retain both sources and their current fields.
+  # An explicit empty object is a no-op for applications without the override.
+  templatePatch: |
+    {{- if hasKey . "overrideValuesFile" }}
+    {{- if not (and (kindIs "string" .overrideValuesFile) (ne .overrideValuesFile "")) }}
+    {{- fail "overrideValuesFile must be a nonempty string" }}
+    {{- end }}
+    spec:
+      sources:
+        - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+          targetRevision: main
+          path: charts/web-app
+          helm:
+            releaseName: {{ .name | toJson }}
+            valueFiles:
+              - {{ printf "$chart-repo/%s" .valuesFile | toJson }}
+              - {{ printf "$chart-repo/%s" .overrideValuesFile | toJson }}
+        - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+          targetRevision: main
+          ref: chart-repo
+    {{- else }}
+    {}
+    {{- end }}
+
   template:
     metadata:
       name: '{{.name}}'
