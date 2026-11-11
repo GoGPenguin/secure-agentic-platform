@@ -14,6 +14,9 @@ image:
 # Set container.port to override the Service port used by the container.
 container: {}
 
+# Plain environment configuration only; omit env entirely when empty.
+env: {}
+
 service:
   type: ClusterIP
   port: 80

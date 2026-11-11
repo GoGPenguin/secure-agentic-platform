@@ -28,6 +28,13 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ include "web-app.image" . | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.env }}
+          env:
+            {{- range $name, $value := . }}
+            - name: {{ $name | quote }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ include "web-app.containerPort" . }}

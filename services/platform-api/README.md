@@ -38,4 +38,14 @@ instrumentation assumes Nest-managed Express routes, whose templates include
 controller and module prefixes; manually mounted Express routers would need
 explicit template handling.
 
+## Failure-injection cleanup (W05-B.4.5)
+
+After successful HTTP 5xx alert verification, the temporary
+`POST /api/v1/lab/failures/http-503` endpoint was removed, together with its
+lab build, container packaging, activation settings and lab-only tests.
+The production API no longer registers this route. Existing health checks,
+Prometheus instrumentation, Grafana dashboards and HTTP 5xx alerting remain.
+The shared Helm chart retains generic string-valued `env` support, defaulting
+to an empty map; it contains no failure-injection activation configuration.
+
 See the [repository README](../../README.md) for pinned CI tooling, Docker builds, image publishing, GitOps deployment, and rollback. Deployment uses reviewed Git changes reconciled by Argo CD.
