@@ -1,132 +1,139 @@
 # Secure Agentic Platform
 
-A 36-week hands-on learning project covering platform engineering, Kubernetes, GitOps, cloud security, and secure AI-agent operations. The Platform API uses TypeScript/NestJS; a future AI Incident Agent will use Python.
+A GitOps-driven Kubernetes platform, progressing toward secure agentic workloads.
 
-**Current milestone:** Week 4 complete, per user confirmation. Next: Week 5 — basic observability. Live promotion and rollback evidence was not re-audited during cleanup; a full clean-cluster rebuild remains untested.
+**Current checkpoint:** Week 5 observability implemented through W05-B.4.5. Prometheus, Grafana dashboards and HTTP 5xx alerting are deployed. The temporary failure-injection API and its lab infrastructure have been removed after user-confirmed alert verification.
 
-See [project context and evidence](docs/PROJECT_CONTEXT.md) for progress and remaining work.
+**Last verified:** 2026-11-11, after merge `70d5537`: root, Platform API, Prometheus and Grafana were Synced/Healthy; the API used the production digest below. A full clean-cluster recovery remains untested. See [project context](docs/PROJECT_CONTEXT.md) for evidence boundaries and continuation guidance.
 
 ## Architecture
 
 ```text
-Pull request → Helm Validation + Platform API CI
-Merge to main → repeat validation → Publish Platform API → GHCR
-                                                      │
-                                   published digest → reviewed GitOps PR
-                                                      │
-Git main → platform-root → secure-platform AppProject + platform-apps ApplicationSet
-                                                      │
-                                 app-configs/*.yaml + environments/*-values.yaml
-                                                      │
-                                         charts/web-app → kind / gitops-apps
-                                                      │
-                                   frontend, backend, sandbox, platform-api
+Pull request → Monitoring Validation + Helm Validation + Platform API CI
+Merge to main → validation → Publish Platform API → GHCR
+                                                    │
+                                 published digest → reviewed GitOps PR
+                                                    │
+Git main → platform-root → platform-apps ApplicationSet
+                       │                  │
+                       │       app-configs + environment values
+                       │                  │
+                       │       charts/web-app → gitops-apps
+                       │                  │
+                       │       frontend, backend, sandbox, platform-api
+                       │                                  │ /metrics
+                       └─ monitoring Applications         ▼
+                              Prometheus ← queries ─ Grafana
+                                                      dashboard + alert
 ```
 
-CI builds and publishes images; Argo CD reconciles deployments from Git. CI does not deploy directly to Kubernetes. Image promotion and rollback require reviewed Git changes under branch protection.
+CI publishes images; Argo CD reconciles Git. Publishing does not automatically select a new deployed digest. Promotion and rollback use reviewed Git changes.
 
-`platform-root` manages `bootstrap/argocd/control-plane/`. The ApplicationSet reads `app-configs/*.yaml` from `main`, assigns unique Helm release names, and loads application values through the `$chart-repo` source reference. Automated self-healing is enabled and pruning is disabled. ApplicationSet uses `create-update` and `preserveResourcesOnDeletion: true`.
+`platform-root` manages `bootstrap/argocd/control-plane/`. ApplicationSet discovers `app-configs/*.yaml`, assigns unique Helm releases, and loads values through the second source reference `$chart-repo`. Workloads use `secure-platform`; monitoring uses `secure-monitoring`. Self-healing is enabled and pruning disabled. ApplicationSet retains `create-update` and `preserveResourcesOnDeletion: true`; there is no lab override support.
 
 ## Repository layout
 
 | Path | Responsibility |
 | --- | --- |
 | `infrastructure/kind/cluster.yml` | One control plane and two workers |
-| `bootstrap/argocd/root.yaml` | Initial root Application bootstrap |
-| `bootstrap/argocd/control-plane/` | AppProject and ApplicationSet |
-| `app-configs/` | ApplicationSet discovery metadata for four applications |
-| `environments/` | Application-specific Helm values and promoted image digest |
-| `charts/web-app/` | Shared chart, templates, and digest schema |
-| `services/platform-api/` | NestJS API, tests, pnpm lockfile, and Dockerfile |
+| `bootstrap/argocd/root.yaml` | Root Application bootstrap |
+| `bootstrap/argocd/control-plane/` | Applications, ApplicationSet, projects and discovery RBAC |
+| `app-configs/` | Discovery metadata for four workload Applications |
+| `environments/` | Workload values and production API digest |
+| `charts/web-app/` | Shared Helm chart, generic env support and image schema |
+| `services/platform-api/` | NestJS API, regression tests, lockfile and Dockerfile |
+| `monitoring/` | Prometheus configuration and Grafana dashboard/alert provisioning |
+| `scripts/` | Monitoring configuration/checksum validators |
 | `.github/workflows/platform-ci.yaml` | Validation and main-only GHCR publishing |
-| `docs/PROJECT_CONTEXT.md` | Progress snapshot and continuation guidance |
+| `docs/PROJECT_CONTEXT.md` | Current state, evidence and next-work boundaries |
 
-Legacy Week 1 standalone manifests have been removed; ApplicationSet is the workload discovery mechanism.
+Frontend/backend/sandbox remain active sample workloads. Existing regression fixtures and Helm connection-test hooks are verification tools, not deployed failure-injection endpoints.
 
 ## Platform API
 
-| Endpoint | HTTP 200 response |
+| GET endpoint | Result |
 | --- | --- |
-| `GET /api/v1/info` | `{"service":"platform-api","version":"0.1.1"}` for the v0.1.1 image |
-| `GET /health/live` | `{"status":"ok"}` |
-| `GET /health/ready` | `{"status":"ready"}` |
+| `/api/v1/info` | `{"service":"platform-api","version":"0.1.1"}` |
+| `/health/live` | `{"status":"ok"}` |
+| `/health/ready` | `{"status":"ready"}` |
+| `/metrics` | Prometheus request counter and duration histogram |
 
-`package.json` is the single source of truth for service name and version. Readiness currently means the initialized HTTP application can serve requests; there are no external dependencies to check.
+There is no `/` handler. The temporary HTTP 503 endpoint, flags, separate build/container and GitOps override infrastructure were removed in W05-B.4.5. See the [API README](services/platform-api/README.md).
 
-Node.js **24.22.2** and pnpm **12.16.1** are used by CI and the Docker build. From the repository root:
+Metrics record completed responses with bounded route-template labels. `/metrics`, `/health/live` and `/health/ready` are excluded; aborted responses before finish are not counted. Readiness currently checks HTTP application availability, not external dependencies.
+
+CI and Docker use Node.js **24.22.2** and pnpm **12.16.1**. From repository root:
 
 ```bash
-cd services/platform-api
-pnpm install --frozen-lockfile
-pnpm test
-pnpm run test:e2e
-pnpm run build
-pnpm run start:dev
+pnpm --dir services/platform-api install --frozen-lockfile
+pnpm --dir services/platform-api run lint
+pnpm --dir services/platform-api test
+pnpm --dir services/platform-api run test:e2e
+pnpm --dir services/platform-api run build
 ```
 
-The tests use Vitest and Supertest; the test scripts terminate without watch mode. Latest local release checks passed: one unit test, three HTTP tests, TypeScript compilation, Docker build, and container smoke tests.
+Latest cleanup checks passed: lint, **4 unit tests**, **19 E2E tests**, TypeScript/Docker builds and container smoke checks. No lab-specific scripts or tests remain.
 
-## Container build
-
-From the repository root:
+## Container and immutable delivery
 
 ```bash
 docker build -t platform-api:dev services/platform-api
 docker run --rm -p 127.0.0.1:3000:3000 platform-api:dev
 ```
 
-The multi-stage Dockerfile uses `node:24.22.2-bookworm-slim`, frozen dependency installs, and a separate production dependency stage. Runtime contains compiled code, production dependencies, and `package.json`; it executes `node dist/main.js` as the non-root `node` user with `NODE_ENV=production` and port 3000.
+The unchanged multi-stage Dockerfile uses `node:24.22.2-bookworm-slim`, frozen installs and separate production dependencies. Runtime contains compiled code, dependencies and package metadata. It executes `node dist/main.js` as non-root `node`, with `NODE_ENV=production` and port 3000.
 
-## Immutable delivery
+Production repository: `ghcr.io/gogpenguin/secure-agentic-platform/platform-api`.
 
-Image repository: `ghcr.io/gogpenguin/secure-agentic-platform/platform-api`.
+Current selected and last verified deployed digest:
 
-| Release | Published digest | Status at this checkpoint |
-| --- | --- | --- |
-| v0.1.0 — A | `sha256:48ec5b5fe780bcd39fc5e1e09912b08acf4ccb777f1e37fab49d80452222b3c5` | Previously deployed, per user confirmation |
-| v0.1.1 — B | `sha256:a7b7c1b24d3d260938beb4ba959e2e0530fe04c59ecd24f1c3072fb37159a861` | Selected in this branch; live promotion verification pending |
+```text
+sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421
+```
 
-Helm chart **0.2.0** accepts optional `image.digest`. A digest takes precedence over `image.tag`, producing `repository@sha256:…`. Without a digest, tag behavior and the chart `appVersion` fallback remain intact. The schema rejects malformed digests. Chart `appVersion` remains **1.16.0** for existing workloads and is independent of the API package version.
+Its OCI source revision is `b2728b6580da2dd16b4037222b16795810c89635`. Comparison with the cleanup merge found identical production code and build inputs, so cleanup required no image promotion. The new image automatically published for that merge remains unpromoted; its identity and successful CI run are recorded in [project context](docs/PROJECT_CONTEXT.md).
 
-`container.port` overrides `service.port` for the container. Services and probes use named port `http`. Platform API runs one replica with container and Service port 3000, requests of 100m CPU/128Mi memory, limits of 500m CPU/256Mi memory, and a dedicated `platform-api` ServiceAccount with token automount disabled. Ingress, HTTPRoute, and autoscaling are disabled.
+Chart **0.2.0** gives a nonempty image digest precedence over tag. Chart `appVersion: 1.16.0` is independent of API version. Generic environment configuration defaults to `env: {}` and requires string values. The API retains one replica, ClusterIP port 3000, unchanged resource limits/probes and a dedicated ServiceAccount with token automount disabled. Ingress, HTTPRoute and autoscaling are disabled.
 
-The workflow runs independent Helm and API validation on PRs and main pushes. Only the publishing job receives `packages: write`; it requires both validations and runs only on main pushes. It uses temporary `GITHUB_TOKEN`, SHA-pinned Docker actions, and publishes `sha-<full-commit-sha>` tags for `linux/amd64`. The registry digest and immutable reference are recorded in job outputs and the summary. Deployment identity is the digest, not the tag. Helm CI renders all four applications and explicitly lints Platform API values.
+CI runs monitoring, Helm and API validation, including API lint/unit/E2E/build checks. Only main pushes publish; the publish job requires Helm/API validation, uses temporary `GITHUB_TOKEN` and SHA-pinned Docker actions, and records an immutable linux/amd64 image reference. No CI step deploys or automatically promotes an image.
 
-Promotion: publish and verify the image, change only `image.digest` through a GitOps PR, compare manifests, merge after review, then observe Argo CD. Rollback: open another reviewed PR restoring retained Digest A (or revert only the promotion change), then verify reconciliation and HTTP version. Do not rebuild an old version as a substitute for restoring its original digest.
+For a future runtime change: verify the published artifact, change only `image.digest` through a reviewed GitOps PR, compare renders, merge, then inspect rollout and HTTP behavior. Roll back by restoring a retained known-good digest through Git. Do not rebuild an old version as a substitute for restoring its artifact.
 
-## GitOps validation and access
+## Observability
+
+Prometheus **3.13.5** discovers Platform API Pods with namespaced get/list/watch permissions and scrapes `/metrics` every **30 seconds**. Grafana **13.2.3** uses provisioned source UID `prometheus` and dashboard UID `platform-api-overview`, with six panels covering target health, request rate, HTTP errors and p95 latency.
+
+The Grafana-managed rule `platform-api-http-5xx` detects **HTTP 5xx > 5%**, with **at least 100 requests over five minutes**, evaluated every **30 seconds** and pending for **one minute**. No Data and query Error remain distinct from zero errors or low/idle traffic. No external notification integration has been added.
+
+Dashboard and alert definitions are Git-managed. Dashboard JSON is polled live; alert changes use configuration checksums and rollout, or an authorized provisioning reload. Both monitoring workloads use ephemeral storage, so Pod replacement loses local history/state. See [Prometheus operations](docs/monitoring.md) and [Grafana operations](docs/grafana.md).
 
 ```bash
+python3 scripts/validate-prometheus-config.py
+python3 scripts/validate-grafana-config.py
 helm lint charts/web-app -f environments/platform-api-values.yaml
 helm template platform-api charts/web-app -n gitops-apps -f environments/platform-api-values.yaml
-kubectl config current-context
-kubectl get applications -n argocd
+```
+
+## GitOps verification and access
+
+```bash
+argocd app get platform-root
 argocd app get platform-api
+argocd app get prometheus
+argocd app get grafana
+kubectl -n argocd get applicationset platform-apps
+kubectl -n argocd get applications frontend backend sandbox platform-api
 kubectl -n gitops-apps rollout status deployment/platform-api-web-app
 kubectl -n gitops-apps get deployment platform-api-web-app -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
-kubectl -n gitops-apps port-forward svc/platform-api-web-app 3000:3000
+kubectl -n gitops-apps port-forward --address 127.0.0.1 svc/platform-api-web-app 3000:3000
 ```
 
-In another terminal:
+In another terminal, request `/api/v1/info`, `/health/live`, `/health/ready` and `/metrics` on `http://127.0.0.1:3000`. Root sync/health alone does not prove child telemetry or alert evaluations are healthy.
 
-```bash
-curl -i http://localhost:3000/api/v1/info
-curl -i http://localhost:3000/health/live
-curl -i http://localhost:3000/health/ready
-```
+## Security and recovery boundaries
 
-Expect the version corresponding to the reconciled digest. Before/after local promotion renders changed only the Platform API Deployment image; frontend, backend, and sandbox manifests remained byte-for-byte unchanged.
+Keep the existing cluster in place. For a fresh local cluster, use `infrastructure/kind/cluster.yml`, then install a tested Argo CD release before bootstrapping `bootstrap/argocd/root.yaml`. Root does not manage its own bootstrap file. This is an outline, not a validated recovery runbook; node images and installation steps still need reproducible pins.
 
-## Bootstrap and limitations
+AppProjects restrict repositories, destinations and resource kinds. They do not replace Kubernetes RBAC, NetworkPolicy, Pod Security, image scanning or secret management. Grafana credentials remain in an operator-owned Secret outside Git. The chart's Helm test-hook Pod is skipped by Argo CD and is outside the workload AppProject allowlist.
 
-An existing cluster should be continued in place. For a fresh lab, install Docker, kind, kubectl, Helm, and a tested Argo CD release; create the cluster using `infrastructure/kind/cluster.yml`. After Argo CD is ready and the workload namespace exists, the initial handoff is:
-
-```bash
-kubectl apply -n argocd -f bootstrap/argocd/root.yaml
-```
-
-This is a bootstrap outline, not a validated disaster-recovery runbook. The node image and Argo CD installation release still need reproducible pins. Changes to `root.yaml` itself require a bootstrap update because the root watches only `control-plane/`.
-
-AppProject restricts the repository, destination namespace, and resource kinds to Deployment, Service, and ServiceAccount. These boundaries do not replace RBAC, NetworkPolicy, Pod Security, or secret management. The chart's Helm test-hook Pod is skipped by Argo CD and is outside that allowlist. Retain deployment and rollback digests in GHCR. Anonymous image pulling has been verified for the published application image; package visibility must continue to allow cluster pulls without registry secrets.
-
-This remains a local, single-control-plane learning environment. Monitoring, security scanning, workload network isolation, hardened bootstrap permissions, and clean-cluster recovery remain future work. Never commit credentials, local environment secrets, kubeconfigs, or Terraform state; the root `.gitignore` excludes common generated and sensitive files.
+Remaining work includes durable monitoring storage, notification design, security scanning, workload isolation, hardened/reproducible bootstrap and clean-cluster recovery. Never commit credentials, kubeconfigs or state files; `.gitignore` excludes common sensitive/generated paths but cannot detect embedded secrets. Reconcile remaining Week 5 roadmap tasks before assuming the whole week is complete or starting Week 6.
