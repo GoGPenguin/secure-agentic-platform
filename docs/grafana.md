@@ -5,7 +5,7 @@
 `platform-root` owns the `grafana` Application in `argocd`. That Application
 uses the existing `secure-monitoring` AppProject and renders `monitoring/grafana`
 with Kustomize. It owns exactly one Deployment, ClusterIP Service,
-ServiceAccount and four ConfigMaps in `monitoring`. Existing Applications,
+ServiceAccount and five ConfigMaps in `monitoring`. Existing Applications,
 AppProjects and RBAC are unchanged. The root already owns the namespace.
 
 The required `monitoring/grafana-admin` Secret is owned by an authorized
@@ -20,7 +20,9 @@ Nonempty, strong values are an operator precondition.
 
 `dashboards/platform-api.json` is the source of truth for dashboard UID
 `platform-api-overview` in the `Platform` folder. Every panel and query uses
-the provisioned Prometheus UID `prometheus`. There are four panels:
+the provisioned Prometheus UID `prometheus`. There are six panels covering
+four measurements (request rate and error percentage have current-value stats
+as well as time series):
 
 | Panel | Calculation | Unit |
 | --- | --- | --- |
@@ -31,8 +33,12 @@ the provisioned Prometheus UID `prometheus`. There are four panels:
 
 Rate queries use `$__rate_interval` with the existing 30s data-source scrape
 interval. Counters/histograms include all completed responses captured by the
-existing middleware, including health and metrics routes. No application or
-Prometheus configuration changes are required.
+existing middleware. `MetricsModule` explicitly excludes `metrics`,
+`health/live` and `health/ready`; the existing API end-to-end tests verify the
+exclusions with query strings and with/without a global prefix. The dashboard's
+older request-rate description still says those routes are included; that text
+is stale. W05-B.4.2 preserves the dashboard JSON and provisioning unchanged.
+No application or Prometheus configuration changes are required.
 
 For the error percentage, a missing 5xx series falls back to zero times the
 observed total request rate, not an unconditional zero vector. The denominator
@@ -54,7 +60,7 @@ metric exists. Lines do not bridge missing values.
 requests read-only editing and saving to the provisioned dashboard is rejected.
 Administrators can still create separate copies; those are not managed
 artifacts. Export an intended change, update Git and review it through a PR.
-There are no alert rules in this increment.
+The separate W05-B.4.2 rule below uses Grafana-managed alert provisioning.
 
 ## Create the admin Secret before deployment
 
@@ -300,6 +306,106 @@ account token, and the data-source health check against the real Prometheus.
 Use `kubectl -n monitoring port-forward --address 127.0.0.1 svc/grafana 3000:3000`
 for local access. Do not infer successful Prometheus queries from Argo sync
 status or Grafana's own health endpoint.
+
+## HTTP 5xx alert as code (W05-B.4.2)
+
+`config/alerting/platform-api-http.yaml` owns Grafana-managed rule UID
+`platform-api-http-5xx`, in organization 1, folder `Platform`, evaluation group
+`platform-api-http`. Kustomize generates `grafana-alerting`, mounted read-only
+at `/etc/grafana/provisioning/alerting` without `subPath`. This adds only a
+ConfigMap and Deployment volume/mount; RBAC, AppProjects, credentials, container
+security, data source and dashboard provisioning are unchanged. There are no
+new contact points, notification policies, SMTP settings or integrations.
+
+Query A is an instant query through UID `prometheus`. It sums per-series
+`increase(http_requests_total[5m])` across replicas, calculates the percentage
+with `status_code=~"5.."`, and multiplies by the boolean minimum-volume gate
+`total >= bool 100`. A missing 5xx series becomes zero only if total counter
+telemetry exists. `clamp_min(total, 1)` prevents division by zero for idle
+existing counters. Below 100 requests, A is zero and does not represent the
+raw measured percentage. Query B is a Grafana `__expr__` threshold referencing
+A, with evaluator `gt` and parameter 5. It returns a false result rather than
+filtering non-breaching results into No Data.
+
+The group evaluates every 30 seconds with `for: 1m` and no keep-firing period.
+`noDataState: NoData` and `execErrState: Error` preserve telemetry failures
+instead of treating them as healthy or as HTTP errors. `min(up) == 1` gates
+the result: any discovered target down, absent target telemetry, missing
+counters or too few counter samples yields no result. Successful queries with
+idle existing counters remain Normal. A newly started API with no instrumented
+requests may have no counter series at all, so it is No Data rather than idle.
+Grafana's separate datasource alerts can therefore appear without HTTP failures.
+Existing default notification routing is not reconfigured; no external delivery
+is established by this change.
+
+The minimum averages about 0.33 instrumented requests/second. A single error
+cannot fire this rule; at exactly 100 requests, six errors breach the threshold.
+Severe failures below the minimum are suppressed, and service-wide aggregation
+can hide problems confined to a low-volume route or replica. `increase()` is
+an extrapolated estimate, so the gate is not an exact request audit count.
+The health gate suppresses partial aggregates but cannot identify an expected
+replica that disappeared from discovery while other replicas remain up. These
+limitations would need separate availability/low-volume rules in a later scope.
+
+### Configuration lifecycle and recovery
+
+The new ConfigMap participates in the existing canonical `checksum/config`
+algorithm (only `grafana-dashboards` is excluded). Stable names and sync wave -1
+are preserved. Commit rule changes together with the new Deployment checksum;
+Argo sync then replaces the Pod and Grafana provisions the rule on startup.
+Unlike dashboard JSON polling, projecting new alert files alone does not reload
+the rule. An authorized operator can alternatively invoke authenticated
+`POST /api/admin/provisioning/alerting/reload` after verifying projected files,
+but checksum-driven rollout is the normal GitOps path. UI editing of this
+file-provisioned rule is disabled by Grafana.
+
+The existing single-replica Recreate strategy creates an evaluation outage
+during rollout. Pod replacement loses the emptyDir-backed Grafana database:
+Git restores definitions, not local history, sessions, users or UI-only state.
+Treat pending progress as reset and allow a fresh minute after evaluation
+resumes. A container restart in the same Pod preserves emptyDir; it is not
+durable storage. Grafana-only rollout leaves Prometheus history intact.
+
+Revert the rule and checksum through Git to recover from a bad change, then
+check provisioning logs and rule health. To retire a live rule, explicitly
+provision `deleteRules` with its org ID and UID before removing its source.
+Removing a file is not an explicit rule deletion, and `prune: false` also leaves
+removed ConfigMaps behind unless separately cleaned up by an authorized operator.
+
+### Local validation evidence
+
+Run with kubectl/Kustomize, Python/PyYAML and Docker available:
+
+```bash
+python3 scripts/validate-grafana-config.py
+pnpm --dir services/platform-api run test:e2e
+git diff --check
+```
+
+The static validator checks all eight rendered resources against the existing
+AppProject allowlist, the checksum, six unchanged dashboard panels, provisioning
+mounts, rule settings and the complete A/B model. The prior four-panel assertion
+was stale and now matches the existing dashboard without changing its JSON.
+
+A temporary Docker test harness (kept outside the repository) read image references
+from the Deployment manifests. Promtool
+from Prometheus 3.13.5 passes 15 cases: absent/existing zero-error series, idle,
+one error, 99 failing requests, the inclusive 100-request gate, below/exactly/above
+5%, missing telemetry, missing counters, missing up, down targets, a partially
+down replica set and insufficient samples. Numeric percentage assertions round
+to six decimals; strict threshold comparisons use the unrounded expression.
+
+The pinned Grafana 13.2.3 digest loads the actual rule file and verifies the
+provisioned A/B models, states, pending duration and evaluation interval through
+its APIs. A loopback fake Prometheus supplies controlled instant results to the
+real Grafana expression engine: A values 0, 4.9 and 5 produce B=0; 5.1, 6 and
+100 produce B=1. Empty results stay empty through B and query errors propagate.
+The fake API does not evaluate PromQL; that is covered by the separate promtool
+tests. The temporary Grafana scheduler is disabled to prevent background
+evaluation/notification attempts; this smoke test does not time the live
+Normal → Pending → Alerting transition. Container and temporary files are
+removed on completion. The existing API suite passes all 19 tests, including
+probe/scrape exclusions. No cluster deployment is part of these checks.
 
 References:
 - [Grafana 13.2.3 release](https://github.com/grafana/grafana/releases/tag/v13.2.3)
