@@ -18,6 +18,9 @@ configMapGenerator:
   - name: grafana-dashboards
     files:
       - platform-api.json=dashboards/platform-api.json
+  - name: grafana-alerting
+    files:
+      - platform-api-http.yaml=config/alerting/platform-api-http.yaml
 generatorOptions:
   # Match prune=false without accumulating obsolete generated ConfigMaps.
   disableNameSuffixHash: true
