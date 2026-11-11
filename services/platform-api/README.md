@@ -89,8 +89,8 @@ operators to the separate lab build. `NODE_ENV=production` remains unchanged.
 The existing Dockerfile copies only `dist` from the production build to the
 final image. Lab sources exist in the build stage but the controller and its
 declarations/source maps are absent from the final application output. The
-lab build is a local Node artifact in this checkpoint; there is no new lab
-container target, deployment configuration or publishing/promotion change.
+lab build can also be packaged with the separate `Dockerfile.lab` described
+below. Deployment configuration and lab publishing/promotion remain manual.
 
 TypeScript exclusions alone do not prevent an explicitly imported excluded file
 from being compiled. Keep production imports free of the lab module and run
@@ -114,5 +114,67 @@ The lab listener retains the existing binding behavior, so localhost in the
 example is not an access-control boundary. Run only in an isolated local lab;
 no RBAC, NetworkPolicy, AppProject or exposure settings are weakened here.
 Review lab image separation and GitOps activation in the deployment checkpoint.
+
+## Lab container packaging (W05-B.4.4.2A)
+
+`Dockerfile.lab` uses the same `node:24.22.2-bookworm-slim` baseline and pnpm
+12.16.1 as production. It compiles `dist-lab` in a separate build stage, installs
+only production dependencies into the runtime image, and runs
+`node dist-lab/lab/main.js` as the existing non-root `node` user. Neither enablement
+variable is baked into the image. The production Dockerfile is unchanged.
+Generated `dist-lab` is excluded from the shared Docker build context, as `dist`
+already was, so each image uses only its in-container build output.
+
+From the repository root, build separate local tags:
+
+```bash
+docker build -t platform-api:production-local services/platform-api
+docker build -f services/platform-api/Dockerfile.lab -t platform-api:lab-local services/platform-api
+```
+
+Run the lab image on localhost only, enabling both gates explicitly:
+
+```bash
+docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges \
+  -p 127.0.0.1:3000:3000 \
+  -e PLATFORM_ENVIRONMENT=local-lab -e LAB_HTTP_503_ENABLED=true \
+  platform-api:lab-local
+```
+
+Omit the variables to run with injection disabled (404). Explicit `false` also
+disables it. `true` outside `local-lab` exits before listening. Stopping the
+container stops injection; flags are evaluated again on a new container.
+
+The following smoke tests use no published ports or external network. The
+script runs inside each final image via stdin and checks the non-root user,
+Node baseline, packaged artifacts, route status, health/metrics responses and
+the enabled 503 counter/histogram:
+
+```bash
+docker run --rm -i --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --entrypoint node platform-api:production-local --input-type=module - production \
+  < services/platform-api/test/container-smoke.mjs
+docker run --rm -i --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --entrypoint node platform-api:lab-local --input-type=module - lab \
+  < services/platform-api/test/container-smoke.mjs
+docker run --rm -i --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
+  -e PLATFORM_ENVIRONMENT=local-lab -e LAB_HTTP_503_ENABLED=true \
+  --entrypoint node platform-api:lab-local --input-type=module - lab \
+  < services/platform-api/test/container-smoke.mjs
+```
+
+Platform API CI now runs `test:build-isolation` before its existing production
+Docker build, then checks the final production image with this smoke script.
+The existing publish job still selects only `Dockerfile`; it has no lab build,
+registry tag or promotion step. No workflow permissions were added.
+
+The runtime remains non-root and does not require writable application storage,
+extra capabilities or credentials. Read-only filesystem and dropped capabilities
+are runtime options, demonstrated above, rather than guarantees enforced by a
+Dockerfile. The application retains its existing listener binding; a lab image
+with both gates enabled is reachable by anyone with network access to that
+listener. Keep it on an isolated lab host and bind any host port to localhost.
+The baseline is version-tagged like production, not independently digest-pinned;
+review both Dockerfiles together when updating Node or pnpm to prevent drift.
 
 See the [repository README](../../README.md) for pinned CI tooling, Docker builds, image publishing, GitOps deployment, and rollback. Deployment uses reviewed Git changes reconciled by Argo CD.
