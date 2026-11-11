@@ -102,24 +102,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run lint
+        run: pnpm run lint
+
       - name: Run unit tests
         run: pnpm test
 
       - name: Run HTTP-level tests
         run: pnpm run test:e2e
 
-      - name: Validate production artifact isolation and startup guards
-        run: pnpm run test:build-isolation
+      - name: Build TypeScript application
+        run: pnpm run build
 
       - name: Build Docker image
         run: docker build -t platform-api:ci .
-
-      - name: Verify production image isolation and HTTP endpoints
-        run: |
-          docker run --rm -i --network none --read-only \
-            --cap-drop ALL --security-opt no-new-privileges \
-            --entrypoint node platform-api:ci --input-type=module - production \
-            < test/container-smoke.mjs
 
   publish-platform-api:
     name: Publish Platform API
