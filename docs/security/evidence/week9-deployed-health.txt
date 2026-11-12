@@ -1,0 +1,459 @@
+Post-deployment verification 2026-11-12T14:20:04.267057+00:00
+$ python3 /tmp/w09-argocd.py app list
+NAME                  CLUSTER                         NAMESPACE    PROJECT            STATUS  HEALTH   SYNCPOLICY  CONDITIONS  REPO                                                       PATH                            TARGET
+argocd/backend        https://kubernetes.default.svc  gitops-apps  secure-platform    Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  charts/web-app                  main
+argocd/frontend       https://kubernetes.default.svc  gitops-apps  secure-platform    Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  charts/web-app                  main
+argocd/grafana        https://kubernetes.default.svc  monitoring   secure-monitoring  Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  monitoring/grafana              main
+argocd/platform-api   https://kubernetes.default.svc  gitops-apps  secure-platform    Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  charts/web-app                  main
+argocd/platform-rbac  https://kubernetes.default.svc  gitops-apps  secure-rbac        Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  rbac                            main
+argocd/platform-root  https://kubernetes.default.svc  argocd       default            Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  bootstrap/argocd/control-plane  main
+argocd/prometheus     https://kubernetes.default.svc  monitoring   secure-monitoring  Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  monitoring/prometheus           main
+argocd/sandbox        https://kubernetes.default.svc  gitops-apps  secure-platform    Synced  Healthy  Auto        <none>      https://github.com/GoGPenguin/secure-agentic-platform.git  charts/web-app                  main
+$ python3 /tmp/w09-argocd.py app get platform-rbac
+Name:               argocd/platform-rbac
+Project:            secure-rbac
+Server:             https://kubernetes.default.svc
+Namespace:          gitops-apps
+URL:                http://localhost:36455/applications/platform-rbac
+Source:
+- Repo:             https://github.com/GoGPenguin/secure-agentic-platform.git
+  Target:           main
+  Path:             rbac
+SyncWindow:         Sync Allowed
+Sync Policy:        Automated
+Sync Status:        Synced to main (d83cb4c)
+Health Status:      Healthy
+
+GROUP                      KIND         NAMESPACE    NAME           STATUS  HEALTH  HOOK  MESSAGE
+rbac.authorization.k8s.io  RoleBinding  gitops-apps  w09-developer  Synced                rolebinding.rbac.authorization.k8s.io/w09-developer reconciledrolebinding.rbac.authorization.k8s.io/w09-developer unchanged
+rbac.authorization.k8s.io  RoleBinding  monitoring   w09-auditor    Synced                rolebinding.rbac.authorization.k8s.io/w09-auditor reconciledrolebinding.rbac.authorization.k8s.io/w09-auditor unchanged
+rbac.authorization.k8s.io  RoleBinding  gitops-apps  w09-auditor    Synced                rolebinding.rbac.authorization.k8s.io/w09-auditor reconciledrolebinding.rbac.authorization.k8s.io/w09-auditor unchanged
+rbac.authorization.k8s.io  Role         gitops-apps  w09-auditor    Synced
+rbac.authorization.k8s.io  Role         gitops-apps  w09-developer  Synced
+rbac.authorization.k8s.io  Role         monitoring   w09-auditor    Synced
+$ python3 /tmp/w09-argocd.py app get platform-root
+Name:               argocd/platform-root
+Project:            default
+Server:             https://kubernetes.default.svc
+Namespace:          argocd
+URL:                http://localhost:43595/applications/platform-root
+Source:
+- Repo:             https://github.com/GoGPenguin/secure-agentic-platform.git
+  Target:           main
+  Path:             bootstrap/argocd/control-plane
+SyncWindow:         Sync Allowed
+Sync Policy:        Automated
+Sync Status:        Synced to main (d83cb4c)
+Health Status:      Healthy
+
+GROUP                      KIND            NAMESPACE    NAME                  STATUS     HEALTH   HOOK  MESSAGE
+                           Namespace       argocd       monitoring            Succeeded  Synced         namespace/monitoring unchanged
+rbac.authorization.k8s.io  Role            gitops-apps  prometheus-discovery  Synced                    role.rbac.authorization.k8s.io/prometheus-discovery reconciledrole.rbac.authorization.k8s.io/prometheus-discovery unchanged
+argoproj.io                AppProject      argocd       secure-platform       Synced                    appproject.argoproj.io/secure-platform unchanged
+argoproj.io                AppProject      argocd       secure-monitoring     Synced                    appproject.argoproj.io/secure-monitoring unchanged
+argoproj.io                AppProject      argocd       secure-rbac           Synced                    appproject.argoproj.io/secure-rbac created
+rbac.authorization.k8s.io  RoleBinding     gitops-apps  prometheus-discovery  Synced                    rolebinding.rbac.authorization.k8s.io/prometheus-discovery reconciledrolebinding.rbac.authorization.k8s.io/prometheus-discovery unchanged
+argoproj.io                ApplicationSet  argocd       platform-apps         Synced     Healthy        All applications have been generated successfully
+argoproj.io                Application     argocd       platform-rbac         Synced                    application.argoproj.io/platform-rbac created
+argoproj.io                Application     argocd       grafana               Synced                    application.argoproj.io/grafana unchanged
+argoproj.io                Application     argocd       prometheus            Synced                    application.argoproj.io/prometheus configured
+                           Namespace                    monitoring            Synced
+$ python3 /tmp/w09-argocd.py app diff platform-root
+$ kubectl get roles,rolebindings -n gitops-apps -o yaml
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+      argocd.argoproj.io/tracking-id: platform-root:rbac.authorization.k8s.io/Role:gitops-apps/prometheus-discovery
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"argocd.argoproj.io/sync-wave":"-1","argocd.argoproj.io/tracking-id":"platform-root:rbac.authorization.k8s.io/Role:gitops-apps/prometheus-discovery"},"name":"prometheus-discovery","namespace":"gitops-apps"},"rules":[{"apiGroups":[""],"resources":["pods"],"verbs":["get","list","watch"]}]}
+    creationTimestamp: "2026-11-10T14:12:50Z"
+    name: prometheus-discovery
+    namespace: gitops-apps
+    resourceVersion: "270271"
+    uid: b8cafb1d-7136-41b5-a275-b0c6d9b32174
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-rbac:rbac.authorization.k8s.io/Role:gitops-apps/w09-auditor
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-rbac:rbac.authorization.k8s.io/Role:gitops-apps/w09-auditor"},"name":"w09-auditor","namespace":"gitops-apps"},"rules":[{"apiGroups":[""],"resources":["pods","services","serviceaccounts"],"verbs":["get","list","watch"]},{"apiGroups":["apps"],"resources":["deployments","replicasets"],"verbs":["get","list","watch"]},{"apiGroups":["rbac.authorization.k8s.io"],"resources":["roles","rolebindings"],"verbs":["get","list","watch"]}]}
+    creationTimestamp: "2026-11-12T14:19:42Z"
+    name: w09-auditor
+    namespace: gitops-apps
+    resourceVersion: "458143"
+    uid: a2f813fa-12e2-426b-92c5-1ad915a51371
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    - services
+    - serviceaccounts
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - deployments
+    - replicasets
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - rbac.authorization.k8s.io
+    resources:
+    - roles
+    - rolebindings
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-rbac:rbac.authorization.k8s.io/Role:gitops-apps/w09-developer
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-rbac:rbac.authorization.k8s.io/Role:gitops-apps/w09-developer"},"name":"w09-developer","namespace":"gitops-apps"},"rules":[{"apiGroups":[""],"resources":["pods","services"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["pods/log"],"verbs":["get"]},{"apiGroups":["apps"],"resources":["deployments","replicasets"],"verbs":["get","list","watch"]}]}
+    creationTimestamp: "2026-11-12T14:19:42Z"
+    name: w09-developer
+    namespace: gitops-apps
+    resourceVersion: "458145"
+    uid: b83f000e-d8f2-4797-906c-0e59a6c02776
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    - services
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - pods/log
+    verbs:
+    - get
+  - apiGroups:
+    - apps
+    resources:
+    - deployments
+    - replicasets
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      argocd.argoproj.io/sync-wave: "0"
+      argocd.argoproj.io/tracking-id: platform-root:rbac.authorization.k8s.io/RoleBinding:gitops-apps/prometheus-discovery
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{"argocd.argoproj.io/sync-wave":"0","argocd.argoproj.io/tracking-id":"platform-root:rbac.authorization.k8s.io/RoleBinding:gitops-apps/prometheus-discovery"},"name":"prometheus-discovery","namespace":"gitops-apps"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"prometheus-discovery"},"subjects":[{"kind":"ServiceAccount","name":"prometheus","namespace":"monitoring"}]}
+    creationTimestamp: "2026-11-10T14:12:52Z"
+    name: prometheus-discovery
+    namespace: gitops-apps
+    resourceVersion: "270281"
+    uid: 4db366b8-f486-4e0e-aead-f3113238ef32
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: prometheus-discovery
+  subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: monitoring
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-rbac:rbac.authorization.k8s.io/RoleBinding:gitops-apps/w09-auditor
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-rbac:rbac.authorization.k8s.io/RoleBinding:gitops-apps/w09-auditor"},"name":"w09-auditor","namespace":"gitops-apps"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"w09-auditor"},"subjects":[{"apiGroup":"rbac.authorization.k8s.io","kind":"User","name":"w09:auditor"}]}
+    creationTimestamp: "2026-11-12T14:19:42Z"
+    name: w09-auditor
+    namespace: gitops-apps
+    resourceVersion: "458152"
+    uid: 915ffcd2-7ea9-4ef3-9c8a-2c1171e64550
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: w09-auditor
+  subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: w09:auditor
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-rbac:rbac.authorization.k8s.io/RoleBinding:gitops-apps/w09-developer
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-rbac:rbac.authorization.k8s.io/RoleBinding:gitops-apps/w09-developer"},"name":"w09-developer","namespace":"gitops-apps"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"w09-developer"},"subjects":[{"apiGroup":"rbac.authorization.k8s.io","kind":"User","name":"w09:developer"}]}
+    creationTimestamp: "2026-11-12T14:19:42Z"
+    name: w09-developer
+    namespace: gitops-apps
+    resourceVersion: "458151"
+    uid: 8eb5464e-a3b1-43e5-a5bc-7a493c4688f0
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: w09-developer
+  subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: w09:developer
+kind: List
+metadata:
+  resourceVersion: ""
+$ kubectl get roles,rolebindings -n monitoring -o yaml
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-rbac:rbac.authorization.k8s.io/Role:monitoring/w09-auditor
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-rbac:rbac.authorization.k8s.io/Role:monitoring/w09-auditor"},"name":"w09-auditor","namespace":"monitoring"},"rules":[{"apiGroups":[""],"resources":["pods","services","serviceaccounts"],"verbs":["get","list","watch"]},{"apiGroups":["apps"],"resources":["deployments","replicasets"],"verbs":["get","list","watch"]},{"apiGroups":["rbac.authorization.k8s.io"],"resources":["roles","rolebindings"],"verbs":["get","list","watch"]}]}
+    creationTimestamp: "2026-11-12T14:19:42Z"
+    name: w09-auditor
+    namespace: monitoring
+    resourceVersion: "458144"
+    uid: f66bfab0-5240-483e-8618-7d6a63c2380e
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    - services
+    - serviceaccounts
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - apps
+    resources:
+    - deployments
+    - replicasets
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - rbac.authorization.k8s.io
+    resources:
+    - roles
+    - rolebindings
+    verbs:
+    - get
+    - list
+    - watch
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-rbac:rbac.authorization.k8s.io/RoleBinding:monitoring/w09-auditor
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-rbac:rbac.authorization.k8s.io/RoleBinding:monitoring/w09-auditor"},"name":"w09-auditor","namespace":"monitoring"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"w09-auditor"},"subjects":[{"apiGroup":"rbac.authorization.k8s.io","kind":"User","name":"w09:auditor"}]}
+    creationTimestamp: "2026-11-12T14:19:42Z"
+    name: w09-auditor
+    namespace: monitoring
+    resourceVersion: "458150"
+    uid: 3e5d25e4-70d6-43d5-987b-18f5dbff237b
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: w09-auditor
+  subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: w09:auditor
+kind: List
+metadata:
+  resourceVersion: ""
+$ kubectl get deployments -n gitops-apps
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+backend-web-app        1/1     1            1           3d12h
+frontend-web-app       2/2     2            2           3d12h
+platform-api-web-app   1/1     1            1           3d3h
+sandbox-web-app        1/1     1            1           3d10h
+$ kubectl get deployments -n monitoring
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+grafana      1/1     1            1           45h
+prometheus   1/1     1            1           47h
+PASS existing Prometheus discovery rules and binding unchanged from pre-deployment live snapshot.
+PASS all eight Applications Synced/Healthy and all six Deployment replica counts available.
+$ kubectl auth can-i --list -n gitops-apps --as=w09:developer --as-group=system:authenticated
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+pods                                            []                  []               [get list watch]
+services                                        []                  []               [get list watch]
+deployments.apps                                []                  []               [get list watch]
+replicasets.apps                                []                  []               [get list watch]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+pods/log                                        []                  []               [get]
+$ kubectl auth can-i --list -n monitoring --as=w09:developer --as-group=system:authenticated
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+$ kubectl auth can-i --list -n gitops-apps --as=w09:auditor --as-group=system:authenticated
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+pods                                            []                  []               [get list watch]
+serviceaccounts                                 []                  []               [get list watch]
+services                                        []                  []               [get list watch]
+deployments.apps                                []                  []               [get list watch]
+replicasets.apps                                []                  []               [get list watch]
+rolebindings.rbac.authorization.k8s.io          []                  []               [get list watch]
+roles.rbac.authorization.k8s.io                 []                  []               [get list watch]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+$ kubectl auth can-i --list -n monitoring --as=w09:auditor --as-group=system:authenticated
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+pods                                            []                  []               [get list watch]
+serviceaccounts                                 []                  []               [get list watch]
+services                                        []                  []               [get list watch]
+deployments.apps                                []                  []               [get list watch]
+replicasets.apps                                []                  []               [get list watch]
+rolebindings.rbac.authorization.k8s.io          []                  []               [get list watch]
+roles.rbac.authorization.k8s.io                 []                  []               [get list watch]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+$ kubectl auth can-i --list -n gitops-apps --as=w09:ci --as-group=system:authenticated
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+$ kubectl auth can-i --list -n monitoring --as=w09:ci --as-group=system:authenticated
+Resources                                       Non-Resource URLs   Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                  []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                  []               [create]
+                                                [/api/*]            []               [get]
+                                                [/api]              []               [get]
+                                                [/apis/*]           []               [get]
+                                                [/apis]             []               [get]
+                                                [/healthz]          []               [get]
+                                                [/healthz]          []               [get]
+                                                [/livez]            []               [get]
+                                                [/livez]            []               [get]
+                                                [/openapi/*]        []               [get]
+                                                [/openapi]          []               [get]
+                                                [/readyz]           []               [get]
+                                                [/readyz]           []               [get]
+                                                [/version/]         []               [get]
+                                                [/version/]         []               [get]
+                                                [/version]          []               [get]
+                                                [/version]          []               [get]
+PASS single owner: platform-rbac:rbac.authorization.k8s.io/Role:gitops-apps/w09-auditor
+PASS single owner: platform-rbac:rbac.authorization.k8s.io/Role:gitops-apps/w09-developer
+PASS single owner: platform-rbac:rbac.authorization.k8s.io/RoleBinding:gitops-apps/w09-auditor
+PASS single owner: platform-rbac:rbac.authorization.k8s.io/RoleBinding:gitops-apps/w09-developer
+PASS single owner: platform-rbac:rbac.authorization.k8s.io/Role:monitoring/w09-auditor
+PASS single owner: platform-rbac:rbac.authorization.k8s.io/RoleBinding:monitoring/w09-auditor
+PASS production API live image matches unchanged Git selection: ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421

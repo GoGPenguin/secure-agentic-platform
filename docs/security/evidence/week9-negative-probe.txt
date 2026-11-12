@@ -1,0 +1,9 @@
+$ python3 scripts/probe-rbac-failures.py
+NEGATIVE HARNESS PROBE: deliberately false expectations; no cluster policy changes.
+Developer get Pods is intentionally expected Deny; CI get Secrets intentionally expected Allow.
+Context: kind-secure-platform
+PASS preflight: explicit user and authenticated-group impersonation authority
+FAIL developer gitops-apps get pods/ expected=Deny observed=Allow
+FAIL ci monitoring get secrets/ expected=Allow observed=Deny
+Live assertions: 0 PASS, 2 FAIL
+Process exit code: 1

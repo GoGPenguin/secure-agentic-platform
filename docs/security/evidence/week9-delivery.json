@@ -1,0 +1,30 @@
+{
+  "headRefOid": "ef8348511dd5cd6f31218e2b41febd53992a2aa2",
+  "mergeCommit": {
+    "oid": "d83cb4c418bf538e6ceaa156f768de82ed375d36"
+  },
+  "mergedAt": "2026-11-12T14:19:03Z",
+  "number": 22,
+  "state": "MERGED",
+  "url": "https://github.com/GoGPenguin/secure-agentic-platform/pull/22",
+  "verification": {
+    "live": {
+      "total": 270,
+      "pass": 270,
+      "fail": 0,
+      "exit": 0
+    },
+    "negative_probe": {
+      "intentionally_inverted_expectations": 2,
+      "pass": 0,
+      "fail": 2,
+      "exit": 1
+    },
+    "applications": "8 Synced/Healthy",
+    "deployment_replicas": "6 Deployments fully available",
+    "root_diff": "empty",
+    "deployment_method": "Argo CD automatic reconciliation of merged main; no manual apply or forced sync",
+    "unrelated_edit": "docs/PROJECT_CONTEXT.md preserved and excluded"
+  },
+  "verifiedAt": "2026-11-12T14:22:05.938860+00:00"
+}

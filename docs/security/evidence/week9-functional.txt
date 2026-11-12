@@ -1,0 +1,10 @@
+Functional smoke 2026-11-12T14:20:42.219783+00:00
+PASS gitops-apps/platform-api-web-app GET /health/ready HTTP 200: {"status":"ready"}
+PASS gitops-apps/platform-api-web-app GET /api/v1/info HTTP 200: {"service":"platform-api","version":"0.1.1"}
+PASS monitoring/prometheus GET /-/ready HTTP 200: Prometheus Server is Ready.
+PASS monitoring/prometheus GET /api/v1/query?query=up%7Bjob%3D%22platform-api%22%7D HTTP 200: {"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"up","instance":"10.244.2.3:3000","job":"platform-api","namespace":"gitops-apps","pod":"platform-api-web-app-7dc48d9bc9-8dtq8","pod_uid":"de486ea6-f96a-4579-a996-d478b86b715b"},"value":[1794493242.389,"1"]}]}}
+PASS monitoring/grafana GET /api/health HTTP 200: {
+  "database": "ok",
+  "version": "13.2.3",
+  "commit": "90ffed056f0884267356c12a0eeb72a022af53f1"
+}
