@@ -14,13 +14,13 @@ Health Status:      Healthy
 
 GROUP                      KIND            NAMESPACE    NAME                  STATUS     HEALTH   HOOK  MESSAGE
 argoproj.io                Application     argocd       prometheus            OutOfSync                 application.argoproj.io/prometheus configured
-                           Namespace                    monitoring            Synced                    
-argoproj.io                AppProject      argocd       secure-monitoring     Synced                    
-argoproj.io                AppProject      argocd       secure-platform       Synced                    
-argoproj.io                Application     argocd       grafana               Synced                    
-argoproj.io                ApplicationSet  argocd       platform-apps         Synced     Healthy        
-rbac.authorization.k8s.io  Role            gitops-apps  prometheus-discovery  Synced                    
-rbac.authorization.k8s.io  RoleBinding     gitops-apps  prometheus-discovery  Synced                    
+                           Namespace                    monitoring            Synced
+argoproj.io                AppProject      argocd       secure-monitoring     Synced
+argoproj.io                AppProject      argocd       secure-platform       Synced
+argoproj.io                Application     argocd       grafana               Synced
+argoproj.io                ApplicationSet  argocd       platform-apps         Synced     Healthy
+rbac.authorization.k8s.io  Role            gitops-apps  prometheus-discovery  Synced
+rbac.authorization.k8s.io  RoleBinding     gitops-apps  prometheus-discovery  Synced
 
 ===== argoproj.io/Application argocd/prometheus ======
 134a135,136
