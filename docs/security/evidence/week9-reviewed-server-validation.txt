@@ -1,0 +1,3 @@
+appproject.argoproj.io/secure-rbac created (server dry run)
+application.argoproj.io/platform-rbac created (server dry run)
+application.argoproj.io/prometheus configured (server dry run)

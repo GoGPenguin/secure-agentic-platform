@@ -137,3 +137,7 @@ Keep the existing cluster in place. For a fresh local cluster, use `infrastructu
 AppProjects restrict repositories, destinations and resource kinds. They do not replace Kubernetes RBAC, NetworkPolicy, Pod Security, image scanning or secret management. Grafana credentials remain in an operator-owned Secret outside Git. The chart's Helm test-hook Pod is skipped by Argo CD and is outside the workload AppProject allowlist.
 
 Remaining work includes durable monitoring storage, notification design, security scanning, workload isolation, hardened/reproducible bootstrap and clean-cluster recovery. Never commit credentials, kubeconfigs or state files; `.gitignore` excludes common sensitive/generated paths but cannot detect embedded secrets. Reconcile remaining Week 5 roadmap tasks before assuming the whole week is complete or starting Week 6.
+
+## Kubernetes authorization (Week 9)
+
+Namespace-scoped Developer and Security Auditor policies, CI access assessment, the authorization matrix, verification commands and deployment evidence are documented in [RBAC and isolation](docs/security/rbac.md). The policy is prepared for GitOps; Week 9 remains incomplete pending post-merge live authorization and reconciliation verification.

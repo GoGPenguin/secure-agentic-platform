@@ -1,0 +1,15 @@
+PASS static: six namespace-scoped resources, exact grants/subjects, project boundaries, 270 expectations
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.061s
+
+OK
+Prometheus configuration checksum matches: c4f50cd70f072578bc040700298c4462f5fe17b487b389a0d925c54ab4793ef0
+PASS: dashboard JSON, data source UIDs, provider and read-only mount paths
+PASS: alert provisioning, A/B expression model, timing and state handling
+PASS: 8 rendered resources fit secure-monitoring
+PASS: checksum/config = 1b5e42907c601f2388e5d3b20fd8dbf8af1aba3758e1964990ee0c2ec033ae16
+==> Linting charts/web-app
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed

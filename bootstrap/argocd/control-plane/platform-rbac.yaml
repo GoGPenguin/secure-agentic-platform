@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-rbac
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
+spec:
+  project: secure-rbac
+  source:
+    repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+    targetRevision: main
+    path: rbac
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-apps
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: false
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false
+    - FailOnSharedResource=true

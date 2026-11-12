@@ -11,8 +11,6 @@ spec:
     repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
     targetRevision: main
     path: monitoring/prometheus
-    directory:
-      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
