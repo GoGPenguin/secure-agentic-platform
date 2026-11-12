@@ -1,8 +1,8 @@
 # Secure Agentic Platform — Project Context
 
-**Last updated:** 2026-11-11
+**Last updated:** 2026-11-12
 **Roadmap:** Secure Agentic Platform — 36 Weeks
-**Current milestone:** Week 5 observability implemented through W05-B.4.5; temporary HTTP 503 injection removed
+**Current milestone:** Week 9 complete (W09-A and W09-B): namespace-scoped RBAC deployed through GitOps; 270/270 live authorization checks passed. Week 6 completion and Week 5 observability/cleanup retained.
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
 
 ## Goal and working approach
@@ -15,7 +15,7 @@ Preserve existing workloads and favor incremental, reversible changes. Do not re
 
 ## Current checkpoint and evidence boundaries
 
-The last inspected branch was clean `main` at merge commit `70d5537920f74d279c05038f7884664018b7084e` (PR #20), before this documentation update. The cleanup was committed as `30c8376`; earlier commits added the endpoint, lab packaging and inactive override support, all removed by that cleanup. Git history retains the exercise.
+The latest verified `main` revision is `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
 
 | Checkpoint | Status and evidence |
 | --- | --- |
@@ -28,12 +28,18 @@ The last inspected branch was clean `main` at merge commit `70d5537920f74d279c05
 | W05-B.4.4 | Controlled lab endpoint and separate build/container implemented; user reported successful alert verification |
 | W05-B.4.5 | Temporary endpoint/build/image configuration/tests/override support removed; production behavior and observability preserved |
 | Follow-up audit | 83 tracked files inspected; no remaining executable failure-injection components; no further cleanup edits needed |
+| W06-A | Complete — user-confirmed manual Deployment drift exercise: Argo CD detected the difference and restored Git's desired state |
+| W06-B | Complete — user-confirmed rollback drill and bootstrap README/runbook completion, including before/after evidence and recovery timing |
+| Week 6 Definition of Done | Complete — user-confirmed fresh-cluster bootstrap with two healthy apps and recovery through Git; demo recording and runbook v0.1 accepted as complete |
+| W09-A | PASS — Developer/Auditor namespace-scoped Roles and bindings deployed; CI needs no Kubernetes grants; matrix and dedicated GitOps project verified |
+| W09-B | PASS — 270 total live authorization assertions, 270 PASS / 0 FAIL; two intentionally incorrect expectations fail with exit 1; evidence recorded |
+| Week 9 Definition of Done | PASS — W09-A/W09-B complete for simulated identities; eight Applications Synced/Healthy, empty root diff, existing workloads and monitoring permissions preserved |
 
-Read-only checks after merge found `platform-root`, `platform-api`, `prometheus` and `grafana` Synced/Healthy. Frontend, backend and sandbox were also Synced/Healthy. API rollout completed with one Ready replica on the production digest below and no lab environment variables. Root initially showed a cached diff for Prometheus `directory.recurse: false`; a hard refresh cleared it without a manual sync or configuration change.
+Historical read-only checks after the Week 5 cleanup merge found `platform-root`, `platform-api`, `prometheus` and `grafana` Synced/Healthy. Frontend, backend and sandbox were also Synced/Healthy. API rollout completed with one Ready replica on the production digest below and no lab environment variables. At that historical checkpoint, a hard refresh cleared a cached Prometheus `directory.recurse: false` diff. Week 9 found a recurring normalization difference instead; see the investigation below.
 
 The actual ApplicationSet controller reported successful parameter/application generation. Its live spec had no `templatePatch`; API retained the chart source and `chart-repo` reference source. No Pod referenced a lab image. The unused local Docker tag `platform-api:lab-w05-b4-4-2a` was removed; the two other suggested lab tags did not exist. Kind node image caches were not pruned.
 
-The user confirmed the HTTP 503 alert exercise was complete. Local checks independently proved endpoint gating, 503 instrumentation and Grafana expression behavior during implementation. A timed live Normal → Pending → Alerting → Normal sequence was not independently captured by the agent. The historical Week 4 API digest rollback exercise and a full clean-cluster recovery remain unverified here.
+The user confirmed the HTTP 503 alert exercise was complete. Local checks independently proved endpoint gating, 503 instrumentation and Grafana expression behavior during implementation. A timed live Normal → Pending → Alerting → Normal sequence was not independently captured by the agent. On 2026-11-11, the user instructed that all Week 6 requirements be marked complete. Week 6 completion is recorded on that basis; the agent has not independently captured the drift/rollback timing, fresh-cluster recovery logs, recording or runbook artifact links. The historical Week 4 API digest rollback exercise also remains independently unverified. These evidence limits do not reopen the user-confirmed Week 6 milestone.
 
 ## Repository and controller architecture
 
@@ -42,6 +48,11 @@ infrastructure/kind/cluster.yml                    one control plane, two worker
 bootstrap/argocd/root.yaml                        platform-root bootstrap
 bootstrap/argocd/control-plane/                   Applications, ApplicationSet,
                                                   projects and discovery RBAC
+rbac/                                            Week 9 persona Roles / RoleBindings
+docs/security/{rbac.md,authorization-matrix.json}  policy, tests and expected operations
+docs/security/evidence/                          baseline and verified deployment evidence
+scripts/{check-rbac,test-rbac-checks,probe-rbac-failures}.py
+                                                  static/live checks and failure probes
 app-configs/{frontend,backend,sandbox,platform-api}.yaml
                                                   workload discovery metadata
 environments/*-values.yaml                        application values / API digest
@@ -65,6 +76,28 @@ docs/{monitoring,grafana}.md                      monitoring operating details
 There is no optional lab override field or template patch. Applications self-heal with pruning disabled. ApplicationSet uses `applicationsSync: create-update` and `preserveResourcesOnDeletion: true`; inspect actual finalizers before relying on deletion protection.
 
 Root also owns the Prometheus/Grafana Applications, monitoring namespace and existing discovery Role/RoleBinding. The monitoring Applications use `secure-monitoring`, which permits Deployment, Service, ServiceAccount and ConfigMap in `monitoring`, with no cluster-scoped resource allowlist. Prometheus has an existing namespaced Role allowing only get/list/watch of Pods in `gitops-apps`; Grafana has no discovery RBAC or mounted service-account token.
+
+## Week 9 closure — RBAC and authorization
+
+`platform-root` owns the `secure-rbac` AppProject and `platform-rbac` Application. The child reads `rbac/` on `main` and owns exactly three namespace-scoped Roles and three RoleBindings, tracked exclusively to that Application. The dedicated project permits only Role/RoleBinding in `gitops-apps` and `monitoring`, from this repository, with no cluster-scoped grants. Existing workload/monitoring AppProjects, ApplicationSet generation and Prometheus discovery permissions remain unchanged. Controller authority was verified through 36 non-mutating checks; its pre-existing broad ClusterRole was not expanded.
+
+| Simulated identity | gitops-apps | monitoring |
+| --- | --- | --- |
+| `w09:developer` | Read Pods/logs, Services, Deployments and ReplicaSets; get/list/watch support rollout inspection | No grants |
+| `w09:auditor` | Read workload metadata, ServiceAccounts, Roles and RoleBindings | Same metadata/RBAC reads |
+| `w09:ci` | No grants | No grants |
+
+CI builds, validates and publishes artifacts; Argo CD deploys. No CI Kubernetes credentials or RoleBinding were introduced. All personas are denied Secret access, workload/RBAC mutation, interactive Pod access, token issuance and privilege escalation; tested operations in `argocd` are denied. Names are simulated User subjects, not created human identities. The trusted local test administrator impersonates these users plus `system:authenticated`; production authentication/group mapping remains separate. No persona received impersonation or cluster-admin privileges, and no credentials or persistent tokens were created.
+
+The live suite passed **270/270 assertions, 0 FAIL, exit 0**: Developer 8 Allow / 82 Deny, Auditor 22 Allow / 68 Deny, CI 0 Allow / 90 Deny. Two deliberately inverted live expectations returned 0 PASS / 2 FAIL and exit 1, demonstrating failure sensitivity without changing policy. Static policy checks, four checker regression tests (including five privilege-mutation cases), server dry-runs, all four Helm renders/lints, monitoring validators and PR CI passed. Static validation runs in public CI without cluster credentials; live tests require explicit administrator impersonation authority and preflight.
+
+After GitOps deployment, all eight Applications were Synced/Healthy, all six Deployments had their desired replicas available, root's diff was empty, and all six new RBAC resources had the expected child tracking owner. Prometheus discovery rules/binding matched the pre-deployment snapshot. API readiness/info, Prometheus readiness and API scrape `up=1`, and Grafana database health checks passed. The selected production API digest was unchanged. Final read-only checks after the evidence merge confirmed root Synced/Healthy at `00bbe81` and all Applications healthy.
+
+The pre-existing Prometheus diff was investigated before deployment with root get/diff, completed hard refresh and controller logs. Unlike the earlier cached-diff incident, refresh did not clear it: the controller explicitly normalized the false-only `source.directory` block to null, while root restored it from Git. PR #22 removed only the redundant block from the Prometheus child and omitted it in the RBAC child, preserving default nonrecursive behavior. Root converged through automatic GitOps reconciliation; no manual apply, forced sync, ignored diff or permission broadening was used.
+
+Canonical documentation: [RBAC architecture, matrix, prerequisites, risks and rollback](security/rbac.md). Evidence: [deployment record](security/evidence/week9-delivery.json), [270 live checks](security/evidence/week9-live-deployed.txt), [health/effective rules](security/evidence/week9-deployed-health.txt), [negative probe](security/evidence/week9-negative-probe.txt), [HTTP smoke](security/evidence/week9-functional.txt), [pre-deployment review](security/evidence/week9-checkpoint-a.txt). The historical 240 PASS / 30 FAIL baseline remains for traceability and is superseded by the deployed result. Evidence is point-in-time, not a continuous health guarantee.
+
+Pruning remains disabled. To revoke grants, reconcile empty RoleBinding subjects first and verify Deny before explicitly cleaning up only Week 9 resources; deleting files alone does not revoke live access. See the documented rollback. RBAC remains additive and is not full tenant isolation: production identity lifecycle, NetworkPolicy, Pod Security/admission controls, quotas, runtime/node isolation, secret management and audit retention remain separate work. Existing broad controller authority and the root default project remain hardening items.
 
 ## Workloads and chart behavior
 
@@ -125,7 +158,7 @@ Prometheus TSDB and Grafana SQLite/application state use emptyDir. Pod replaceme
 
 ## CI, image identity and promotion
 
-CI runs monitoring validation, Helm validation and Platform API CI. API CI includes lint, unit/E2E tests, TypeScript build and production Docker build. Lab packaging, scripts and controller-isolation checks were removed; all pre-lab production checks were preserved and explicit lint was added. Monitoring CI validates Prometheus configuration/checksum; the Grafana validator remains a local check.
+CI runs RBAC static validation/checker regression tests, monitoring validation, Helm validation and Platform API CI. API CI includes lint, unit/E2E tests, TypeScript build and production Docker build. Lab packaging, scripts and controller-isolation checks were removed; all pre-lab production checks were preserved and explicit lint was added. Monitoring CI validates Prometheus configuration/checksum; the Grafana validator remains a local check.
 
 Publishing requires Helm/API validation and runs only on pushes to main. Default permissions are `contents: read`; only publishing adds `packages: write`. Checkout credentials are not persisted. SHA-pinned Docker actions publish linux/amd64 with source/revision labels and `sha-<full-commit>` tags. CI records the digest; it does not deploy or automatically promote it. A docs/GitOps-only merge can still publish a new image.
 
@@ -146,7 +179,7 @@ W05-B.4.5 checks passed: lint, 4 unit tests, 19 E2E tests, production build, fro
 
 The follow-up repository audit found no executable injection references. The API README intentionally retains a removal note. Prometheus/Grafana validators and all four Helm renders passed. Temporary files under `/tmp` are session artifacts, not durable evidence or required repository tools.
 
-Routine checks from repository root:
+Week 9 verification is recorded above; the earlier cleanup checks above remain historical regression evidence. Routine checks from repository root:
 
 ```bash
 pnpm --dir services/platform-api run lint
@@ -155,10 +188,14 @@ pnpm --dir services/platform-api run test:e2e
 pnpm --dir services/platform-api run build
 python3 scripts/validate-prometheus-config.py
 python3 scripts/validate-grafana-config.py
+python3 scripts/check-rbac.py
+python3 scripts/test-rbac-checks.py
+# With a configured cluster and authorized impersonation:
+python3 scripts/check-rbac.py --live
 helm lint charts/web-app -f environments/platform-api-values.yaml
 helm template platform-api charts/web-app -n gitops-apps -f environments/platform-api-values.yaml
 ```
 
 After reviewed merges, inspect root/API/Prometheus/Grafana separately, ApplicationSet conditions, rollout and selected image. Root health alone does not establish child query/evaluation health. Use localhost-bound port-forwards for API/Grafana/Prometheus access.
 
-Next: reconcile remaining Week 5 roadmap items with the user before starting another checkpoint. Preserve alerting and existing workload/security boundaries. Outstanding platform work includes durable monitoring storage/history, notification design, image/security scanning, network isolation, reproducible bootstrap and the planned Week 6 clean-cluster recovery exercise. AppProjects do not replace Kubernetes RBAC, NetworkPolicy, Pod Security or secret management. Frontend/sandbox and backend still use mutable tags. The kind configuration does not pin node images; observed nodes and Argo CD versions are not a reproducible installation runbook. Full recovery and the historical API digest rollback drill have not been independently validated.
+Next: Week 9 is closed. Continue with Week 10 when its scope is supplied; this context does not independently establish completion of Weeks 7–8. Week 6 remains complete per user confirmation. Preserve alerting and existing workload/security boundaries. Outstanding platform improvements include durable monitoring storage/history, notification design, image/security scanning, network isolation and further bootstrap hardening. AppProjects do not replace Kubernetes RBAC, NetworkPolicy, Pod Security or secret management. Frontend/sandbox and backend still use mutable tags. The kind configuration does not pin node images; observed nodes and Argo CD versions alone do not establish reproducibility. Week 6 recovery completion is user-confirmed, with independent evidence limits recorded above.
