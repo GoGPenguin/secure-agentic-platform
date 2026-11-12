@@ -1,0 +1,31 @@
+NAME            SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+backend         Synced        Healthy                                                    secure-platform
+frontend        Synced        Healthy                                                    secure-platform
+grafana         Synced        Healthy         cdec6072d637e95240187eb289a51db6e26ef143   secure-monitoring
+platform-api    Synced        Healthy                                                    secure-platform
+platform-root   OutOfSync     Healthy         cdec6072d637e95240187eb289a51db6e26ef143   default
+prometheus      Synced        Healthy         cdec6072d637e95240187eb289a51db6e26ef143   secure-monitoring
+sandbox         Synced        Healthy                                                    secure-platform
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+backend-web-app        1/1     1            1           3d12h
+frontend-web-app       2/2     2            2           3d12h
+platform-api-web-app   1/1     1            1           3d3h
+sandbox-web-app        1/1     1            1           3d9h
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+grafana      1/1     1            1           45h
+prometheus   1/1     1            1           47h
+NAME                                                  CREATED AT
+role.rbac.authorization.k8s.io/prometheus-discovery   2026-11-10T14:12:50Z
+
+NAME                                                         ROLE                        AGE
+rolebinding.rbac.authorization.k8s.io/prometheus-discovery   Role/prometheus-discovery   47h
+[{"lastTransitionTime":"2026-11-12T02:08:25Z","message":"All applications have been generated successfully","reason":"ApplicationSetUpToDate","status":"False","type":"ErrorOccurred"},{"lastTransitionTime":"2026-11-12T02:08:25Z","message":"All parameters have been generated successfully","reason":"ParametersGenerated","status":"True","type":"ParametersGenerated"},{"lastTransitionTime":"2026-11-12T02:08:25Z","message":"All applications have been generated successfully","reason":"ApplicationSetUpToDate","status":"True","type":"ResourcesUpToDate"}]Succeeded
+successfully synced (all tasks run)
+Namespace monitoring Synced
+AppProject secure-monitoring Synced
+AppProject secure-platform Synced
+Application grafana Synced
+Application prometheus OutOfSync
+ApplicationSet platform-apps Synced
+Role prometheus-discovery Synced
+RoleBinding prometheus-discovery Synced

@@ -1,0 +1,8 @@
+role.rbac.authorization.k8s.io/w09-auditor created (server dry run)
+rolebinding.rbac.authorization.k8s.io/w09-auditor created (server dry run)
+role.rbac.authorization.k8s.io/w09-developer created (server dry run)
+rolebinding.rbac.authorization.k8s.io/w09-developer created (server dry run)
+role.rbac.authorization.k8s.io/w09-auditor created (server dry run)
+rolebinding.rbac.authorization.k8s.io/w09-auditor created (server dry run)
+appproject.argoproj.io/secure-rbac created (server dry run)
+application.argoproj.io/platform-rbac created (server dry run)

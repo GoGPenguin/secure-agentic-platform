@@ -1,0 +1,2162 @@
+[
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "gitops-apps",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "monitoring",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "developer",
+    "namespace": "argocd",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "gitops-apps",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "monitoring",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "ci",
+    "namespace": "argocd",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "gitops-apps",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": true
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "monitoring",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "log",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "watch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "watch",
+    "resource": "replicasets.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "update",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "services",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "secrets",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "pods",
+    "subresource": "exec",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "attach",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "pods",
+    "subresource": "portforward",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "serviceaccounts",
+    "subresource": "token",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "serviceaccounts",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "list",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "get",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "create",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "update",
+    "resource": "rolebindings.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "patch",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "bind",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "escalate",
+    "resource": "roles.rbac.authorization.k8s.io",
+    "subresource": "",
+    "allow": false
+  },
+  {
+    "persona": "auditor",
+    "namespace": "argocd",
+    "verb": "impersonate",
+    "resource": "users",
+    "subresource": "",
+    "allow": false
+  }
+]

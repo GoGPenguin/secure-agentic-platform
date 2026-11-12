@@ -12,6 +12,23 @@ permissions:
   contents: read
 
 jobs:
+  rbac-validation:
+    name: RBAC Static Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Install YAML parser
+        run: |
+          python3 -m venv "$RUNNER_TEMP/rbac-venv"
+          "$RUNNER_TEMP/rbac-venv/bin/pip" install PyYAML==6.0.3
+      - name: Validate least-privilege policy and test checker failure paths
+        run: |
+          "$RUNNER_TEMP/rbac-venv/bin/python" scripts/check-rbac.py
+          "$RUNNER_TEMP/rbac-venv/bin/python" scripts/test-rbac-checks.py
+
   monitoring-validation:
     name: Monitoring Validation
     runs-on: ubuntu-latest

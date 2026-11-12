@@ -1,0 +1,54 @@
+Checkpoint A: local and baseline review, 2026-11-12 UTC+07:00
+PASS unchanged from HEAD: bootstrap/argocd/control-plane/prometheus-discovery-role.yaml
+PASS unchanged from HEAD: bootstrap/argocd/control-plane/prometheus-discovery-rolebinding.yaml
+PASS unchanged from HEAD: bootstrap/argocd/control-plane/prometheus.yaml
+PASS unchanged from HEAD: bootstrap/argocd/control-plane/grafana.yaml
+PASS unchanged from HEAD: bootstrap/argocd/control-plane/secure-monitoring.yaml
+PASS unchanged from HEAD: bootstrap/argocd/control-plane/secure-platform.yaml
+PASS unchanged from HEAD: monitoring/prometheus/serviceaccount.yaml
+PASS unchanged from HEAD: monitoring/grafana/serviceaccount.yaml
+PASS no existing w09 Role/RoleBinding or matching Application-owned resource.
+PASS platform-rbac explicitly references secure-rbac; only Role/RoleBinding in gitops-apps and monitoring permitted.
+Existing controller ServiceAccount: system:serviceaccount:argocd:argocd-application-controller.
+Existing controller ClusterRoleBinding argocd-application-controller references its existing wildcard ClusterRole. No changes made; existing controller privilege is a residual hardening risk.
+PASS existing controller authority: get roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: list roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: watch roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: create roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: update roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: patch roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: delete roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: bind roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: escalate roles.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: get rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: list rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: watch rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: create rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: update rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: patch rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: delete rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: bind rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: escalate rolebindings.rbac.authorization.k8s.io namespace=gitops-apps
+PASS existing controller authority: get roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: list roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: watch roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: create roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: update roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: patch roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: delete roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: bind roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: escalate roles.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: get rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: list rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: watch rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: create rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: update rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: patch rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: delete rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: bind rolebindings.rbac.authorization.k8s.io namespace=monitoring
+PASS existing controller authority: escalate rolebindings.rbac.authorization.k8s.io namespace=monitoring
+
+Root diff investigation: root desired Prometheus spec.source.directory.recurse=false; live directory absent. Hard refresh completed at 2026-11-12T14:10:54Z, refresh annotation cleared, diff persisted.
+{"app-namespace":"argocd","application":"prometheus","level":"info","msg":"Normalized app spec: {\"spec\":{\"source\":{\"directory\":null}}}","project":"secure-monitoring","time":"2026-11-12T14:02:21Z"}
+{"app-namespace":"argocd","application":"prometheus","level":"info","msg":"Normalized app spec: {\"spec\":{\"source\":{\"directory\":null}}}","project":"secure-monitoring","time":"2026-11-12T14:07:21Z"}
+Conclusion: recurring controller normalization, not only stale comparison cache. Remove redundant false-only directory block from Prometheus child and omit it in new RBAC child. Nonrecursive directory behavior remains the default. Previous unchanged-file checks above describe the baseline before this deliberate normalization-only correction. Prometheus RBAC, AppProject, source path/revision and workload resources remain unchanged.
