@@ -86,18 +86,39 @@ The static checker parses YAML, enforces exact read-only grants, namespace/subje
 
 The live checker performs 270 non-mutating `kubectl auth can-i` checks (30 operations × three personas × three namespaces); `pods/log`, `pods/exec`, `pods/attach`, `pods/portforward` and `serviceaccounts/token` use explicit subresources. All calls have timeouts. Exit 0 requires every assertion to match; any mismatch, preflight failure or request error exits nonzero. No resource writes, token requests or destructive actions are used to establish Deny. Kubernetes can-i checks authorization rather than exercising an actual resource request or application endpoint.
 
-## Actual results and evidence — 2026-11-12
+## Verified deployment and results — 2026-11-12
 
-- PASS — static policy checks and 270 expectation consistency checks; four checker regression tests, including five security mutation cases.
-- PASS — API server dry-run accepted all six RBAC resources and the two Argo CD integration resources. This does not prove deployed authorization.
-- FAIL — live baseline: **240 PASS, 30 FAIL**, exit 1. All 30 intended Allow checks were denied because the policy is not deployed. All 240 expected Deny checks matched, including CI, Secrets, workload mutations and escalation checks. This proves baseline denials only.
-- NOT RUN — post-deployment Allow verification and reconciliation of the new RBAC Application; resources do not yet exist in the cluster.
-- PASS — all six existing workload/monitoring Applications Synced/Healthy, all Deployment replicas available, ApplicationSet generation successful during read-only observation.
-- FAIL — full root convergence: root is OutOfSync/Healthy, with the existing Prometheus child Application marked OutOfSync in root's resource list. Root's last automatic operation Succeeded. The Prometheus Application itself reports Synced/Healthy. This discrepancy predates Week 9 edits and was not changed as part of this task.
+[PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22) merged at `d83cb4c418bf538e6ceaa156f768de82ed375d36` after all required CI checks passed. Argo CD automatically reconciled root and the new `platform-rbac` child; no manual apply or forced sync was performed. The earlier pre-deployment baseline remains available as historical evidence, not the current result.
 
-Evidence: [live baseline](evidence/week9-live-baseline.txt), [server validation](evidence/week9-server-validation.txt), [health and existing RBAC](evidence/week9-health.txt), [local validations](evidence/week9-static.txt). Observations are a point-in-time snapshot, not ongoing availability proof. No workload changes or image promotions were performed.
+| Check | Status | Observed result |
+| --- | --- | --- |
+| Static policy / matrix | PASS | Six namespaced resources, exact grants/subjects, 270 expectations |
+| Checker regression tests | PASS | Four tests, including five security mutation cases and unexpected Allow/Deny failures |
+| Server dry-run | PASS | All six RBAC resources and reviewed Argo CD integration manifests accepted |
+| PR CI | PASS | RBAC, monitoring, Helm, API and secret-scanning checks passed |
+| Live authorization | PASS | **270 total, 270 PASS, 0 FAIL**, exit 0 |
+| Developer | PASS | 90 assertions: 8 Allow, 82 Deny; application reads/logs allowed, mutations and monitoring reads denied |
+| Auditor | PASS | 90 assertions: 22 Allow, 68 Deny; metadata/RBAC reads allowed in both namespaces, mutations/logs/Secrets denied |
+| CI | PASS | 90 assertions: 0 Allow, 90 Deny; no Role or RoleBinding |
+| Live negative probe | PASS | Two intentionally false expectations yielded 0 PASS / 2 FAIL and exit 1; cluster permissions unchanged |
+| GitOps | PASS | All eight Applications Synced/Healthy, root diff empty, new child owns all six resources |
+| Existing workloads | PASS | All six Deployments have available desired replicas; production API image selection unchanged |
+| Monitoring permissions | PASS | Live Prometheus discovery Role and RoleBinding match the pre-deployment snapshot; Grafana manifests unchanged |
+| Functional smoke | PASS | API readiness/info HTTP 200; Prometheus ready and platform-api scrape `up=1`; Grafana database health OK |
 
-**Definition of Done remains incomplete.** W09-A policy, matrix, CI assessment and declarative integration are implemented and statically verified; live resource existence and new GitOps reconciliation await merge. W09-B suite, negative baseline evidence, failure handling and documentation are implemented; successful live Allow checks and healthy new reconciliation remain blocked on deployment through Git. Do not mark Week 9 complete until the full live suite passes and root/new-child reconciliation is verified.
+Evidence: [deployment health and effective rules](evidence/week9-deployed-health.txt), [all 270 live checks](evidence/week9-live-deployed.txt), [failure sensitivity](evidence/week9-negative-probe.txt), [HTTP smoke](evidence/week9-functional.txt), [merge/verification record](evidence/week9-delivery.json), [checkpoint A](evidence/week9-checkpoint-a.txt), [server validation](evidence/week9-reviewed-server-validation.txt), [local validations](evidence/week9-static.txt). Earlier [baseline authorization](evidence/week9-live-baseline.txt) and [baseline health](evidence/week9-health.txt) intentionally retain the initial failures for traceability. Observations are point-in-time evidence, not ongoing availability proof.
+
+The separately captured `kubectl auth can-i --list` outputs include default `system:authenticated` discovery/self-review rights. CI's zero Allow count refers to the 90 tested resource operations; no persona binding is created for CI.
+
+To repeat the deliberately failing live probe without changing policy:
+
+```bash
+python3 scripts/probe-rbac-failures.py
+# Expected: 0 PASS, 2 FAIL, process exit 1.
+# This inverts Developer get Pods and CI get Secrets expectations only in memory.
+```
+
+**Definition of Done: PASS — W09-A and W09-B complete for the documented simulated identities.** Developer/Auditor grants, both namespaces, CI assessment, matrix, narrow GitOps ownership, positive/negative live authorization, checker failure sensitivity, evidence, preserved workload functionality and documentation are independently verified. No cluster-scoped privileges were added. Remaining production identity and tenant-isolation work is described below and does not expand this milestone's claims.
 
 ## Security review and limitations
 

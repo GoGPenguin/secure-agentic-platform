@@ -140,4 +140,4 @@ Remaining work includes durable monitoring storage, notification design, securit
 
 ## Kubernetes authorization (Week 9)
 
-Namespace-scoped Developer and Security Auditor policies, CI access assessment, the authorization matrix, verification commands and deployment evidence are documented in [RBAC and isolation](docs/security/rbac.md). The policy is prepared for GitOps; Week 9 remains incomplete pending post-merge live authorization and reconciliation verification.
+Namespace-scoped Developer and Security Auditor policies, CI access assessment, the authorization matrix, verification commands and deployment evidence are documented in [RBAC and isolation](docs/security/rbac.md). Week 9 is deployed through GitOps: all 270 live authorization assertions passed, and root plus the RBAC Application are Synced/Healthy.
