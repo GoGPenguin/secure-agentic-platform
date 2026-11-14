@@ -73,3 +73,11 @@ for the final delivery review.
 - [week10-runtime-security.json](evidence/week10-runtime-security.json) — captured operation or state snapshot.
 - [week10-runtime-server-dry-run.json](evidence/week10-runtime-server-dry-run.json) — captured operation or state snapshot.
 - [week10-runtime-static-validation.json](evidence/week10-runtime-static-validation.json) — derived local checks / identities / comparison.
+
+## Evidence PR merge and split completion status
+
+- [week10-pr25-merge-monitor.json](evidence/week10-pr25-merge-monitor.json) — PR #25 merge, main CI, automatic Argo revision observation and read-only pre/post workload comparisons; PR #26 retained as Draft.
+
+Current project status: **Week 10 technical complete**; **production implementation
+pending migration authorization**. Earlier statements that Week 10 was not yet
+complete describe their original phase and are retained as historical evidence.

@@ -1,0 +1,2428 @@
+{
+  "result": "PASS",
+  "scope": "Evidence PR #25 merged only. PR #26 explicitly remains Draft; no production migration authorized.",
+  "github": {
+    "25": {
+      "autoMergeRequest": null,
+      "baseRefName": "main",
+      "headRefName": "docs/week10-security-evidence",
+      "headRefOid": "7d779a5d3795380a3cf640b29acc15925e43f492",
+      "isDraft": false,
+      "mergeCommit": {
+        "oid": "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+      },
+      "mergedAt": "2026-11-14T16:58:13Z",
+      "number": 25,
+      "state": "MERGED",
+      "url": "https://github.com/GoGPenguin/secure-agentic-platform/pull/25"
+    },
+    "26": {
+      "autoMergeRequest": null,
+      "baseRefName": "docs/week10-security-evidence",
+      "headRefName": "feature/week10-restricted-opt-in",
+      "headRefOid": "abc6ea6c8878c5791e313d3ceb3fead2724ef3b0",
+      "isDraft": true,
+      "mergeCommit": null,
+      "mergedAt": null,
+      "number": 26,
+      "state": "OPEN",
+      "url": "https://github.com/GoGPenguin/secure-agentic-platform/pull/26"
+    },
+    "main_ci": {
+      "conclusion": "success",
+      "headSha": "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+      "jobs": [
+        {
+          "conclusion": "success",
+          "name": "RBAC Static Validation",
+          "status": "completed",
+          "url": "https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296/job/132518699641"
+        },
+        {
+          "conclusion": "success",
+          "name": "Helm Validation",
+          "status": "completed",
+          "url": "https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296/job/132518699810"
+        },
+        {
+          "conclusion": "success",
+          "name": "Monitoring Validation",
+          "status": "completed",
+          "url": "https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296/job/132518699843"
+        },
+        {
+          "conclusion": "success",
+          "name": "Platform API CI",
+          "status": "completed",
+          "url": "https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296/job/132518699902"
+        },
+        {
+          "conclusion": "success",
+          "name": "Publish Platform API",
+          "status": "completed",
+          "url": "https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296/job/132518837135"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296"
+    }
+  },
+  "unchanged_gitops_source_trees": {
+    "charts": {
+      "before_tree": "af80d3037da269b68ef9932584665ee397ea303a",
+      "after_tree": "af80d3037da269b68ef9932584665ee397ea303a"
+    },
+    "environments": {
+      "before_tree": "57da91cd51e63f403e26a577a45d285cafd58234",
+      "after_tree": "57da91cd51e63f403e26a577a45d285cafd58234"
+    },
+    "app-configs": {
+      "before_tree": "dfe39f61e46f55dac3c6ccd1fd7e1a9e00ea36b8",
+      "after_tree": "dfe39f61e46f55dac3c6ccd1fd7e1a9e00ea36b8"
+    },
+    "bootstrap": {
+      "before_tree": "4540051f4a4300d3369b3b5c3f5c213bd6f3642b",
+      "after_tree": "4540051f4a4300d3369b3b5c3f5c213bd6f3642b"
+    },
+    "rbac": {
+      "before_tree": "02e9ad750035330d79993f4f10a3cbcb71d1e14b",
+      "after_tree": "02e9ad750035330d79993f4f10a3cbcb71d1e14b"
+    },
+    "monitoring": {
+      "before_tree": "11a8a9bb2f437295c63490c6762b94930d80abfa",
+      "after_tree": "11a8a9bb2f437295c63490c6762b94930d80abfa"
+    },
+    ".github": {
+      "before_tree": "4a1f76c920876941be244d451ca5028771b47232",
+      "after_tree": "4a1f76c920876941be244d451ca5028771b47232"
+    }
+  },
+  "pre_merge": {
+    "observed_at_utc": "2026-11-14T16:57:58.205759+00:00",
+    "context": "kind-secure-platform",
+    "version": "v1.37.0",
+    "applications": {
+      "backend": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "backend",
+                  "valueFiles": [
+                    "$chart-repo/environments/backend-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "frontend": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "frontend",
+                  "valueFiles": [
+                    "$chart-repo/environments/frontend-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "grafana": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "monitoring",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "monitoring/grafana",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "platform-api": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "platform-api",
+                  "valueFiles": [
+                    "$chart-repo/environments/platform-api-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "platform-rbac": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "rbac",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "platform-root": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "argocd",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "bootstrap/argocd/control-plane",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "prometheus": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "monitoring",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "monitoring/prometheus",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "sandbox": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "sandbox",
+                  "valueFiles": [
+                    "$chart-repo/environments/sandbox-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+            "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      }
+    },
+    "deployments": {
+      "gitops-apps/backend-web-app": {
+        "uid": "cc8692d1-dab3-44d1-9e4a-676f396a4f97",
+        "generation": 2,
+        "spec_sha256": "23112891d222b2aa16426649af51ac7f3f019e7d66f2001df94241d06a022116",
+        "template_sha256": "77006fb752ee2a760a26df4120fcdcac064bf9013af4e0f44bedab97e3506006",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "httpd:latest"
+        ]
+      },
+      "gitops-apps/frontend-web-app": {
+        "uid": "46379b26-eb14-4c90-8f8b-8c76f938e80a",
+        "generation": 4,
+        "spec_sha256": "5283ff4898d2b2e61359c850ff60109f02229e25f8c12d911708b15a157a706a",
+        "template_sha256": "05782eef448d4369c88804eb849766f2a091bc207a473b496dc45311e55b9d2d",
+        "desired": 2,
+        "available": 2,
+        "ready": 2,
+        "images": [
+          "nginx:1.16.0"
+        ]
+      },
+      "gitops-apps/platform-api-web-app": {
+        "uid": "01ca6b8b-23b5-41fa-bc98-dc822648307d",
+        "generation": 3,
+        "spec_sha256": "04cf18410e9ec2ce562cf329311b9d6eac01ee47d39f561097463f4ec98f4a4b",
+        "template_sha256": "6d868fff456ae83736163637b4e296285821deee4f550fa67f526aa86275f5a5",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421"
+        ]
+      },
+      "gitops-apps/sandbox-web-app": {
+        "uid": "86514e77-1860-4c81-b4b8-74d4c8f0a1bc",
+        "generation": 2,
+        "spec_sha256": "a31768c689d4b48a7738b99d6eabe390e8f463fad05f275f962923708326831f",
+        "template_sha256": "fe82a55cadb2638fa5d6edfc5a9a323d4d44451bddeb6eae2fa6e0813f83b46b",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "nginx:1.16.0"
+        ]
+      },
+      "monitoring/grafana": {
+        "uid": "4d854e81-66c7-4d6a-bc27-f82caa21ed2b",
+        "generation": 3,
+        "spec_sha256": "d6ec9049b8065f5db943dccc6beeb3d1832fdd630154ce3f161afd8a316be6f0",
+        "template_sha256": "c1535b9792da669af30fac122e9d3836cac3db44d64d61f6888ff8b5875f38a4",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "grafana/grafana:13.2.3@sha256:b28bae15e219c998fb0e0424ed724930cc61b1f61fb404d47c862f9a23f9e572"
+        ]
+      },
+      "monitoring/prometheus": {
+        "uid": "ec629a77-5247-4204-8914-5b37dd2147a5",
+        "generation": 2,
+        "spec_sha256": "d692a658ff5f330f2529ebd8e2650aa6f12200033ef5ef1095b13e3b3634bafa",
+        "template_sha256": "0a19b33b111d7f55bb655d722ef73312f9dcd8ab32a26d19c116e86df6013e63",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "quay.io/prometheus/prometheus:v3.13.5"
+        ]
+      },
+      "psa-restricted-test/platform-api-psa": {
+        "uid": "fc15031b-3cc7-430a-adee-d0c119aa1e8e",
+        "generation": 1,
+        "spec_sha256": "1a976550ed9a433b3eb491228ffbd344c01c7aef23e6f552ced53ac01c6f982b",
+        "template_sha256": "09d10d83d14d637b9c963b6fa720786237044bcb1d3661ac8be27fc51183a52c",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421"
+        ]
+      }
+    },
+    "pods": {
+      "gitops-apps": [
+        {
+          "name": "backend-web-app-5c9d99cc9f-5t9md",
+          "uid": "ef7580dd-0a4e-408b-bcf5-bf654c19fe78",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db-clrv8",
+          "uid": "85e31b1a-128d-4bc8-938a-8dbad9b10555",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db-hb924",
+          "uid": "e2098925-b5f3-4b77-a9fc-392a873f3915",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        },
+        {
+          "name": "platform-api-web-app-7dc48d9bc9-8dtq8",
+          "uid": "de486ea6-f96a-4579-a996-d478b86b715b",
+          "ready": true,
+          "restarts": [
+            4
+          ]
+        },
+        {
+          "name": "sandbox-web-app-6b988dddd9-8jmb4",
+          "uid": "9876888b-169b-4b1f-80e4-5959e7b56c3f",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        }
+      ],
+      "monitoring": [
+        {
+          "name": "grafana-547554b54-7s7dk",
+          "uid": "52a1b662-d359-4378-8ed8-7a791f4574e0",
+          "ready": true,
+          "restarts": [
+            3
+          ]
+        },
+        {
+          "name": "prometheus-57675c6dc7-hmf8x",
+          "uid": "6a24c444-21e4-45c5-a25d-d72639cf4b06",
+          "ready": true,
+          "restarts": [
+            4
+          ]
+        }
+      ],
+      "psa-restricted-test": [
+        {
+          "name": "platform-api-psa-69fff699d8-jqcm8",
+          "uid": "03759942-7ec9-4e05-a8a1-234a5f1320bb",
+          "ready": true,
+          "restarts": [
+            0
+          ]
+        }
+      ]
+    },
+    "replicasets": {
+      "gitops-apps": [
+        {
+          "name": "backend-web-app-5c9d99cc9f",
+          "uid": "08348d2d-25a9-4b11-b9a7-3e5aa6fd495b",
+          "spec_sha256": "8e4beb77bc16ef435a8eea469ccfb4bbb4d37c9d8a2463cf21867f8f58399bfc"
+        },
+        {
+          "name": "backend-web-app-79f5fc4484",
+          "uid": "ad83821a-b1a3-4a98-84f6-d5be80dfbada",
+          "spec_sha256": "9392b926eb43d45b7bd371099c3c57b4599247c257a00599cff1cbac09af12a1"
+        },
+        {
+          "name": "frontend-web-app-69878645cc",
+          "uid": "2ac8041d-bb09-49a6-8253-d3b6c1d4b0ea",
+          "spec_sha256": "6e0710cba2887f9707e590e1b9f4fa861b6124d9cf8ffe2d60bc12e33c83c551"
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db",
+          "uid": "768d14f8-1651-416b-a910-9a00234ca441",
+          "spec_sha256": "7fe53428850cb80d25fe537b26124c9928b802de943bcf07c269551e8aa25302"
+        },
+        {
+          "name": "platform-api-web-app-6dcf5787b9",
+          "uid": "e67cb964-d653-4815-9158-26b9131ba201",
+          "spec_sha256": "414ff527ae6438d0597385e386d105fd7285a0e4a3f86f20fbbd3dec12742cf6"
+        },
+        {
+          "name": "platform-api-web-app-7dc48d9bc9",
+          "uid": "56233b20-291f-4d52-9eaf-020588d26552",
+          "spec_sha256": "d18ef34778a340dc5b6602cd5b2eed2cee48ae37bf853f7677c5c8446e3b45f4"
+        },
+        {
+          "name": "platform-api-web-app-9d5b76fcc",
+          "uid": "cb2ed9b4-0d14-4a27-b2e7-99c1754972e0",
+          "spec_sha256": "f0cddd417d464cb6020b7219b699e8f25443676dab47bd4ee910808bd65a3c8a"
+        },
+        {
+          "name": "sandbox-web-app-6b988dddd9",
+          "uid": "ed813739-baac-43d2-8a69-3ee87cdb117b",
+          "spec_sha256": "ab339f805dd23d8852fdd0266290521daf7aa8e6a33987fa98c6bbee9c39f6c5"
+        },
+        {
+          "name": "sandbox-web-app-7888f574fd",
+          "uid": "4b04cffa-4df6-4c4d-b5e2-bef655f627fc",
+          "spec_sha256": "186584dc9c236e3cffd7deef62938153d2eff3b90b99df9c2edbf8ac54f8e691"
+        }
+      ],
+      "monitoring": [
+        {
+          "name": "grafana-547554b54",
+          "uid": "4e5d56ea-f9ac-4c11-a498-d70f55f5828c",
+          "spec_sha256": "79a271102d1970a8d2e6886abc826bd28995bae125f42ed16c5c1b9a2e96bfd9"
+        },
+        {
+          "name": "grafana-79688b9c8f",
+          "uid": "39047b67-4acc-4422-8979-3820bb2b2802",
+          "spec_sha256": "008ad8fd8b73f9516b12bb68f86e989f58cac73e962541238f76b2ce4d9ed441"
+        },
+        {
+          "name": "grafana-79965cb758",
+          "uid": "aaa2afb9-bc8f-4e7f-a836-f6ebfb8870f3",
+          "spec_sha256": "9a3184448f9fe9fee07feca97ed81ca5875e4f01e861dedd878033e7482735d8"
+        },
+        {
+          "name": "prometheus-57675c6dc7",
+          "uid": "b8f50bc7-7c57-4964-8f72-39c2ed4de6fd",
+          "spec_sha256": "d22ca95db82de336f64c5be0a9982abf8d64b1e24ed171fc9fc3bb4b5b2f034a"
+        },
+        {
+          "name": "prometheus-6768545dc8",
+          "uid": "73ba20b3-625e-4bdf-969d-33923fa4b21a",
+          "spec_sha256": "015da21c29932182a2eedf4efee70d24352d02e419eba89cfdd452dc011e4231"
+        }
+      ],
+      "psa-restricted-test": [
+        {
+          "name": "platform-api-psa-69fff699d8",
+          "uid": "aa34104c-917c-4b48-bd1e-00eddcf78028",
+          "spec_sha256": "56a8ba4d3a077a67784781e2a4ef59df0808c244bf07b484d62ded363d65fab8"
+        }
+      ]
+    },
+    "namespaces": {
+      "argocd": {
+        "uid": "36d7898c-89e0-423a-bb54-d90b04abc31a",
+        "labels": {
+          "kubernetes.io/metadata.name": "argocd"
+        }
+      },
+      "default": {
+        "uid": "cd9aaec2-0101-4a6c-8654-dcd226116d4c",
+        "labels": {
+          "kubernetes.io/metadata.name": "default"
+        }
+      },
+      "gitops-apps": {
+        "uid": "1b25b152-5c84-48f2-88f3-f877c0dc8ea4",
+        "labels": {
+          "kubernetes.io/metadata.name": "gitops-apps"
+        }
+      },
+      "kube-node-lease": {
+        "uid": "5065d621-2e51-4578-871a-2a92f5589251",
+        "labels": {
+          "kubernetes.io/metadata.name": "kube-node-lease"
+        }
+      },
+      "kube-public": {
+        "uid": "4ce76e99-a139-4809-ab6a-f8665ad33764",
+        "labels": {
+          "kubernetes.io/metadata.name": "kube-public"
+        }
+      },
+      "kube-system": {
+        "uid": "7205a6ef-bd2d-4998-ba3f-87fa1f587006",
+        "labels": {
+          "kubernetes.io/metadata.name": "kube-system"
+        }
+      },
+      "local-path-storage": {
+        "uid": "de374c5f-b957-4ab5-a4d8-4d35c0d03cf2",
+        "labels": {
+          "kubernetes.io/metadata.name": "local-path-storage"
+        }
+      },
+      "monitoring": {
+        "uid": "b5df19bd-8eab-401e-852d-2ac51aa4b499",
+        "labels": {
+          "kubernetes.io/metadata.name": "monitoring"
+        }
+      },
+      "psa-restricted-test": {
+        "uid": "c521f403-17ee-4cdf-aeee-df08457e8d05",
+        "labels": {
+          "kubernetes.io/metadata.name": "psa-restricted-test",
+          "pod-security.kubernetes.io/audit": "restricted",
+          "pod-security.kubernetes.io/audit-version": "v1.37",
+          "pod-security.kubernetes.io/enforce": "restricted",
+          "pod-security.kubernetes.io/enforce-version": "v1.37",
+          "pod-security.kubernetes.io/warn": "restricted",
+          "pod-security.kubernetes.io/warn-version": "v1.37"
+        }
+      }
+    },
+    "healthy": true
+  },
+  "post_merge": {
+    "observed_at_utc": "2026-11-14T17:05:48.379287+00:00",
+    "context": "kind-secure-platform",
+    "version": "v1.37.0",
+    "applications": {
+      "backend": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "backend",
+                  "valueFiles": [
+                    "$chart-repo/environments/backend-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "frontend": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "frontend",
+                  "valueFiles": [
+                    "$chart-repo/environments/frontend-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "grafana": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "monitoring",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "monitoring/grafana",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "platform-api": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "platform-api",
+                  "valueFiles": [
+                    "$chart-repo/environments/platform-api-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "platform-rbac": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "rbac",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "platform-root": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "argocd",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "bootstrap/argocd/control-plane",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "prometheus": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "monitoring",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "monitoring/prometheus",
+              "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      },
+      "sandbox": {
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "gitops-apps",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "repoURL": ""
+            },
+            "sources": [
+              {
+                "helm": {
+                  "releaseName": "sandbox",
+                  "valueFiles": [
+                    "$chart-repo/environments/sandbox-values.yaml"
+                  ]
+                },
+                "path": "charts/web-app",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              },
+              {
+                "ref": "chart-repo",
+                "repoURL": "https://github.com/GoGPenguin/secure-agentic-platform.git",
+                "targetRevision": "main"
+              }
+            ]
+          },
+          "revisions": [
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+            "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+          ],
+          "status": "Synced"
+        },
+        "health": "Healthy",
+        "conditions": []
+      }
+    },
+    "deployments": {
+      "gitops-apps/backend-web-app": {
+        "uid": "cc8692d1-dab3-44d1-9e4a-676f396a4f97",
+        "generation": 2,
+        "spec_sha256": "23112891d222b2aa16426649af51ac7f3f019e7d66f2001df94241d06a022116",
+        "template_sha256": "77006fb752ee2a760a26df4120fcdcac064bf9013af4e0f44bedab97e3506006",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "httpd:latest"
+        ]
+      },
+      "gitops-apps/frontend-web-app": {
+        "uid": "46379b26-eb14-4c90-8f8b-8c76f938e80a",
+        "generation": 4,
+        "spec_sha256": "5283ff4898d2b2e61359c850ff60109f02229e25f8c12d911708b15a157a706a",
+        "template_sha256": "05782eef448d4369c88804eb849766f2a091bc207a473b496dc45311e55b9d2d",
+        "desired": 2,
+        "available": 2,
+        "ready": 2,
+        "images": [
+          "nginx:1.16.0"
+        ]
+      },
+      "gitops-apps/platform-api-web-app": {
+        "uid": "01ca6b8b-23b5-41fa-bc98-dc822648307d",
+        "generation": 3,
+        "spec_sha256": "04cf18410e9ec2ce562cf329311b9d6eac01ee47d39f561097463f4ec98f4a4b",
+        "template_sha256": "6d868fff456ae83736163637b4e296285821deee4f550fa67f526aa86275f5a5",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421"
+        ]
+      },
+      "gitops-apps/sandbox-web-app": {
+        "uid": "86514e77-1860-4c81-b4b8-74d4c8f0a1bc",
+        "generation": 2,
+        "spec_sha256": "a31768c689d4b48a7738b99d6eabe390e8f463fad05f275f962923708326831f",
+        "template_sha256": "fe82a55cadb2638fa5d6edfc5a9a323d4d44451bddeb6eae2fa6e0813f83b46b",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "nginx:1.16.0"
+        ]
+      },
+      "monitoring/grafana": {
+        "uid": "4d854e81-66c7-4d6a-bc27-f82caa21ed2b",
+        "generation": 3,
+        "spec_sha256": "d6ec9049b8065f5db943dccc6beeb3d1832fdd630154ce3f161afd8a316be6f0",
+        "template_sha256": "c1535b9792da669af30fac122e9d3836cac3db44d64d61f6888ff8b5875f38a4",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "grafana/grafana:13.2.3@sha256:b28bae15e219c998fb0e0424ed724930cc61b1f61fb404d47c862f9a23f9e572"
+        ]
+      },
+      "monitoring/prometheus": {
+        "uid": "ec629a77-5247-4204-8914-5b37dd2147a5",
+        "generation": 2,
+        "spec_sha256": "d692a658ff5f330f2529ebd8e2650aa6f12200033ef5ef1095b13e3b3634bafa",
+        "template_sha256": "0a19b33b111d7f55bb655d722ef73312f9dcd8ab32a26d19c116e86df6013e63",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "quay.io/prometheus/prometheus:v3.13.5"
+        ]
+      },
+      "psa-restricted-test/platform-api-psa": {
+        "uid": "fc15031b-3cc7-430a-adee-d0c119aa1e8e",
+        "generation": 1,
+        "spec_sha256": "1a976550ed9a433b3eb491228ffbd344c01c7aef23e6f552ced53ac01c6f982b",
+        "template_sha256": "09d10d83d14d637b9c963b6fa720786237044bcb1d3661ac8be27fc51183a52c",
+        "desired": 1,
+        "available": 1,
+        "ready": 1,
+        "images": [
+          "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421"
+        ]
+      }
+    },
+    "pods": {
+      "gitops-apps": [
+        {
+          "name": "backend-web-app-5c9d99cc9f-5t9md",
+          "uid": "ef7580dd-0a4e-408b-bcf5-bf654c19fe78",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db-clrv8",
+          "uid": "85e31b1a-128d-4bc8-938a-8dbad9b10555",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db-hb924",
+          "uid": "e2098925-b5f3-4b77-a9fc-392a873f3915",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        },
+        {
+          "name": "platform-api-web-app-7dc48d9bc9-8dtq8",
+          "uid": "de486ea6-f96a-4579-a996-d478b86b715b",
+          "ready": true,
+          "restarts": [
+            4
+          ]
+        },
+        {
+          "name": "sandbox-web-app-6b988dddd9-8jmb4",
+          "uid": "9876888b-169b-4b1f-80e4-5959e7b56c3f",
+          "ready": true,
+          "restarts": [
+            5
+          ]
+        }
+      ],
+      "monitoring": [
+        {
+          "name": "grafana-547554b54-7s7dk",
+          "uid": "52a1b662-d359-4378-8ed8-7a791f4574e0",
+          "ready": true,
+          "restarts": [
+            3
+          ]
+        },
+        {
+          "name": "prometheus-57675c6dc7-hmf8x",
+          "uid": "6a24c444-21e4-45c5-a25d-d72639cf4b06",
+          "ready": true,
+          "restarts": [
+            4
+          ]
+        }
+      ],
+      "psa-restricted-test": [
+        {
+          "name": "platform-api-psa-69fff699d8-jqcm8",
+          "uid": "03759942-7ec9-4e05-a8a1-234a5f1320bb",
+          "ready": true,
+          "restarts": [
+            0
+          ]
+        }
+      ]
+    },
+    "replicasets": {
+      "gitops-apps": [
+        {
+          "name": "backend-web-app-5c9d99cc9f",
+          "uid": "08348d2d-25a9-4b11-b9a7-3e5aa6fd495b",
+          "spec_sha256": "8e4beb77bc16ef435a8eea469ccfb4bbb4d37c9d8a2463cf21867f8f58399bfc"
+        },
+        {
+          "name": "backend-web-app-79f5fc4484",
+          "uid": "ad83821a-b1a3-4a98-84f6-d5be80dfbada",
+          "spec_sha256": "9392b926eb43d45b7bd371099c3c57b4599247c257a00599cff1cbac09af12a1"
+        },
+        {
+          "name": "frontend-web-app-69878645cc",
+          "uid": "2ac8041d-bb09-49a6-8253-d3b6c1d4b0ea",
+          "spec_sha256": "6e0710cba2887f9707e590e1b9f4fa861b6124d9cf8ffe2d60bc12e33c83c551"
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db",
+          "uid": "768d14f8-1651-416b-a910-9a00234ca441",
+          "spec_sha256": "7fe53428850cb80d25fe537b26124c9928b802de943bcf07c269551e8aa25302"
+        },
+        {
+          "name": "platform-api-web-app-6dcf5787b9",
+          "uid": "e67cb964-d653-4815-9158-26b9131ba201",
+          "spec_sha256": "414ff527ae6438d0597385e386d105fd7285a0e4a3f86f20fbbd3dec12742cf6"
+        },
+        {
+          "name": "platform-api-web-app-7dc48d9bc9",
+          "uid": "56233b20-291f-4d52-9eaf-020588d26552",
+          "spec_sha256": "d18ef34778a340dc5b6602cd5b2eed2cee48ae37bf853f7677c5c8446e3b45f4"
+        },
+        {
+          "name": "platform-api-web-app-9d5b76fcc",
+          "uid": "cb2ed9b4-0d14-4a27-b2e7-99c1754972e0",
+          "spec_sha256": "f0cddd417d464cb6020b7219b699e8f25443676dab47bd4ee910808bd65a3c8a"
+        },
+        {
+          "name": "sandbox-web-app-6b988dddd9",
+          "uid": "ed813739-baac-43d2-8a69-3ee87cdb117b",
+          "spec_sha256": "ab339f805dd23d8852fdd0266290521daf7aa8e6a33987fa98c6bbee9c39f6c5"
+        },
+        {
+          "name": "sandbox-web-app-7888f574fd",
+          "uid": "4b04cffa-4df6-4c4d-b5e2-bef655f627fc",
+          "spec_sha256": "186584dc9c236e3cffd7deef62938153d2eff3b90b99df9c2edbf8ac54f8e691"
+        }
+      ],
+      "monitoring": [
+        {
+          "name": "grafana-547554b54",
+          "uid": "4e5d56ea-f9ac-4c11-a498-d70f55f5828c",
+          "spec_sha256": "79a271102d1970a8d2e6886abc826bd28995bae125f42ed16c5c1b9a2e96bfd9"
+        },
+        {
+          "name": "grafana-79688b9c8f",
+          "uid": "39047b67-4acc-4422-8979-3820bb2b2802",
+          "spec_sha256": "008ad8fd8b73f9516b12bb68f86e989f58cac73e962541238f76b2ce4d9ed441"
+        },
+        {
+          "name": "grafana-79965cb758",
+          "uid": "aaa2afb9-bc8f-4e7f-a836-f6ebfb8870f3",
+          "spec_sha256": "9a3184448f9fe9fee07feca97ed81ca5875e4f01e861dedd878033e7482735d8"
+        },
+        {
+          "name": "prometheus-57675c6dc7",
+          "uid": "b8f50bc7-7c57-4964-8f72-39c2ed4de6fd",
+          "spec_sha256": "d22ca95db82de336f64c5be0a9982abf8d64b1e24ed171fc9fc3bb4b5b2f034a"
+        },
+        {
+          "name": "prometheus-6768545dc8",
+          "uid": "73ba20b3-625e-4bdf-969d-33923fa4b21a",
+          "spec_sha256": "015da21c29932182a2eedf4efee70d24352d02e419eba89cfdd452dc011e4231"
+        }
+      ],
+      "psa-restricted-test": [
+        {
+          "name": "platform-api-psa-69fff699d8",
+          "uid": "aa34104c-917c-4b48-bd1e-00eddcf78028",
+          "spec_sha256": "56a8ba4d3a077a67784781e2a4ef59df0808c244bf07b484d62ded363d65fab8"
+        }
+      ]
+    },
+    "namespaces": {
+      "argocd": {
+        "uid": "36d7898c-89e0-423a-bb54-d90b04abc31a",
+        "labels": {
+          "kubernetes.io/metadata.name": "argocd"
+        }
+      },
+      "default": {
+        "uid": "cd9aaec2-0101-4a6c-8654-dcd226116d4c",
+        "labels": {
+          "kubernetes.io/metadata.name": "default"
+        }
+      },
+      "gitops-apps": {
+        "uid": "1b25b152-5c84-48f2-88f3-f877c0dc8ea4",
+        "labels": {
+          "kubernetes.io/metadata.name": "gitops-apps"
+        }
+      },
+      "kube-node-lease": {
+        "uid": "5065d621-2e51-4578-871a-2a92f5589251",
+        "labels": {
+          "kubernetes.io/metadata.name": "kube-node-lease"
+        }
+      },
+      "kube-public": {
+        "uid": "4ce76e99-a139-4809-ab6a-f8665ad33764",
+        "labels": {
+          "kubernetes.io/metadata.name": "kube-public"
+        }
+      },
+      "kube-system": {
+        "uid": "7205a6ef-bd2d-4998-ba3f-87fa1f587006",
+        "labels": {
+          "kubernetes.io/metadata.name": "kube-system"
+        }
+      },
+      "local-path-storage": {
+        "uid": "de374c5f-b957-4ab5-a4d8-4d35c0d03cf2",
+        "labels": {
+          "kubernetes.io/metadata.name": "local-path-storage"
+        }
+      },
+      "monitoring": {
+        "uid": "b5df19bd-8eab-401e-852d-2ac51aa4b499",
+        "labels": {
+          "kubernetes.io/metadata.name": "monitoring"
+        }
+      },
+      "psa-restricted-test": {
+        "uid": "c521f403-17ee-4cdf-aeee-df08457e8d05",
+        "labels": {
+          "kubernetes.io/metadata.name": "psa-restricted-test",
+          "pod-security.kubernetes.io/audit": "restricted",
+          "pod-security.kubernetes.io/audit-version": "v1.37",
+          "pod-security.kubernetes.io/enforce": "restricted",
+          "pod-security.kubernetes.io/enforce-version": "v1.37",
+          "pod-security.kubernetes.io/warn": "restricted",
+          "pod-security.kubernetes.io/warn-version": "v1.37"
+        }
+      }
+    },
+    "healthy": true,
+    "unchanged": {
+      "deployments": true,
+      "pods": true,
+      "replicasets": true,
+      "namespaces": true
+    }
+  },
+  "automatic_argo_observation": {
+    "expected_revision": "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+    "all_apps_observed_merge": true,
+    "observations": [
+      {
+        "observed_at_utc": "2026-11-14T17:00:04.992737+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:00:20.082997+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:00:35.180234+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:00:50.274140+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:01:05.367284+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:01:20.460589+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:01:35.550902+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:01:50.644330+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:02:05.724525+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:02:20.806829+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:02:35.897316+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:02:50.990558+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:03:06.079282+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:03:21.170466+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "626e134cc5c44b55a11a46a3abd5227f953f4a3e"
+            ],
+            "observed_merge_revision": false
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-14T17:03:36.251406+00:00",
+        "healthy": true,
+        "applications": [
+          {
+            "name": "backend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "frontend",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "grafana",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-api",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-rbac",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "platform-root",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "prometheus",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          },
+          {
+            "name": "sandbox",
+            "sync": "Synced",
+            "health": "Healthy",
+            "revisions": [
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a",
+              "060b2b08081b9356a1f4efbe2d14fb808eec633a"
+            ],
+            "observed_merge_revision": true
+          }
+        ]
+      }
+    ]
+  },
+  "cluster_write_actions": [],
+  "manual_argo_refresh_or_sync": false,
+  "lab_retained": true,
+  "interpretation": "All eight Applications naturally observed the merge revision and stayed Synced/Healthy. Six existing Deployments plus one retained lab Deployment stayed available; Pod identities/restarts, templates, ReplicaSets and namespace labels match pre-merge. CI published an artifact but no production image reference changed.",
+  "state_split": {
+    "week10_technical_status": "complete",
+    "production_implementation_status": "pending migration authorization"
+  }
+}

@@ -1,8 +1,10 @@
 # Secure Agentic Platform — Project Context
 
-**Last updated:** 2026-11-14
+**Last updated:** 2026-11-15
 **Roadmap:** Secure Agentic Platform — 36 Weeks
-**Current milestone:** Week 10 isolated security validation passed: W10-A 5/5 live PSA cases and W10-B 22/22 runtime acceptance checks. Feature-branch commits and draft PRs are authorized, with evidence and implementation separated; the full chart patch is not safe to merge under the zero-restart constraint. Week 10 is not declared complete. Week 9, Week 6 and prior observability milestones remain closed.
+**Current milestone:** Week 10 technical complete; production implementation pending migration authorization. Evidence PR #25 is merged. Implementation PR #26 remains Draft. Week 9, Week 6 and prior observability milestones remain closed.
+**Week 10 technical status:** COMPLETE — W10-A 5/5 live PSA cases and W10-B 22/22 isolated runtime acceptance checks passed; validated code and evidence are preserved in version control.
+**Production implementation status:** PENDING MIGRATION AUTHORIZATION — [PR #26](https://github.com/GoGPenguin/secure-agentic-platform/pull/26) remains Open/Draft. The zero-restart constraint remains active; no production chart synchronization or migration rollout is authorized.
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
 
 ## Goal and working approach
@@ -15,7 +17,7 @@ Preserve existing workloads and favor incremental, reversible changes. Do not re
 
 ## Current checkpoint and evidence boundaries
 
-The latest fetched `origin/main` and local HEAD are `626e134cc5c44b55a11a46a3abd5227f953f4a3e` (PR #24, Week 9 context closure), verified during the Week 10 delivery review. The authorized feature branches are `docs/week10-security-evidence` (evidence, base main) and `feature/week10-restricted-opt-in` (implementation, stacked on the evidence branch). The implementation PR must not merge into the evidence branch; retarget only after evidence delivery and a separate production migration decision. Neither PR may be merged under the current authorization. The earlier Week 9 evidence revision was `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
+The latest fetched `origin/main` is `060b2b08081b9356a1f4efbe2d14fb808eec633a`, merging the evidence-only [PR #25](https://github.com/GoGPenguin/secure-agentic-platform/pull/25) on 2026-11-14 at 16:58:13 UTC. The evidence commit is `7d779a5d3795380a3cf640b29acc15925e43f492`. Implementation commit `abc6ea6c8878c5791e313d3ceb3fead2724ef3b0` is preserved on `feature/week10-restricted-opt-in` in Draft PR #26 and is not merged. Its current base remains `docs/week10-security-evidence`; do not merge implementation into that branch. The pre-Week-10 baseline was `626e134cc5c44b55a11a46a3abd5227f953f4a3e`. The earlier Week 9 evidence revision was `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
 
 | Checkpoint | Status and evidence |
 | --- | --- |
@@ -36,7 +38,8 @@ The latest fetched `origin/main` and local HEAD are `626e134cc5c44b55a11a46a3abd
 | Week 9 Definition of Done | PASS — W09-A/W09-B complete for simulated identities; eight Applications Synced/Healthy, empty root diff, existing workloads and monitoring permissions preserved |
 | W10-A | PASS — 5/5 actual server-side Pod dry-run admission cases in psa-restricted-test against restricted:v1.37; no test fixture Pods persisted |
 | W10-B | PASS — 22/22 owner-plan acceptance checks: exact API digest, UID/GID 1000, NoNewPrivs 1, capabilities zero, Seccomp 2, probes and four HTTP endpoints; isolated lab retained |
-| Week 10 delivery gate | HOLD — local checks pass, but merging the current chart changes into auto-synced main would roll all four existing application Deployments. Production synchronization remains unauthorized |
+| Week 10 technical status | COMPLETE — isolated W10-A/W10-B acceptance passed; evidence-only PR #25 merged |
+| Production implementation | PENDING MIGRATION AUTHORIZATION — PR #26 remains Draft; merging its chart changes into auto-synced main would roll all four existing application Deployments |
 
 Historical read-only checks after the Week 5 cleanup merge found `platform-root`, `platform-api`, `prometheus` and `grafana` Synced/Healthy. Frontend, backend and sandbox were also Synced/Healthy. API rollout completed with one Ready replica on the production digest below and no lab environment variables. At that historical checkpoint, a hard refresh cleared a cached Prometheus `directory.recurse: false` diff. Week 9 found a recurring normalization difference instead; see the investigation below.
 
@@ -86,13 +89,32 @@ ApplicationSet already follows charts/web-app on main with automatic sync.
 No production image promotion, namespace enforcement, Argo sync, RBAC/AppProject
 change or production workload rollout has been authorized or performed.
 
-Recommended delivery: a separately reviewed evidence/documentation-only PR first,
-with frozen lab artifacts outside reconciled paths; keep the chart, CI and
-integration-test implementation in a separate held candidate. Do not merge both
-stages together. The current full patch can be reviewed in a feature-branch draft
-PR under the granted commit/draft-PR authorization, with a clear do-not-merge
-gate until an explicit production migration decision. Do not disable Argo, change its sources,
-pin stale Pod labels or remove security functionality to bypass the gate.
+Evidence-only delivery is now merged through PR #25: 44 documentation/evidence and
+frozen-lab-artifact files, with all reconciled source inputs unchanged. Week 10 is
+**technically complete**, independently of production adoption. The retained lab
+continues to be the validated isolated environment; no cleanup is authorized.
+
+Production implementation remains pending migration authorization in Draft PR #26,
+containing the 17 implementation files relative to its evidence base. Keep it Draft
+and do not merge it into either the evidence branch or main. A future production
+review must first retarget the PR to main, rerun CI and explicitly authorize the
+one-time four-Deployment label migration; none of those deployment permissions is
+implied by technical completion. No Argo source change, sync disablement, stale-label
+pin or security-control weakening is allowed as a workaround.
+
+The owner authorized merging PR #25 only and requested this separate context status
+update afterward. The context update is prepared on a documentation-only follow-up
+branch; it must not bring any PR #26 implementation into main. Production monitoring
+for PR #25 uses read-only observations, with no manual Argo refresh/sync.
+
+Post-merge monitoring passed: all eight Applications naturally observed merge
+revision `060b2b0` and remained Synced/Healthy. All six existing Deployments and
+the retained lab were available; pre/post Pod identities/restart counts, Deployment
+spec/template hashes, ReplicaSets and namespace labels were unchanged. The
+[main CI run](https://github.com/GoGPenguin/secure-agentic-platform/actions/runs/43618494296)
+passed, including artifact publishing without production digest promotion. No
+manual Argo refresh/sync, production mutation or lab cleanup was performed. See
+[merge monitoring evidence](security/evidence/week10-pr25-merge-monitor.json).
 
 ## Repository and controller architecture
 
@@ -251,4 +273,14 @@ helm template platform-api charts/web-app -n gitops-apps -f environments/platfor
 
 After reviewed merges, inspect root/API/Prometheus/Grafana separately, ApplicationSet conditions, rollout and selected image. Root health alone does not establish child query/evaluation health. Use localhost-bound port-forwards for API/Grafana/Prometheus access.
 
-Next: use the granted feature-commit/draft-PR authorization for the evidence-first and stacked implementation reviews. Do not merge either PR, sync production or clean up the lab. After evidence is merged under a separate authorization, the implementation PR must be retargeted to main and its CI rerun before any later migration decision. W10-A/W10-B passed in isolation, while Week 10 delivery remains pending; this context does not independently establish completion of Weeks 7–8. Week 6 remains complete per user confirmation. Preserve alerting and existing workload/security boundaries. Outstanding platform improvements include durable monitoring storage/history, notification design, image/security scanning, network isolation and further bootstrap hardening. AppProjects do not replace Kubernetes RBAC, NetworkPolicy, Pod Security or secret management. Frontend/sandbox and backend still use mutable tags. The kind configuration does not pin node images; observed nodes and Argo CD versions alone do not establish reproducibility. Week 6 recovery completion is user-confirmed, with independent evidence limits recorded above.
+Next: preserve the two separate states: **Week 10 technical complete** and
+**production implementation pending migration authorization**. Keep PR #26 Draft,
+retain the PSA lab, and do not synchronize the production chart, merge the
+implementation or perform cleanup. Review the documentation-only status follow-up
+separately. Any later retarget/CI/migration work must respect its explicit scope;
+a passing technical test or evidence merge is not production rollout authorization.
+This context does not independently establish completion of Weeks 7–8. Week 6
+remains complete per user confirmation. Preserve existing observability/security
+boundaries and the previously documented evidence limits. Remaining platform work
+includes full PSS tooling, legacy image compatibility, reproducible kind versions,
+network isolation, durable monitoring storage and further bootstrap hardening.
