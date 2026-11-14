@@ -1,0 +1,46 @@
+{
+  "started_at_utc": "2026-11-14T13:45:41.557477+00:00",
+  "context": "kind-secure-platform",
+  "operations": [
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "create",
+        "--dry-run=server",
+        "--validate=strict",
+        "-n",
+        "psa-restricted-test",
+        "-f",
+        "security/psa-test/rendered/platform-api-lab.yaml"
+      ],
+      "exit_code": 0,
+      "stdout": "serviceaccount/platform-api-psa created (server dry run)\nservice/platform-api-psa created (server dry run)\ndeployment.apps/platform-api-psa created (server dry run)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "create",
+        "--dry-run=server",
+        "--validate=strict",
+        "-n",
+        "psa-restricted-test",
+        "-f",
+        "security/psa-test/rendered/platform-api-hook.yaml"
+      ],
+      "exit_code": 0,
+      "stdout": "pod/platform-api-psa-test-connection created (server dry run)\n",
+      "stderr": ""
+    }
+  ],
+  "persistent_resources_created": false,
+  "result": "PASS",
+  "completed_at_utc": "2026-11-14T13:45:41.838886+00:00",
+  "limitations": "Deployment dry-run does not create its ServiceAccount or admit/start controller-created Pods. The hook Pod request is actual Pod admission using the existing default SA with automount disabled; the future API Pod uses the proposed distinct SA. Runtime behavior remains untested."
+}

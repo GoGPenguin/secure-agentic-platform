@@ -1,0 +1,35 @@
+# Generated lab-only artifact; not deployed. See ../platform-api-runtime.md.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: platform-api-psa-test-connection
+  labels:
+    helm.sh/chart: web-app-0.2.1
+    app.kubernetes.io/name: web-app
+    app.kubernetes.io/instance: platform-api-psa
+    app.kubernetes.io/version: 1.16.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    helm.sh/hook: test
+  namespace: psa-restricted-test
+spec:
+  securityContext:
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  automountServiceAccountToken: false
+  containers:
+  - name: wget
+    image: busybox
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+    command:
+    - wget
+    args:
+    - platform-api-psa:3000/health/ready
+  restartPolicy: Never

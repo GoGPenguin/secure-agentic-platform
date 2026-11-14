@@ -1,0 +1,53 @@
+{
+  "method": "Recompute baseline definition hash from current captured fields, varying only metadata.generation through previous 2000 values. Exact baseline hash match proves all other included fields (including spec, labels, annotations, UID, ownerReferences) identical. No cluster writes.",
+  "results": [
+    {
+      "name": "backend",
+      "current_generation": 1583,
+      "baseline_generation_reconstructed_by_exact_hash_match": 1574,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "frontend",
+      "current_generation": 1633,
+      "baseline_generation_reconstructed_by_exact_hash_match": 1625,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "grafana",
+      "current_generation": 1055,
+      "baseline_generation_reconstructed_by_exact_hash_match": 1047,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "platform-api",
+      "current_generation": 1430,
+      "baseline_generation_reconstructed_by_exact_hash_match": 1421,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "platform-rbac",
+      "current_generation": 475,
+      "baseline_generation_reconstructed_by_exact_hash_match": 467,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "platform-root",
+      "current_generation": 3985,
+      "baseline_generation_reconstructed_by_exact_hash_match": 3977,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "prometheus",
+      "current_generation": 2519,
+      "baseline_generation_reconstructed_by_exact_hash_match": 2511,
+      "all_other_captured_fields_identical": true
+    },
+    {
+      "name": "sandbox",
+      "current_generation": 1549,
+      "baseline_generation_reconstructed_by_exact_hash_match": 1541,
+      "all_other_captured_fields_identical": true
+    }
+  ]
+}

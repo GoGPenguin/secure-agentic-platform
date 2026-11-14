@@ -1,0 +1,962 @@
+{
+  "observed_at_utc": "2026-11-14T09:19:05.069628+00:00",
+  "context": "kind-secure-platform",
+  "server": "https://127.0.0.1:44663",
+  "server_version": "v1.37.0",
+  "requests": [
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "namespaces",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "argocd",
+          "uid": "36d7898c-89e0-423a-bb54-d90b04abc31a",
+          "psa_labels": {}
+        },
+        {
+          "name": "default",
+          "uid": "cd9aaec2-0101-4a6c-8654-dcd226116d4c",
+          "psa_labels": {}
+        },
+        {
+          "name": "gitops-apps",
+          "uid": "1b25b152-5c84-48f2-88f3-f877c0dc8ea4",
+          "psa_labels": {}
+        },
+        {
+          "name": "kube-node-lease",
+          "uid": "5065d621-2e51-4578-871a-2a92f5589251",
+          "psa_labels": {}
+        },
+        {
+          "name": "kube-public",
+          "uid": "4ce76e99-a139-4809-ab6a-f8665ad33764",
+          "psa_labels": {}
+        },
+        {
+          "name": "kube-system",
+          "uid": "7205a6ef-bd2d-4998-ba3f-87fa1f587006",
+          "psa_labels": {}
+        },
+        {
+          "name": "local-path-storage",
+          "uid": "de374c5f-b957-4ab5-a4d8-4d35c0d03cf2",
+          "psa_labels": {}
+        },
+        {
+          "name": "monitoring",
+          "uid": "b5df19bd-8eab-401e-852d-2ac51aa4b499",
+          "psa_labels": {}
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "namespace",
+        "psa-restricted-test",
+        "-o",
+        "json"
+      ],
+      "exit_code": 1,
+      "error": "Error from server (NotFound): namespaces \"psa-restricted-test\" not found"
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "nodes",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "secure-platform-control-plane",
+          "kubelet": "v1.37.0",
+          "ready": [
+            {
+              "lastHeartbeatTime": "2026-11-14T09:17:47Z",
+              "lastTransitionTime": "2026-11-07T08:21:38Z",
+              "message": "kubelet is posting ready status",
+              "reason": "KubeletReady",
+              "status": "True",
+              "type": "Ready"
+            }
+          ]
+        },
+        {
+          "name": "secure-platform-worker",
+          "kubelet": "v1.37.0",
+          "ready": [
+            {
+              "lastHeartbeatTime": "2026-11-14T09:18:15Z",
+              "lastTransitionTime": "2026-11-07T08:21:44Z",
+              "message": "kubelet is posting ready status",
+              "reason": "KubeletReady",
+              "status": "True",
+              "type": "Ready"
+            }
+          ]
+        },
+        {
+          "name": "secure-platform-worker2",
+          "kubelet": "v1.37.0",
+          "ready": [
+            {
+              "lastHeartbeatTime": "2026-11-14T09:15:45Z",
+              "lastTransitionTime": "2026-11-07T08:21:44Z",
+              "message": "kubelet is posting ready status",
+              "reason": "KubeletReady",
+              "status": "True",
+              "type": "Ready"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "deployments",
+        "-n",
+        "gitops-apps",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "backend-web-app",
+          "generation": 2,
+          "replicas": 1,
+          "status": {
+            "availableReplicas": 1,
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-09T01:54:52Z",
+                "lastUpdateTime": "2026-11-09T01:54:52Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+              },
+              {
+                "lastTransitionTime": "2026-11-09T01:54:51Z",
+                "lastUpdateTime": "2026-11-09T10:27:03Z",
+                "message": "ReplicaSet \"backend-web-app-5c9d99cc9f\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+              }
+            ],
+            "observedGeneration": 2,
+            "readyReplicas": 1,
+            "replicas": 1,
+            "terminatingReplicas": 0,
+            "updatedReplicas": 1
+          }
+        },
+        {
+          "name": "frontend-web-app",
+          "generation": 4,
+          "replicas": 2,
+          "status": {
+            "availableReplicas": 2,
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-09T02:03:48Z",
+                "lastUpdateTime": "2026-11-09T02:03:48Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+              },
+              {
+                "lastTransitionTime": "2026-11-09T01:44:03Z",
+                "lastUpdateTime": "2026-11-09T10:27:04Z",
+                "message": "ReplicaSet \"frontend-web-app-6d8fdf99db\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+              }
+            ],
+            "observedGeneration": 4,
+            "readyReplicas": 2,
+            "replicas": 2,
+            "terminatingReplicas": 0,
+            "updatedReplicas": 2
+          }
+        },
+        {
+          "name": "platform-api-web-app",
+          "generation": 3,
+          "replicas": 1,
+          "status": {
+            "availableReplicas": 1,
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-09T10:53:14Z",
+                "lastUpdateTime": "2026-11-09T10:53:14Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+              },
+              {
+                "lastTransitionTime": "2026-11-09T10:52:58Z",
+                "lastUpdateTime": "2026-11-10T13:25:17Z",
+                "message": "ReplicaSet \"platform-api-web-app-7dc48d9bc9\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+              }
+            ],
+            "observedGeneration": 3,
+            "readyReplicas": 1,
+            "replicas": 1,
+            "terminatingReplicas": 0,
+            "updatedReplicas": 1
+          }
+        },
+        {
+          "name": "sandbox-web-app",
+          "generation": 2,
+          "replicas": 1,
+          "status": {
+            "availableReplicas": 1,
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-09T04:12:18Z",
+                "lastUpdateTime": "2026-11-09T04:12:18Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+              },
+              {
+                "lastTransitionTime": "2026-11-09T04:12:16Z",
+                "lastUpdateTime": "2026-11-09T10:27:04Z",
+                "message": "ReplicaSet \"sandbox-web-app-6b988dddd9\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+              }
+            ],
+            "observedGeneration": 2,
+            "readyReplicas": 1,
+            "replicas": 1,
+            "terminatingReplicas": 0,
+            "updatedReplicas": 1
+          }
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "pods",
+        "-n",
+        "gitops-apps",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "backend-web-app-5c9d99cc9f-5t9md",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:34Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:34Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "web-app",
+              "ready": true,
+              "restartCount": 5,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:32Z"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db-clrv8",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:35Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:35Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "web-app",
+              "ready": true,
+              "restartCount": 5,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:31Z"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "frontend-web-app-6d8fdf99db-hb924",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "web-app",
+              "ready": true,
+              "restartCount": 5,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:31Z"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "platform-api-web-app-7dc48d9bc9-8dtq8",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-10T13:25:04Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-10T13:25:04Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "web-app",
+              "ready": true,
+              "restartCount": 4,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:31Z"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "sandbox-web-app-6b988dddd9-8jmb4",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:33Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:33Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-09T10:27:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "web-app",
+              "ready": true,
+              "restartCount": 5,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:31Z"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "deployments",
+        "-n",
+        "monitoring",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "grafana",
+          "generation": 3,
+          "replicas": 1,
+          "status": {
+            "availableReplicas": 1,
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-11T07:53:18Z",
+                "lastUpdateTime": "2026-11-11T07:53:18Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T16:41:21Z",
+                "lastUpdateTime": "2026-11-11T07:53:18Z",
+                "message": "ReplicaSet \"grafana-547554b54\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+              }
+            ],
+            "observedGeneration": 3,
+            "readyReplicas": 1,
+            "replicas": 1,
+            "terminatingReplicas": 0,
+            "updatedReplicas": 1
+          }
+        },
+        {
+          "name": "prometheus",
+          "generation": 2,
+          "replicas": 1,
+          "status": {
+            "availableReplicas": 1,
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-11-10T15:10:29Z",
+                "lastUpdateTime": "2026-11-10T15:10:29Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+              },
+              {
+                "lastTransitionTime": "2026-11-10T14:45:23Z",
+                "lastUpdateTime": "2026-11-10T15:10:29Z",
+                "message": "ReplicaSet \"prometheus-57675c6dc7\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+              }
+            ],
+            "observedGeneration": 2,
+            "readyReplicas": 1,
+            "replicas": 1,
+            "terminatingReplicas": 0,
+            "updatedReplicas": 1
+          }
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "pods",
+        "-n",
+        "monitoring",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "grafana-547554b54-7s7dk",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-11T07:53:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:42Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:42Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-11T07:53:03Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "grafana",
+              "ready": true,
+              "restartCount": 3,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:32Z"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "prometheus-57675c6dc7-hmf8x",
+          "phase": "Running",
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-10T15:10:23Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:35Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-14T08:04:35Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-10T15:10:23Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containers": [
+            {
+              "name": "prometheus",
+              "ready": true,
+              "restartCount": 4,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-14T08:04:32Z"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "applications.argoproj.io",
+        "-n",
+        "argocd",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "backend",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-09T01:54:52Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "frontend",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-09T10:27:04Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "grafana",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-11T07:53:18Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "platform-api",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-10T13:25:17Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "platform-rbac",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-12T14:19:42Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "platform-root",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-13T02:13:44Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "prometheus",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-10T15:10:29Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        },
+        {
+          "name": "sandbox",
+          "sync": "Synced",
+          "health": {
+            "lastTransitionTime": "2026-11-09T10:27:05Z",
+            "status": "Healthy"
+          },
+          "conditions": [],
+          "operation": "Succeeded"
+        }
+      ]
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "api-resources",
+        "--api-group=admissionregistration.k8s.io",
+        "-o",
+        "name"
+      ],
+      "exit_code": 0,
+      "result": "mutatingadmissionpolicies.admissionregistration.k8s.io\nmutatingadmissionpolicybindings.admissionregistration.k8s.io\nmutatingwebhookconfigurations.admissionregistration.k8s.io\nvalidatingadmissionpolicies.admissionregistration.k8s.io\nvalidatingadmissionpolicybindings.admissionregistration.k8s.io\nvalidatingwebhookconfigurations.admissionregistration.k8s.io"
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "validatingadmissionpolicies",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "validatingadmissionpolicybindings",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "mutatingadmissionpolicies",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "mutatingadmissionpolicybindings",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "validatingwebhookconfigurations",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "mutatingwebhookconfigurations",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "customresourcedefinitions",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": []
+    },
+    {
+      "command": [
+        "kubectl",
+        "--request-timeout=10s",
+        "get",
+        "pods",
+        "-n",
+        "kube-system",
+        "-l",
+        "component=kube-apiserver",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0,
+      "result": [
+        {
+          "name": "kube-apiserver-secure-platform-control-plane",
+          "admission_flags": [
+            "--enable-admission-plugins=NodeRestriction",
+            "--runtime-config="
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": "GET/LIST discovery only. No admission requests, no refresh/sync actions, no configuration file reads; namespace labels do not establish admission defaults or exemptions."
+}

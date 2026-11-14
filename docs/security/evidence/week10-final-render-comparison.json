@@ -1,0 +1,192 @@
+{
+  "baseline_commit": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+  "baseline_chart": "0.2.0",
+  "final_chart": "0.2.1",
+  "profiles": [
+    {
+      "application": "frontend",
+      "original_to_final_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "phase1_to_final_differences": [
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.1",
+          "after": "<absent>"
+        }
+      ],
+      "pod_template_original_to_final_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_equal": true,
+      "selector_equal": true
+    },
+    {
+      "application": "backend",
+      "original_to_final_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "phase1_to_final_differences": [
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.1",
+          "after": "<absent>"
+        }
+      ],
+      "pod_template_original_to_final_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_equal": true,
+      "selector_equal": true
+    },
+    {
+      "application": "sandbox",
+      "original_to_final_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "phase1_to_final_differences": [
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.1",
+          "after": "<absent>"
+        }
+      ],
+      "pod_template_original_to_final_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_equal": true,
+      "selector_equal": true
+    },
+    {
+      "application": "platform-api",
+      "original_to_final_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "phase1_to_final_differences": [
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.1",
+          "after": "<absent>"
+        }
+      ],
+      "pod_template_original_to_final_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_equal": true,
+      "selector_equal": true
+    }
+  ],
+  "note": "Removing the chart label is one Pod-template migration change. Later chart-version-only changes no longer alter the template; tested with synthetic 0.2.2."
+}

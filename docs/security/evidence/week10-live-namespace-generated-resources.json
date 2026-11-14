@@ -1,0 +1,31 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "kind-secure-platform",
+    "--request-timeout=10s",
+    "get",
+    "serviceaccounts,configmaps",
+    "-n",
+    "psa-restricted-test",
+    "-o",
+    "json"
+  ],
+  "exit_code": 0,
+  "resources": [
+    {
+      "kind": "ServiceAccount",
+      "name": "default",
+      "uid": "59da0343-1c04-4b67-bd5d-588e95dc4eaf",
+      "creationTimestamp": "2026-11-14T13:40:52Z",
+      "managers": []
+    },
+    {
+      "kind": "ConfigMap",
+      "name": "kube-root-ca.crt",
+      "uid": "2474dcd6-decd-4fe1-9fa7-9b385dbd45f1",
+      "creationTimestamp": "2026-11-14T13:40:52Z",
+      "managers": []
+    }
+  ]
+}

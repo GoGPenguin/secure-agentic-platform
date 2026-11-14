@@ -1,8 +1,8 @@
 # Secure Agentic Platform — Project Context
 
-**Last updated:** 2026-11-12
+**Last updated:** 2026-11-14
 **Roadmap:** Secure Agentic Platform — 36 Weeks
-**Current milestone:** Week 9 complete (W09-A and W09-B): namespace-scoped RBAC deployed through GitOps; 270/270 live authorization checks passed. Week 6 completion and Week 5 observability/cleanup retained.
+**Current milestone:** Week 10 isolated security validation passed: W10-A 5/5 live PSA cases and W10-B 22/22 runtime acceptance checks. Feature-branch commits and draft PRs are authorized, with evidence and implementation separated; the full chart patch is not safe to merge under the zero-restart constraint. Week 10 is not declared complete. Week 9, Week 6 and prior observability milestones remain closed.
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
 
 ## Goal and working approach
@@ -15,7 +15,7 @@ Preserve existing workloads and favor incremental, reversible changes. Do not re
 
 ## Current checkpoint and evidence boundaries
 
-The latest verified `main` revision is `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
+The latest fetched `origin/main` and local HEAD are `626e134cc5c44b55a11a46a3abd5227f953f4a3e` (PR #24, Week 9 context closure), verified during the Week 10 delivery review. The authorized feature branches are `docs/week10-security-evidence` (evidence, base main) and `feature/week10-restricted-opt-in` (implementation, stacked on the evidence branch). The implementation PR must not merge into the evidence branch; retarget only after evidence delivery and a separate production migration decision. Neither PR may be merged under the current authorization. The earlier Week 9 evidence revision was `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
 
 | Checkpoint | Status and evidence |
 | --- | --- |
@@ -34,12 +34,65 @@ The latest verified `main` revision is `00bbe81`, merging Week 9 evidence in [PR
 | W09-A | PASS — Developer/Auditor namespace-scoped Roles and bindings deployed; CI needs no Kubernetes grants; matrix and dedicated GitOps project verified |
 | W09-B | PASS — 270 total live authorization assertions, 270 PASS / 0 FAIL; two intentionally incorrect expectations fail with exit 1; evidence recorded |
 | Week 9 Definition of Done | PASS — W09-A/W09-B complete for simulated identities; eight Applications Synced/Healthy, empty root diff, existing workloads and monitoring permissions preserved |
+| W10-A | PASS — 5/5 actual server-side Pod dry-run admission cases in psa-restricted-test against restricted:v1.37; no test fixture Pods persisted |
+| W10-B | PASS — 22/22 owner-plan acceptance checks: exact API digest, UID/GID 1000, NoNewPrivs 1, capabilities zero, Seccomp 2, probes and four HTTP endpoints; isolated lab retained |
+| Week 10 delivery gate | HOLD — local checks pass, but merging the current chart changes into auto-synced main would roll all four existing application Deployments. Production synchronization remains unauthorized |
 
 Historical read-only checks after the Week 5 cleanup merge found `platform-root`, `platform-api`, `prometheus` and `grafana` Synced/Healthy. Frontend, backend and sandbox were also Synced/Healthy. API rollout completed with one Ready replica on the production digest below and no lab environment variables. At that historical checkpoint, a hard refresh cleared a cached Prometheus `directory.recurse: false` diff. Week 9 found a recurring normalization difference instead; see the investigation below.
 
 The actual ApplicationSet controller reported successful parameter/application generation. Its live spec had no `templatePatch`; API retained the chart source and `chart-repo` reference source. No Pod referenced a lab image. The unused local Docker tag `platform-api:lab-w05-b4-4-2a` was removed; the two other suggested lab tags did not exist. Kind node image caches were not pruned.
 
 The user confirmed the HTTP 503 alert exercise was complete. Local checks independently proved endpoint gating, 503 instrumentation and Grafana expression behavior during implementation. A timed live Normal → Pending → Alerting → Normal sequence was not independently captured by the agent. On 2026-11-11, the user instructed that all Week 6 requirements be marked complete. Week 6 completion is recorded on that basis; the agent has not independently captured the drift/rollback timing, fresh-cluster recovery logs, recording or runbook artifact links. The historical Week 4 API digest rollback exercise also remains independently unverified. These evidence limits do not reopen the user-confirmed Week 6 milestone.
+
+## Week 10 current state and delivery boundary
+
+Evidence is independently captured command/runtime output, not just user-reported
+success: [complete evidence index](security/week10-evidence-index.md),
+[W10-A results](security/evidence/week10-live-summary.md),
+[W10-B acceptance matrix](security/evidence/week10-phase2b-acceptance.json),
+[runtime report](security/evidence/week10-phase2b-runtime-summary.md), and
+[final delivery review](security/week10-delivery-review.md). These are point-in-time
+observations, not a current continuous-health guarantee. No new cluster operations
+were performed during final delivery review; the retained lab was not stopped.
+
+The authorized lab uses context `kind-secure-platform`, Kubernetes v1.37.0 and
+namespace `psa-restricted-test` with enforce/warn/audit restricted:v1.37. It retains
+ServiceAccount/platform-api-psa, Service/platform-api-psa and
+Deployment/platform-api-psa, plus the controller-created ReplicaSet and one Pod.
+The Helm test hook was not created. No automatic cleanup is authorized.
+
+The running API imageID matched the production digest recorded below. PID 1's
+UID/GID were 1000; NoNewPrivs was 1; CapEff/CapPrm/CapBnd/CapInh/CapAmb were zero;
+Seccomp was 2 with one filter. Token automount was disabled and no token file was
+present. All four endpoints returned HTTP 200 via a localhost-only port-forward;
+the forward was stopped afterward. Kubelet metrics recorded 127 liveness and 258
+readiness successes, with zero container restarts and no warning events.
+
+Before/after snapshots preserved all eight Application health states, six existing
+Deployment specs/templates/generations, production Pod identities/restart counts,
+ReplicaSets, namespace labels and production digest. RBAC, monitoring and AppProject
+hashes matched. Application raw hashes differed only in metadata.generation;
+[the separate exact-hash analysis](security/evidence/week10-phase2b-argo-generation-only.md)
+proves their other captured fields unchanged. The writer cause was not audited.
+Initial local recording/HTTP assertion errors are retained and explained; they did
+not require application changes or weaker security controls.
+
+The pending chart candidate is 0.2.1, appVersion unchanged at 1.16.0. It adds opt-in
+Pod/container contexts, schema checks and hook hardening; existing production values
+remain unchanged. It removes helm.sh/chart from Deployment Pod templates to prevent
+future chart-version-only restarts. **The first removal itself changes all four
+existing Pod templates and causes a migration rollout on merge**, because the
+ApplicationSet already follows charts/web-app on main with automatic sync.
+No production image promotion, namespace enforcement, Argo sync, RBAC/AppProject
+change or production workload rollout has been authorized or performed.
+
+Recommended delivery: a separately reviewed evidence/documentation-only PR first,
+with frozen lab artifacts outside reconciled paths; keep the chart, CI and
+integration-test implementation in a separate held candidate. Do not merge both
+stages together. The current full patch can be reviewed in a feature-branch draft
+PR under the granted commit/draft-PR authorization, with a clear do-not-merge
+gate until an explicit production migration decision. Do not disable Argo, change its sources,
+pin stale Pod labels or remove security functionality to bypass the gate.
 
 ## Repository and controller architecture
 
@@ -110,9 +163,9 @@ Pruning remains disabled. To revoke grants, reconcile empty RoleBinding subjects
 
 Frontend/backend/sandbox remain active sample GitOps workloads. Their presence does not imply authorization to retire them. Kind is the platform's local topology, not leftover injection infrastructure. Helm connection-test hooks and E2E mock controllers remain verification tools; E2E fixtures are excluded from production compilation and the Docker context.
 
-Chart version is `0.2.0`, with `appVersion: 1.16.0` independent of API version. Nonempty `image.digest` wins over tag; an empty digest uses the tag or chart appVersion fallback. The schema validates SHA-256 digest format. Explicit `container.port` overrides `service.port`; Services/probes use named port `http`.
+The delivered/main chart version is `0.2.0` (pending Week 10 candidate: `0.2.1`), with `appVersion: 1.16.0` independent of API version. Nonempty `image.digest` wins over tag; an empty digest uses the tag or chart appVersion fallback. The schema validates SHA-256 digest format. Explicit `container.port` overrides `service.port`; Services/probes use named port `http`.
 
-Generic `env: {}` support remains: empty maps emit no env block and values must be strings. No failure-injection values remain. The Helm connection-test Pod is skipped by Argo CD and is outside the workload project's allowlist. The chart does not expose Pod/container securityContext or imagePullSecrets configuration.
+Generic `env: {}` support remains: empty maps emit no env block and values must be strings. No failure-injection values remain. The Helm connection-test Pod is skipped by Argo CD and is outside the workload project's allowlist. The main 0.2.0 chart does not expose Pod/container securityContext or imagePullSecrets configuration. The pending Week 10 candidate adds optional contexts, but is not yet delivered to main or production.
 
 ## Platform API and instrumentation
 
@@ -198,4 +251,4 @@ helm template platform-api charts/web-app -n gitops-apps -f environments/platfor
 
 After reviewed merges, inspect root/API/Prometheus/Grafana separately, ApplicationSet conditions, rollout and selected image. Root health alone does not establish child query/evaluation health. Use localhost-bound port-forwards for API/Grafana/Prometheus access.
 
-Next: Week 9 is closed. Continue with Week 10 when its scope is supplied; this context does not independently establish completion of Weeks 7–8. Week 6 remains complete per user confirmation. Preserve alerting and existing workload/security boundaries. Outstanding platform improvements include durable monitoring storage/history, notification design, image/security scanning, network isolation and further bootstrap hardening. AppProjects do not replace Kubernetes RBAC, NetworkPolicy, Pod Security or secret management. Frontend/sandbox and backend still use mutable tags. The kind configuration does not pin node images; observed nodes and Argo CD versions alone do not establish reproducibility. Week 6 recovery completion is user-confirmed, with independent evidence limits recorded above.
+Next: use the granted feature-commit/draft-PR authorization for the evidence-first and stacked implementation reviews. Do not merge either PR, sync production or clean up the lab. After evidence is merged under a separate authorization, the implementation PR must be retargeted to main and its CI rerun before any later migration decision. W10-A/W10-B passed in isolation, while Week 10 delivery remains pending; this context does not independently establish completion of Weeks 7–8. Week 6 remains complete per user confirmation. Preserve alerting and existing workload/security boundaries. Outstanding platform improvements include durable monitoring storage/history, notification design, image/security scanning, network isolation and further bootstrap hardening. AppProjects do not replace Kubernetes RBAC, NetworkPolicy, Pod Security or secret management. Frontend/sandbox and backend still use mutable tags. The kind configuration does not pin node images; observed nodes and Argo CD versions alone do not establish reproducibility. Week 6 recovery completion is user-confirmed, with independent evidence limits recorded above.

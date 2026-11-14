@@ -1,0 +1,66 @@
+{
+  "provenance": "Local consistency review of independently captured prior-phase evidence; no cluster operations or live tests performed in delivery review. Not an external attestation.",
+  "checks": [
+    {
+      "check": "Historical JSON evidence parses",
+      "result": "PASS",
+      "detail": "All Week 10 JSON files parsed; no historical result was replaced or rerun"
+    },
+    {
+      "check": "W10-A admission outcomes",
+      "result": "PASS",
+      "detail": "1 accepted compliant Pod and 4 expected PSA denials; exact stdout retained"
+    },
+    {
+      "check": "W10-A captured runner/fixtures match current sources",
+      "result": "PASS",
+      "detail": "Live runner and fixture identities unchanged by final review"
+    },
+    {
+      "check": "W10-B recorded acceptance matrix",
+      "result": "PASS",
+      "detail": "All 22 owner-plan criteria recorded; no independent roadmap checklist claimed"
+    },
+    {
+      "check": "Runtime UID/GID and kernel state",
+      "result": "PASS",
+      "detail": "Independently captured /proc/1/status; not inferred only from manifest"
+    },
+    {
+      "check": "Exact runtime image and no token",
+      "result": "PASS",
+      "detail": "Runtime imageID matches registry digest; no token contents read"
+    },
+    {
+      "check": "HTTP content and locality",
+      "result": "PASS",
+      "detail": "Full responses retained; readiness ready contract distinguished from liveness ok"
+    },
+    {
+      "check": "Kubelet probes/events/restarts",
+      "result": "PASS",
+      "detail": "Actual kubelet samples retained, not just configured probe paths"
+    },
+    {
+      "check": "Production pre/post state",
+      "result": "PASS",
+      "detail": "Application health, Deployment definitions, Pods, ReplicaSets and namespace labels identical"
+    },
+    {
+      "check": "Generation-only exception transparently documented",
+      "result": "PASS",
+      "detail": "Raw hash mismatch preserved; exact reconstruction identifies only metadata.generation. Writer cause remains unverified"
+    },
+    {
+      "check": "Reviewed frozen manifest hashes",
+      "result": "PASS",
+      "detail": "Approved applied artifacts unchanged, including original pre-deployment comments"
+    },
+    {
+      "check": "Targeted credential scan",
+      "result": "PASS",
+      "detail": "No matching private keys/GitHub tokens/AWS access IDs/Bearer tokens; heuristic, not a guarantee against arbitrary secrets"
+    }
+  ],
+  "result": "PASS"
+}

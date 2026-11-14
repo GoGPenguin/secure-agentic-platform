@@ -1,0 +1,39 @@
+{
+  "started_at_utc": "2026-11-14T14:11:13.764440+00:00",
+  "port_forward_command": [
+    "kubectl",
+    "--context",
+    "kind-secure-platform",
+    "--request-timeout=10s",
+    "-n",
+    "psa-restricted-test",
+    "port-forward",
+    "--address",
+    "127.0.0.1",
+    "service/platform-api-psa",
+    "13000:3000"
+  ],
+  "responses": [
+    {
+      "path": "/health/live",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "body": "{\"status\":\"ok\"}"
+    },
+    {
+      "path": "/health/ready",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "body": "{\"status\":\"ready\"}"
+    }
+  ],
+  "port_forward_output": [
+    "Forwarding from 127.0.0.1:13000 -> 3000",
+    "Handling connection for 13000",
+    "Handling connection for 13000"
+  ],
+  "result": "FAIL",
+  "error": "AssertionError('{\"status\":\"ready\"}')",
+  "port_forward_stopped": true,
+  "completed_at_utc": "2026-11-14T14:11:13.863914+00:00"
+}
