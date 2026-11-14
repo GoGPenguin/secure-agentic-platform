@@ -1,0 +1,20 @@
+# Overlay AFTER platform-api-values.yaml. No production values are changed.
+# UID/GID verified using id in the exact API digest on 2026-11-14.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+
+serviceAccount:
+  automount: false
+
+# The Helm test uses the default SA, independently of the Deployment SA.
+connectionTest:
+  automountServiceAccountToken: false

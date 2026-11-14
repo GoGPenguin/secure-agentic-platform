@@ -1,0 +1,13 @@
+# Operator-managed lab only; outside Argo CD sources. Not applied in Phase 1.
+# Server version verified: v1.37.0 on 2026-11-14; recheck before deployment.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: psa-restricted-test
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: v1.37
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: v1.37
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: v1.37

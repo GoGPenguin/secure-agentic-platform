@@ -90,6 +90,20 @@ jobs:
           helm lint charts/web-app -f environments/platform-api-values.yaml
           helm template platform-api charts/web-app -f environments/platform-api-values.yaml
 
+      - name: Install YAML parser for security validation
+        run: |
+          python3 -m venv "$RUNNER_TEMP/pod-security-venv"
+          "$RUNNER_TEMP/pod-security-venv/bin/pip" install PyYAML==6.0.3
+
+      - name: Validate opt-in security controls and negative fixtures
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/pod-security-venv/bin/python" -B scripts/test-pod-security.py
+          helm template platform-api charts/web-app -n psa-restricted-test \
+            -f environments/platform-api-values.yaml \
+            -f environments/platform-api-restricted-values.yaml \
+            | "$RUNNER_TEMP/pod-security-venv/bin/python" -B scripts/check-pod-security.py
+
   platform-api-ci:
     name: Platform API CI
     runs-on: ubuntu-latest

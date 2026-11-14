@@ -1,0 +1,8 @@
+# Final lab-only overlay, after the production API values and Restricted overlay.
+# No production values are modified. Release name must be platform-api-psa.
+replicaCount: 1
+fullnameOverride: platform-api-psa
+serviceAccount:
+  create: true
+  name: platform-api-psa
+  automount: false

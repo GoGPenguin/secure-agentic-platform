@@ -118,3 +118,7 @@ autoscaling:
 # HTTP path used by the Helm connection test.
 connectionTest:
   path: /
+
+# Opt-in: empty contexts preserve existing workload behavior.
+podSecurityContext: {}
+securityContext: {}
