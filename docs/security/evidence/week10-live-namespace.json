@@ -1,0 +1,79 @@
+{
+  "started_at_utc": "2026-11-14T13:40:52.682696+00:00",
+  "context": "kind-secure-platform",
+  "manifest": "security/psa-test/namespace.yaml",
+  "manifest_sha256": "12915078775cecb688f209e4457fb5afc83db6f5f6f418a4494c1d99867bb829",
+  "operations": [
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "create",
+        "-f",
+        "security/psa-test/namespace.yaml",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "namespace",
+        "psa-restricted-test",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "namespaces",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "created_namespace": {
+    "name": "psa-restricted-test",
+    "uid": "c521f403-17ee-4cdf-aeee-df08457e8d05",
+    "creationTimestamp": "2026-11-14T13:40:52Z",
+    "labels": {
+      "kubernetes.io/metadata.name": "psa-restricted-test",
+      "pod-security.kubernetes.io/audit": "restricted",
+      "pod-security.kubernetes.io/audit-version": "v1.37",
+      "pod-security.kubernetes.io/enforce": "restricted",
+      "pod-security.kubernetes.io/enforce-version": "v1.37",
+      "pod-security.kubernetes.io/warn": "restricted",
+      "pod-security.kubernetes.io/warn-version": "v1.37"
+    }
+  },
+  "verified_namespace": {
+    "name": "psa-restricted-test",
+    "uid": "c521f403-17ee-4cdf-aeee-df08457e8d05",
+    "labels": {
+      "kubernetes.io/metadata.name": "psa-restricted-test",
+      "pod-security.kubernetes.io/audit": "restricted",
+      "pod-security.kubernetes.io/audit-version": "v1.37",
+      "pod-security.kubernetes.io/enforce": "restricted",
+      "pod-security.kubernetes.io/enforce-version": "v1.37",
+      "pod-security.kubernetes.io/warn": "restricted",
+      "pod-security.kubernetes.io/warn-version": "v1.37"
+    }
+  },
+  "existing_namespaces_unchanged": true,
+  "result": "PASS",
+  "completed_at_utc": "2026-11-14T13:40:52.924339+00:00"
+}

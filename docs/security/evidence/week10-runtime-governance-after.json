@@ -1,0 +1,1381 @@
+{
+  "phase": "after",
+  "observed_at_utc": "2026-11-14T14:15:46.918587+00:00",
+  "resource_hashes": [
+    {
+      "kind": "AppProject",
+      "namespace": "argocd",
+      "name": "default",
+      "sha256": "79a3a1e3b4c143f4310909c84ab5190bd71e1f443cfb02c1b882dd89ab93490f"
+    },
+    {
+      "kind": "AppProject",
+      "namespace": "argocd",
+      "name": "secure-monitoring",
+      "sha256": "f4dc6fb1c0eaef7844ce8eda21174e7530b996e4efed51a4521cd5e27cba0474"
+    },
+    {
+      "kind": "AppProject",
+      "namespace": "argocd",
+      "name": "secure-platform",
+      "sha256": "b14c739de1655c8df44b137bee14e76a4611954ca7c0b8e702c384987109238f"
+    },
+    {
+      "kind": "AppProject",
+      "namespace": "argocd",
+      "name": "secure-rbac",
+      "sha256": "fc80d9313f85f8da4863eee933006b04fa92e14259d2a7b919fb5b2873798b64"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "backend",
+      "sha256": "4582de659f054699294dfe93a478ec6862c4b3e58a8bfa9f4564e5028e2a3f92"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "frontend",
+      "sha256": "ea2f146daed40f4b52a1df31f058e8b2377b14666026d5169dfcc401733b7378"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "grafana",
+      "sha256": "3fb0426ff27291f1054a035fa630e21e579f9d0c57c0bede78452848a557d1c4"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "platform-api",
+      "sha256": "b80122f552e49e1ddceacd7a9b1c8ded46b3abe59d15713bed4a0efad4ad8ef3"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "platform-rbac",
+      "sha256": "02e7f5a37a812a0dcb95eff233ba90cf2dbf20c71a57e91444a7c308fbe1ae82"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "platform-root",
+      "sha256": "2b6f088c539c9cd66ab70055273f0520ddbd47e6e7932851507786d9048b3ed5"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "prometheus",
+      "sha256": "95bc43e4b85e87cbbd66603d73dbb704f4f9d0a17f9ebe39a7e3eb26437a26ab"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "sandbox",
+      "sha256": "352ac9e47afb10a3ce56eb946522b22946d9a2357a73fe0afe516d26a609168e"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "admin",
+      "sha256": "aa7e180b48e751f9106ba8ecbc4e7c297202bc101f0d4ec02a3120a7748506e2"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "argocd-application-controller",
+      "sha256": "9efd5bd2ad0baf6d9c8f02cd3f91d152cca05f414984866f01aea779a0b47fd1"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "argocd-applicationset-controller",
+      "sha256": "c76786da1544baf1e347be38c97b07b06a3929e3581431996d6c4caac1462733"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "argocd-server",
+      "sha256": "4b1afb9f7b9b5d07359199260d5bcacd7b631e93c8b9fac75aafd09bbcd82930"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "cluster-admin",
+      "sha256": "4e7fdb8c730a9b2bc025042dee693476cf3950bd8df7ea0f2773fc988abca822"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "edit",
+      "sha256": "02a828e4d96ba2f5dcd364e2ab56adf03cd5f07b14fc2ec451b3426083e28da8"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "kindnet",
+      "sha256": "e36e728e94ec3d057304af8db12b6aff817c7492d799c308b211821c1c88b987"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "kubeadm:get-nodes",
+      "sha256": "3426670b72016f2ec9dcc06a4ca0db394ccb8edf9c761f605e8d3fb4cb4c4732"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "local-path-provisioner-role",
+      "sha256": "0e0284a1bbf526f72da1a79cad4b389774145a4b45e8a2f55c2c01a507e7a771"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:aggregate-to-admin",
+      "sha256": "0e03291ab82fefb3740560d1e1e72722583d7aeb488cd20da45f81bcc2b1a31a"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:aggregate-to-edit",
+      "sha256": "0eee6095c08879f8e3a6002ee9035b68e41d31c225597ac66e3bc808b8cc98d6"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:aggregate-to-view",
+      "sha256": "30579cce8303bbf06e0dfd46d34ed8cd21114688b8efc198837b147ae2da1b54"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:auth-delegator",
+      "sha256": "2043de0190b909d2045ad932fb27647855e2fa13320bd8b534643c1cf0e0f0fe"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:basic-user",
+      "sha256": "c531e377c16d45a2874a8a4a7100962855acb4997ca006b24907c688230a7311"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:certificates.k8s.io:certificatesigningrequests:nodeclient",
+      "sha256": "902691bff4b36fc308eb66f94b7387d513bea29b09695d5791ad1fd1208a6bc8"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:certificates.k8s.io:certificatesigningrequests:selfnodeclient",
+      "sha256": "551b1394820442e0400c7bfc5c8fa1d1d44299da6636f2c1ecf4f74a98578f6a"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:certificates.k8s.io:kube-apiserver-client-approver",
+      "sha256": "9e4eec3313f781bee5cc5a73e412824dc366dba724e59d216073196e706f57ef"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:certificates.k8s.io:kube-apiserver-client-kubelet-approver",
+      "sha256": "76811e3bd901dca2117979c649d5d16d0b015dd0e57ffbe517713077b0eff7b5"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:certificates.k8s.io:kubelet-serving-approver",
+      "sha256": "608babc8970935ef25f030ba04a06b90b2a0379c4fe9710d4d6695e83f6ab396"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:certificates.k8s.io:legacy-unknown-approver",
+      "sha256": "9e7bd7f3f414132bbc567039206fefeb410636f4ee409e687cd3039810fcdee4"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:cluster-trust-bundle-discovery",
+      "sha256": "475271d7b44a11924992b550bf25afda46ace3ae094bdc645e2759ea57c37501"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:attachdetach-controller",
+      "sha256": "aaff2d6f975405a40a39e3eacbc923d0223c9ea38cbc925cc2305c0c72fa8946"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:certificate-controller",
+      "sha256": "87b375d8a9a6a3df493ab46d6fb8ca820e53a63f97c1850d1220e87743179d43"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:clusterrole-aggregation-controller",
+      "sha256": "cc379d6f8479603061be9cea4c6fc2523197dcd2166092e12a9deca47d4d81bf"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:cronjob-controller",
+      "sha256": "4f8aa4058a808359410551e3b7e4e1a709e57028e70ffa3877a77d9bddd5a401"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:daemon-set-controller",
+      "sha256": "355162f844f2aec0b418bd90e0415125aab1047700989d2fefcb1d067db222b1"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:deployment-controller",
+      "sha256": "cc641d8d37cf38ac3bc39e909d642c097b32a84c1604c62e68bac2249ed9144a"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:device-taint-eviction-controller",
+      "sha256": "25acb4ddd6883fd3c99f44cd2eb562ff830820bf75dad01ab8f01130b2f9c473"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:disruption-controller",
+      "sha256": "92c39c503727de779c663fed632094a5e1989dddd6c5e463b306b780cf1ebb8b"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:endpoint-controller",
+      "sha256": "f9969d62671269ba555c44919f99d8da4f580c85ea1a8f3672ee6c435d51bf44"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:endpointslice-controller",
+      "sha256": "e59032a8079f58e8dadafd09009dd039e0cdd7224b21742b513c5783ba83c742"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:endpointslicemirroring-controller",
+      "sha256": "d6aa646e989e633c5a7753bc6c20af96c09277778a146d20c7d631815f21a160"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:ephemeral-volume-controller",
+      "sha256": "ea92382b7e199e8e5a1d160708ce14b12249776ac25a4438c53fdb231c9f963f"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:expand-controller",
+      "sha256": "961dbc59ca69bb5a8769a9f6bb26579839f6793725dce15c42eb6269ec61f3f1"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:generic-garbage-collector",
+      "sha256": "41ae29244c23d5bfc1c3324fe70b725a47e25a5b81bd211fdbf2b9151d995ed7"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:horizontal-pod-autoscaler",
+      "sha256": "1a55ce807434a4048933487d372006ea74f955442c9bb71bfaf06d5be0dccff6"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:job-controller",
+      "sha256": "5a204f334d5d356a2c8e29e71ecc27efaab259f9b8f1ba27e0727f76189f778d"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:kube-apiserver-serving-clustertrustbundle-publisher",
+      "sha256": "1af2aa59e69de5da5676d861bc298b66006b6308076b687bca9b2ec84bcf12bd"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:legacy-service-account-token-cleaner",
+      "sha256": "55ad94201d1fc39d903d7fef69b96f5974c51c1e6be2010f838ca1cbbe69abc7"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:namespace-controller",
+      "sha256": "6d1f66dd1588a3f1c54ce24b7569353af6398f6a9a6c9a4131737b7e14b0162d"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:node-controller",
+      "sha256": "c8a8a288abdae61724a3cb017229d7f71332b2e18903fd8642fdf12f7e69756d"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:persistent-volume-binder",
+      "sha256": "336bbb8ad473b7476d1f6ce1b1fcbf01f15956d64dc220cf66c38b5884654d75"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:pod-garbage-collector",
+      "sha256": "5d6e8d6381119bba6c83833cd1a0507b896edf116762b45678e5f9c2806a3aad"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:podcertificaterequestcleaner",
+      "sha256": "5b0a5fb0da796dda9a79285186fa76f5279de03eeeba59e3a660e51b3c4cb473"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:pv-protection-controller",
+      "sha256": "93cd0adb754a225112bf3958a9b8691744cf626305c5ef8aeba7cdcfac955898"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:pvc-protection-controller",
+      "sha256": "cb98e4c42915f06248ea4a5cc4bdabdce1d7ccc642dd4e65a82bfa2817814388"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:replicaset-controller",
+      "sha256": "e5183cdf1b04acc37bd3514e5bd65520c1dcacafddeeb5df494e51e44a48310b"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:replication-controller",
+      "sha256": "e64f59d4bd90e22f46d98f9a3306ad21b7e5a26ef95f58cc4716f7d225f7402d"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:resource-claim-controller",
+      "sha256": "c070c32fb72e025cdffe1ee67e45ac7592a4e160c4abc0627324a8b534caa355"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:resourcequota-controller",
+      "sha256": "059e8453965dd3c143decfa6bc05157e8fbfd8d64a09e1e9a0dbf585f563b761"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:root-ca-cert-publisher",
+      "sha256": "f9b3a53f4260ec6d7be20987aa59386ed5fdc43d932752ed02b4a8cfb0337c51"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:route-controller",
+      "sha256": "ef2f0189368d09db0022fdc66db17e18f043c022c55336495b8de6944ead4327"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:selinux-warning-controller",
+      "sha256": "fbb9e7a92614ce73caf2fa969f3182f3b1d8e3e9acae47f532de1e248ac3f96d"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:service-account-controller",
+      "sha256": "ac32e92fda01c58fe724db45262dbefaf17598a7068163580245a1c97b591af5"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:service-cidrs-controller",
+      "sha256": "3f9c1bed9821d99f2af8d02e8b470d611207f60c243a8fec4aedce42475a84fe"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:service-controller",
+      "sha256": "b9b785909d54a1b81134d66be3487d605829ae601f635830ae581225c98cf3ae"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:statefulset-controller",
+      "sha256": "897c042a5382599ab2c532360067e211cfdff2a7fc9ba410d74cb924ce312745"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:storage-version-migrator-controller",
+      "sha256": "b2251fb8d185c573ee48d06db30543ef061f3784ff9fbaaab7e4e4d48c331ded"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:ttl-after-finished-controller",
+      "sha256": "535fd4fe8ba185726001af4dedd6fe5f25e6e5c00ced0ac4d89b6db764e494fd"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:ttl-controller",
+      "sha256": "865653a5809cafc458d1ed993bed543646613e5590e62b1f9cd4e003b0e82711"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:validatingadmissionpolicy-status-controller",
+      "sha256": "bc796f2657b0bf15a5a2e02e30c16433ea7dfdd2a788c0057ba9e002af9ea194"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:controller:volumeattributesclass-protection-controller",
+      "sha256": "e1171b68b0ad37aabbb207bc41c4d94afc778a3a11e93c2c43747c3f876979c1"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:coredns",
+      "sha256": "416f7d2380d4d929e4768e8f46307a629a7662ae25fae9fc03ac3b0872219fe1"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:discovery",
+      "sha256": "b3ff7230e11b6b55d5c1c9f1aad3c0b983cd76361f17c78c77f1a963e4e71141"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:heapster",
+      "sha256": "d28a66d7489539fa343106014d1746f999aa775fd9bcf734d6e50fc6e5bf49ae"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:kube-aggregator",
+      "sha256": "aa011ade023b31aa3f6b5086526794d32dc9f7868628a96d942ff8f322ab67f3"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:kube-controller-manager",
+      "sha256": "bbf7e8d975a963d8e120d0caecfb929ee15bb0d72ba775d68ab6f9ef549ec4ad"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:kube-dns",
+      "sha256": "4d4decb52e99868f191bff699795df806933c8f0a24da655eff3d6f035192511"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:kube-scheduler",
+      "sha256": "b8cbb17b6ce8ea87e1d13a70efc3171f0f7f724696e32758a760a827fc550756"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:kubelet-api-admin",
+      "sha256": "02661696f2d98d04310d3cb83dce812e83aa9cff99f06711fac81f4311064b5f"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:monitoring",
+      "sha256": "2d2a9608dd940430dc1d96cf4ab9a2d38681807000530919a31136f1358befec"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:node",
+      "sha256": "439133ce946b01fb9749ef407053b34becece1e7b085d9be210a5695f4910c11"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:node-bootstrapper",
+      "sha256": "97a49e28dd976dcdf4d96c2a65e395c2f634c84d5ccbb8f655d5be948521c3bc"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:node-problem-detector",
+      "sha256": "17ea9843ddfe66c94345241b3a573dc27f290fa7bf764c94c888182a10fbd59f"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:node-proxier",
+      "sha256": "b476f353e62559ce7a12f8c0820c6a9d2f82fef3411a39e53359bcfd0583ac3e"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:persistent-volume-provisioner",
+      "sha256": "327ec23193a67f63afe846309fc0c3541379c771c8ad07ea8c0d5080f5ef7196"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:public-info-viewer",
+      "sha256": "eb2e19992135512222b05eda6c99cba8759c17e4fef6f713f3255f0a21a3551a"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:service-account-issuer-discovery",
+      "sha256": "3b22c94403c6b697d66d926e86bb22bd16dd2cfa041703f9cbb4dac93f75d330"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "system:volume-scheduler",
+      "sha256": "66acd4d1307750612b2dc80e330c925f19a172c1aa0b9d0a47acd0d9ae548171"
+    },
+    {
+      "kind": "ClusterRole",
+      "namespace": null,
+      "name": "view",
+      "sha256": "f4493ecc8361fd7d06bca867fe20e36b9f608b35c0b2c25a7d0ce24dc9d7707f"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "argocd-application-controller",
+      "sha256": "effd6cc4ca43cfa238ab342dad68f5dc282ee5476dd791e3fd4290f731152760"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "argocd-applicationset-controller",
+      "sha256": "e89cdc09517d5b0d835ffbea5218171e27868871ec70001af0d8e8b7a65181ba"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "argocd-server",
+      "sha256": "5ee05dc9ea795936ecf53efa156ad145680297d5b7015c7937ef323199fbe28a"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "cluster-admin",
+      "sha256": "d716a9caff0cb410da82e95a9ec72db89c988e981fc0152661e2bb8a97197cfd"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kindnet",
+      "sha256": "b2653ccf37ce9e2deba0c6cc30234de8a4242b0ef6470f3a11decf4cf023d5d3"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:apiserver-kubelet-client",
+      "sha256": "c8906272b3aadd27cc5770f35375cb7113dfbc5cf5d2219e58740f5e6f797fa0"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:cluster-admins",
+      "sha256": "3eef4e5ae2d85fe436cbcaa728ab9772c6a4e13ab5c2a2b69a3463fdacf9e765"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:get-nodes",
+      "sha256": "71dc53489ad35a81f58bcd0056e0f1216195c1d138b1519620dbdb47df9f2929"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:kubelet-bootstrap",
+      "sha256": "10284f7d1e1a286a60eda9dca321bd3049d48dbf0e9e459e930916d06db4469d"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:node-autoapprove-bootstrap",
+      "sha256": "210259a1804315eca51b1f0f7401a49dfea69fdbc9e5b710a400b023783a4b00"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:node-autoapprove-certificate-rotation",
+      "sha256": "33d6d544eca6a9455374d4d2e9a56cad8b5349ee6dec69424c0ae7b90246a4bc"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "kubeadm:node-proxier",
+      "sha256": "e6892e558ae5c6ab1c76365ff57fb334c782bce9ca5f44d5f4ad8877a437d6c1"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "local-path-provisioner-bind",
+      "sha256": "edcc6cd9282b1662eb1b4165c7f042bec50e1924eed30cfaa957b59411567d75"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:basic-user",
+      "sha256": "3e8e303f482a9bb5eb7c50671ad3d925d37d60359ff4eb527650cd68275aa97f"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:cluster-trust-bundle-discovery",
+      "sha256": "a3a7a4897407da0d8f4957566f8b7061960b87e7fda43744a7b32e9ddf6ab06f"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:attachdetach-controller",
+      "sha256": "84a38b8727a44dcde4a2b0b51da2e6273f267bdad42c9f566bd6a14859848766"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:certificate-controller",
+      "sha256": "75cd0e17fbf27884dc85bc9c619fdc624290d1bfbdf1fb7ff551bdde5f7198a3"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:clusterrole-aggregation-controller",
+      "sha256": "951db9a8e976d38057ad158a82525ecddc490b17a66267d624bcc3fd4cea92bb"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:cronjob-controller",
+      "sha256": "a0ea4bd9ab3a8d28e3d02d46a1cc9a7f90ce44648de6ee34c0edece7a3f6a990"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:daemon-set-controller",
+      "sha256": "653f9b0c63a19bb10efd3632e98904eba39754595ac7b48993dc8579d6151110"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:deployment-controller",
+      "sha256": "9e4c228673360ceb5bb46edca85524e807ee54d7e351c981f69991f641024807"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:device-taint-eviction-controller",
+      "sha256": "689722430c0217b828023f282ad442bfee4cf4c7c3f5c8682ef0415610e26892"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:disruption-controller",
+      "sha256": "64db0d7a52e835518e8cd83f8823b80fb71b3949ac049db7bc782d320acc2271"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:endpoint-controller",
+      "sha256": "43f29b753e27e08100374987b4208b8cb88109ad498b9d08222f446b2a3d2e1c"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:endpointslice-controller",
+      "sha256": "7a5f7037d41e77f0f1db0602d28b49df7442096f9f00ff4df90243417c47a1c1"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:endpointslicemirroring-controller",
+      "sha256": "5e0421b0669df0b92ac16fb326175c2771f1801dfad8bd588964ca968c5455f1"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:ephemeral-volume-controller",
+      "sha256": "4c4d57ff6ab9e629e4aa5dbbd638efbcf26f23b2b7bf5869a5668e06e5d7c879"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:expand-controller",
+      "sha256": "b2657c9f6a0cc6fe390816f5079d41b523efa1d31d67310a9b18f38e6976cf67"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:generic-garbage-collector",
+      "sha256": "6051468b5438e7a7d9eb24c0133a6290023eb2c15d172780e92d7b1af92bb144"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:horizontal-pod-autoscaler",
+      "sha256": "7d11d4697efc56aff1490f802a8830788d785893f64becf5ab6e4e615c0460c6"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:job-controller",
+      "sha256": "c3b5fc215d980a1d23406a6e552b8ad420c8a7d4c0311b0d98b671a621fdbc10"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:kube-apiserver-serving-clustertrustbundle-publisher",
+      "sha256": "c04bdb61d7da3ed452695b238b20902d4177ce56d8dadf524fbc568d669c0d4a"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:legacy-service-account-token-cleaner",
+      "sha256": "2ed521dabf51692b2baee6ce0ad59800f2a75969eed647270b95392deced7773"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:namespace-controller",
+      "sha256": "027cc0a949a9526f46c98855a869a69a7b66bf4e623de52c00fbcc4817aa96a3"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:node-controller",
+      "sha256": "620da7789a3bae72f9807b289b8e08057c710aa81c340500e35a097467890526"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:persistent-volume-binder",
+      "sha256": "4cabeee6a445d3bfd578ebf0c8f4c57a44df1e858a8ae3ae62ed52dc2707d1db"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:pod-garbage-collector",
+      "sha256": "7f4f6b80c9216162b5e47c0c4c20c91cb66ae875f4dbd118d42cb5a0c24f463d"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:podcertificaterequestcleaner",
+      "sha256": "200bdfb78eebc5511b1366e506a674d3643a576d9727436dbc9d240d41f6159a"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:pv-protection-controller",
+      "sha256": "ed953716e79b91b9942194027eff9f720a66a81e5eb0667e14b99094e8d7996d"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:pvc-protection-controller",
+      "sha256": "c236cecfcdd2b5db5e77ad0f200f176f27b7715f7a69df2f212929adda61b998"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:replicaset-controller",
+      "sha256": "a8ec9abc2b796eb0b0dbaccc8b56d022cd6ffa46d8e2fe9f469c22935188eab9"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:replication-controller",
+      "sha256": "c03467b4f66c28e27e0197e3b2425d0d7da9f09ac48151bae44f8c54ccdf2d09"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:resource-claim-controller",
+      "sha256": "740ef58f51ecfebadddf224bab330e09e5844f9f9650ceef4e1aaab01cfb0f4a"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:resourcequota-controller",
+      "sha256": "df8b3ce6170b7ba02b95f88e60d677994580ebf286d6e6c3d517dce52973970c"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:root-ca-cert-publisher",
+      "sha256": "217793082657a924b90e340c43fa04986a8897ce3977ade1e3dfa69c1d4dd6b1"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:route-controller",
+      "sha256": "f2106aaf393ecae581439f95ea4a83b4cd060fd2c9e7dae873c6c7318a9a6535"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:selinux-warning-controller",
+      "sha256": "55d2c85b4fadcbaecd448000498f0cd0602b543bc411322503bf2e32f8974d29"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:service-account-controller",
+      "sha256": "a8b34e15d8bad05b840cccd002d1c481d92a72e2029278eb819776648d93aaa3"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:service-cidrs-controller",
+      "sha256": "c29d9d81f2eb69bd8cdbc1e654896f6805cad8d8e98b228bbbe4ec7f619e458e"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:service-controller",
+      "sha256": "f9bbd9275f86111d36e634c21fce211d2c4aeed2c53a94506a1e07651a53b638"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:statefulset-controller",
+      "sha256": "138798995e7782a7b2770e6927615291c9b0a57b4c12a89b416d0aa40ea9e7b2"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:storage-version-migrator-controller",
+      "sha256": "08df39e140f02d6a4f4b635a942eddf14c9134b340f2724a7c1717385de3f779"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:ttl-after-finished-controller",
+      "sha256": "68515682b0b9b4c19823cb4bd24cb5d9037ef7cd0113e84eda746bc86fbf9843"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:ttl-controller",
+      "sha256": "1c687983534b344e0114a9ce5b531d99c2ac86b5aa3062a8e55ccf78b7c17d5d"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:validatingadmissionpolicy-status-controller",
+      "sha256": "753e5ded3e092bb7fb42d37c5ce0e03a5f8fe068cfa2845abdded1c0c6867ebe"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:controller:volumeattributesclass-protection-controller",
+      "sha256": "48201dc7cad26f8e7e64ce6535abba7efdded415f43fe564d678adea45865823"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:coredns",
+      "sha256": "2ccf4fa0f178e6b3b623577d7d96bc588bd2e4e06b1663fb5b21ea0d039b040d"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:discovery",
+      "sha256": "05d58ea4c0dd9462eb4b2ff3d2a89a256fcdcbc467d83c265a0db79aeb3c0acf"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:kube-controller-manager",
+      "sha256": "bec0b2531e11ba25030f51a07120a3cb4dc8dc0d560366053999b486704fb53c"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:kube-dns",
+      "sha256": "238b331d97474c9c7ee3e1690d1959e9058d38ec7c8a007c8bfd4f05778fe79f"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:kube-scheduler",
+      "sha256": "4b33021af6edbcf3cef03dd7f3c367fdbbf0ca8d22e0c28d86b4dc1737e55cbc"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:monitoring",
+      "sha256": "f4ec50b9749372a6bc415a5416ff20f31ed89f28164734b59fdb09c1b5261801"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:node",
+      "sha256": "28e382a6f7be4c74c3036e6d4b639b4e29933c6e66ba539342246070c5fc6b27"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:node-proxier",
+      "sha256": "89b325121e5e1d53ef5e4d447ddedd2a72f352ecac56d6f0b51d5b24c48fb3fe"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:public-info-viewer",
+      "sha256": "cb22470d8475920291537d859aec6027c82f8d2dcc3f9d7ff0be5c5135478a44"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:service-account-issuer-discovery",
+      "sha256": "aac083d3bcf088ccfd82e6ec3aa57948239b47a8bd69b512d89e6920deca4966"
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "namespace": null,
+      "name": "system:volume-scheduler",
+      "sha256": "4cd1c41d4607da9286125bb6c0f8526e173a1b0f99491aa6be8e6892045975bd"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "grafana-alerting",
+      "sha256": "6b1d9ec544c6deb9a3043ba1f0210890eb97f1807aca8ead7a690d3c8ddd288c"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "grafana-config",
+      "sha256": "4ef3709e9a0ee461ff051c6071979a17874e1bc8db7e8f1462be093ffbc70ee1"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "grafana-dashboard-provider",
+      "sha256": "f5fe134fd1b452b87f24616b6c6ff6aad6765db5e891c7a9beba62c792c0c159"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "grafana-dashboards",
+      "sha256": "4498bd9401b698b526533c5e9327d7376b1526d9ef6b8e599efe9f5aa873c0fc"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "grafana-datasources",
+      "sha256": "93a1dd6d3b1076202244201a3ffce729be058b772213e4841e5d425378bcdeab"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "kube-root-ca.crt",
+      "sha256": "dbd1966b60d455251d170bbe8aa63dbb728263100e212e6c3fe93431ffcc16d4"
+    },
+    {
+      "kind": "ConfigMap",
+      "namespace": "monitoring",
+      "name": "prometheus-config",
+      "sha256": "3d0340ac4f5d799ad9aaa4e6a499d0995467aa50c8d804314108c55a3a1845a8"
+    },
+    {
+      "kind": "Deployment",
+      "namespace": "monitoring",
+      "name": "grafana",
+      "sha256": "b24430778f000d206adaf19650530cffb073684d03500823b57c0de88d8e1a39"
+    },
+    {
+      "kind": "Deployment",
+      "namespace": "monitoring",
+      "name": "prometheus",
+      "sha256": "1c7ba185ff70b406b417f1c56775482118cce5550e6c1f8e938c5ddca6d97d01"
+    },
+    {
+      "kind": "Role",
+      "namespace": "argocd",
+      "name": "argocd-application-controller",
+      "sha256": "35af52b1786f1c413b7363c90a07334eaa91215da3c8b6e4cdb5805fda9f40ee"
+    },
+    {
+      "kind": "Role",
+      "namespace": "argocd",
+      "name": "argocd-applicationset-controller",
+      "sha256": "7e0e89eb17a2a17a2be5e714c471b11ea4990d3ae53a5b20a5664c9c6b857067"
+    },
+    {
+      "kind": "Role",
+      "namespace": "argocd",
+      "name": "argocd-dex-server",
+      "sha256": "bb440bae3b58009bab0c3d7a6e9a8de8f81c445559de7963c5b029f8d2d9ffa9"
+    },
+    {
+      "kind": "Role",
+      "namespace": "argocd",
+      "name": "argocd-notifications-controller",
+      "sha256": "aae5eed670aea79d9a4b3491f114a7e44784e55deaef3b588eff57379445b476"
+    },
+    {
+      "kind": "Role",
+      "namespace": "argocd",
+      "name": "argocd-redis",
+      "sha256": "dc9fd98241d998582c897ac6a0840b697cea90d37cc8d7da03ff1f5f82533751"
+    },
+    {
+      "kind": "Role",
+      "namespace": "argocd",
+      "name": "argocd-server",
+      "sha256": "5b49e8c6abd5fb06a5fde8d8258abddbe964ab63677088f5e723456b24db8d0d"
+    },
+    {
+      "kind": "Role",
+      "namespace": "gitops-apps",
+      "name": "prometheus-discovery",
+      "sha256": "3479d51fe989ac3b03dd5ac57318839812200cc323f9b07f8f7d169ed8b18c1a"
+    },
+    {
+      "kind": "Role",
+      "namespace": "gitops-apps",
+      "name": "w09-auditor",
+      "sha256": "3849e3a4168771b343fd90a84b502773e8e0720edd98fcd87aae4730d7fc30cb"
+    },
+    {
+      "kind": "Role",
+      "namespace": "gitops-apps",
+      "name": "w09-developer",
+      "sha256": "53d980ca0b37e1a1fd46bc13372b3afaf496895b85e6619574825752f21c8c3f"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-public",
+      "name": "kubeadm:bootstrap-signer-clusterinfo",
+      "sha256": "bd1429d73c676bed1fd74d64301e984a5633163548bc24643e26b8eba4d6a3c9"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-public",
+      "name": "system:controller:bootstrap-signer",
+      "sha256": "8c40a613ca7bf6ca4df676f035d202b88f508c2c8d98095112e4ac3a03725f8e"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "extension-apiserver-authentication-reader",
+      "sha256": "4cb162eb7d7c69652bbc2a9a67abd9430a339b447d69d6a1e1c3edf72df279d8"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "kube-proxy",
+      "sha256": "2f23c094c14f56393fbb34e41629cf2af0ebdf25cae4298efc403405461c2f32"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "kubeadm:kubelet-config",
+      "sha256": "989fb56016fbd1037e3af6770f21fc4ae9767cf23693d2ca068ea24b849081b1"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "kubeadm:nodes-kubeadm-config",
+      "sha256": "cfebb0fe3388591a9590d1dd4d478ae0938641cb1bdd6d086c51b1c6ed6c6a4c"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "system::leader-locking-kube-controller-manager",
+      "sha256": "b2bfe7e6dfc09c6bbbbdc19d4da51fc8fa1c969b1d3408aa72410cead148471e"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "system::leader-locking-kube-scheduler",
+      "sha256": "50481b9ffc0bedabe11344ac54cfd2b113d5ea039e1829b85f48131d739282f2"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "system:controller:bootstrap-signer",
+      "sha256": "7b7621f94d726fa414a12b88b3d7a5582a9b7fc2f991fcbf548ec3d283334964"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "system:controller:cloud-provider",
+      "sha256": "e14ccc6f9845e6ffab5621c0af61127c5d4a16e461d4a3e18e33a832cbc092aa"
+    },
+    {
+      "kind": "Role",
+      "namespace": "kube-system",
+      "name": "system:controller:token-cleaner",
+      "sha256": "0beb717b46fdaf23f9d51ecf3c66abe529b0738d99fc52736458a78575b5ea04"
+    },
+    {
+      "kind": "Role",
+      "namespace": "local-path-storage",
+      "name": "local-path-provisioner-role",
+      "sha256": "0c38277ff142e776c466550ce79837f374cbaf85f9e8fdf3760d00e299da00ff"
+    },
+    {
+      "kind": "Role",
+      "namespace": "monitoring",
+      "name": "w09-auditor",
+      "sha256": "4e14e601925756183377e95369ca833ed4fecbeebae75659631270b05ee1481b"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "argocd",
+      "name": "argocd-application-controller",
+      "sha256": "0ac8a6864577336db84622a1368b96b9fb4561882c6f3c34b07c10c1a90afd8b"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "argocd",
+      "name": "argocd-applicationset-controller",
+      "sha256": "19c798474e822b56cd14593f901e2db97adb836b9a0f403d2171b829f80f81c0"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "argocd",
+      "name": "argocd-dex-server",
+      "sha256": "d457870a240f958dc1682dd519118a652bdd02b854451d2a426103e6e0e7df07"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "argocd",
+      "name": "argocd-notifications-controller",
+      "sha256": "6ba51a1dcf4741c965d21d5b0b482138e04843363f19561f8408a62d5b682d0a"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "argocd",
+      "name": "argocd-redis",
+      "sha256": "1e8d49b9214e8c8f4e65afe0815581c2b1d484e2fb427a64c478d61b456fc120"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "argocd",
+      "name": "argocd-server",
+      "sha256": "10a4f621703528e53383e1d98eaaa2e68aba0f2e103437185a034c75a6cfc400"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "gitops-apps",
+      "name": "prometheus-discovery",
+      "sha256": "b4582843ef342d8a938d49bd9722d1e4cb2aaf274caa1d6fc181bdea623e33b3"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "gitops-apps",
+      "name": "w09-auditor",
+      "sha256": "7cfb44c030768f9f87b210a77156655788d44cc2e3c5ed3dfd3bb8184e211f25"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "gitops-apps",
+      "name": "w09-developer",
+      "sha256": "d5038db72e1adc93e2c3716f775671be837b1350288ec6a57a4b28f7455cbf4c"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-public",
+      "name": "kubeadm:bootstrap-signer-clusterinfo",
+      "sha256": "ae52c2b5612095263045d327e98614f0df8e57cf65e998bda9088060ae0b8159"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-public",
+      "name": "system:controller:bootstrap-signer",
+      "sha256": "47e9787d4d50b1b1389fd5f680350283292a2e9889ad815e48666bd1c1bd188a"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "kube-proxy",
+      "sha256": "d7a072729732bfe33e586fdfb478be9a2ff77ea570fcbc6ae8798ec2da9dbe56"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "kubeadm:kubelet-config",
+      "sha256": "b48f3244e8019f9f5d2aeaa166cec4af93eece240a320139d6914559c06ebb49"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "kubeadm:nodes-kubeadm-config",
+      "sha256": "71ed25f4e71ff046e43180c1f5add2cb659ad6d1dd92e8dad0aaafb4433dbba7"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "system::extension-apiserver-authentication-reader",
+      "sha256": "9d8cc76260bf8fcc5e0f54ba936088b0261340c91276f59bf0ce94eef619f094"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "system::leader-locking-kube-controller-manager",
+      "sha256": "29cb7df0b86a765177a36a42cac4e4add98b409f7c8f8b0a652a6c016c9b4166"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "system::leader-locking-kube-scheduler",
+      "sha256": "868448b3ccf3f421f38b738b03743cc2b6c79518ee5c32fd724364360351cb4b"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "system:controller:bootstrap-signer",
+      "sha256": "1380d7b2b75a144345159a7f4c14867650a5a9f3aaa586912fb5a7b4312a4219"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "system:controller:cloud-provider",
+      "sha256": "8289b11f8de3cc4e9c27032ccf6116f6fc442273fe09fc2315b992c609aab50f"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "kube-system",
+      "name": "system:controller:token-cleaner",
+      "sha256": "4325f2542c8e0216c1a913b4a45a701d3b709971d9bff138f9439824fbecfa62"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "local-path-storage",
+      "name": "local-path-provisioner-bind",
+      "sha256": "3504279f073c12cb31f7ae07ad218c818cf7ac5eb0a6a4db8efe9c31da54b00e"
+    },
+    {
+      "kind": "RoleBinding",
+      "namespace": "monitoring",
+      "name": "w09-auditor",
+      "sha256": "9b4c2f66e480fa8a9cac6d62f7e199d0203c47ab7173abc62b1afb467254ca22"
+    },
+    {
+      "kind": "Service",
+      "namespace": "monitoring",
+      "name": "grafana",
+      "sha256": "9c82313465ae57f2c4277f9b2b54614786ad733e16283cddb7a3e152c39bce42"
+    },
+    {
+      "kind": "Service",
+      "namespace": "monitoring",
+      "name": "prometheus",
+      "sha256": "bfb80e4db32df6aae4d83e53e7fab349eb6310ebe6b58a615d300ba338df63cd"
+    },
+    {
+      "kind": "ServiceAccount",
+      "namespace": "monitoring",
+      "name": "default",
+      "sha256": "1ca575fabee5520810ebf5dc2e9f77daf0138764cb2e353204908b17313bd6d2"
+    },
+    {
+      "kind": "ServiceAccount",
+      "namespace": "monitoring",
+      "name": "grafana",
+      "sha256": "015f5a934d150532eb039a2ec610ad9d42eadc19e68594e7ee336c84c87667a3"
+    },
+    {
+      "kind": "ServiceAccount",
+      "namespace": "monitoring",
+      "name": "prometheus",
+      "sha256": "72fa80b3df8e7bd92a08e6561c2507fbab22803bee4418468ecf0a3869b19392"
+    }
+  ],
+  "production_api_images": [
+    {
+      "name": "web-app",
+      "image": "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421"
+    }
+  ],
+  "note": "Only definition hashes retained; no config contents or credentials recorded.",
+  "unchanged": false,
+  "differences": [
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "backend",
+      "before_sha256": "97e757c6e0e856a79df74d2086e4f12a3a5c31b0a21bee844fe362cde021c0cc",
+      "after_sha256": "4582de659f054699294dfe93a478ec6862c4b3e58a8bfa9f4564e5028e2a3f92"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "frontend",
+      "before_sha256": "8c26aab1bb09df116891dfc71c8b54d7be0a5caca2c19834ccb6f829db17e5f8",
+      "after_sha256": "ea2f146daed40f4b52a1df31f058e8b2377b14666026d5169dfcc401733b7378"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "grafana",
+      "before_sha256": "215ae1a8df22583bb3c32189cab7a55a8d13ab911c7b11321255cae6c3a21391",
+      "after_sha256": "3fb0426ff27291f1054a035fa630e21e579f9d0c57c0bede78452848a557d1c4"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "platform-api",
+      "before_sha256": "f73bfbb4879c202e27a27176e7da94b5c0a901326d722d0a197c64199bdf849d",
+      "after_sha256": "b80122f552e49e1ddceacd7a9b1c8ded46b3abe59d15713bed4a0efad4ad8ef3"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "platform-rbac",
+      "before_sha256": "7cefecf37b3dbac448da3823e111ab547ecfe6d1475ca0e7689925686854a903",
+      "after_sha256": "02e7f5a37a812a0dcb95eff233ba90cf2dbf20c71a57e91444a7c308fbe1ae82"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "platform-root",
+      "before_sha256": "703bda60c9ac08026ff35dfd04b4bc2a644d117f88cd355ecf7965e1ea90e73f",
+      "after_sha256": "2b6f088c539c9cd66ab70055273f0520ddbd47e6e7932851507786d9048b3ed5"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "prometheus",
+      "before_sha256": "3f169b89c08ad79a1a5eabe32bd7fc952daa73a0c298cd7fb660e9b4295d8438",
+      "after_sha256": "95bc43e4b85e87cbbd66603d73dbb704f4f9d0a17f9ebe39a7e3eb26437a26ab"
+    },
+    {
+      "kind": "Application",
+      "namespace": "argocd",
+      "name": "sandbox",
+      "before_sha256": "002cc36f6325ff9451c49d6fb066ab6df7c59e03308012ff7be4a3d938d49e1c",
+      "after_sha256": "352ac9e47afb10a3ce56eb946522b22946d9a2357a73fe0afe516d26a609168e"
+    }
+  ],
+  "resolved_comparison": {
+    "result": "PASS_WITH_APPLICATION_GENERATION_ONLY_DIFFERENCES",
+    "raw_hashes_unchanged": false,
+    "rbac_monitoring_appprojects_unchanged": true,
+    "application_definitions_unchanged_except_generation": true,
+    "method": "Exact baseline hashes reproduced by varying only Application metadata.generation; see separate investigation. No generation counters or cluster definitions were edited."
+  }
+}

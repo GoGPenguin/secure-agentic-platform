@@ -1,0 +1,173 @@
+{
+  "main_commit": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+  "candidate_chart_version": "0.2.1",
+  "main_chart_version": "0.2.0",
+  "comparison": "Main chart/production values materialized with git show; candidate current render. Evidence-only Stage 1 keeps every reconciled source file at main contents.",
+  "applications": [
+    {
+      "application": "frontend",
+      "current_candidate_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "pod_template_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_unchanged": true,
+      "selector_unchanged": true,
+      "current_candidate_merge_triggers_rollout": true,
+      "stage1_evidence_only_exact_render_equality": true
+    },
+    {
+      "application": "backend",
+      "current_candidate_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "pod_template_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_unchanged": true,
+      "selector_unchanged": true,
+      "current_candidate_merge_triggers_rollout": true,
+      "stage1_evidence_only_exact_render_equality": true
+    },
+    {
+      "application": "sandbox",
+      "current_candidate_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "pod_template_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_unchanged": true,
+      "selector_unchanged": true,
+      "current_candidate_merge_triggers_rollout": true,
+      "stage1_evidence_only_exact_render_equality": true
+    },
+    {
+      "application": "platform-api",
+      "current_candidate_differences": [
+        {
+          "path": "/0/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/1/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        },
+        {
+          "path": "/2/spec/template/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        },
+        {
+          "path": "/3/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "web-app-0.2.1"
+        }
+      ],
+      "pod_template_differences": [
+        {
+          "path": "/metadata/labels/helm.sh/chart",
+          "before": "web-app-0.2.0",
+          "after": "<absent>"
+        }
+      ],
+      "pod_spec_unchanged": true,
+      "selector_unchanged": true,
+      "current_candidate_merge_triggers_rollout": true,
+      "stage1_evidence_only_exact_render_equality": true
+    }
+  ],
+  "unchanged_source_paths": []
+}

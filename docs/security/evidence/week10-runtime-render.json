@@ -1,0 +1,66 @@
+{
+  "helm_command": [
+    "helm",
+    "template",
+    "platform-api-psa",
+    "charts/web-app",
+    "-n",
+    "psa-restricted-test",
+    "-f",
+    "environments/platform-api-values.yaml",
+    "-f",
+    "environments/platform-api-restricted-values.yaml",
+    "-f",
+    "security/psa-test/platform-api-lab-values.yaml"
+  ],
+  "namespace_stamping": "metadata.namespace explicitly set to psa-restricted-test on each generated resource; no other post-render transformation",
+  "helm_stdout_sha256": "c4d35a3e9597fd55b8e5b6d24fa6291052040af6c1cf531ade2a2a44aa825beb",
+  "inventory": [
+    {
+      "kind": "ServiceAccount",
+      "name": "platform-api-psa",
+      "namespace": "psa-restricted-test",
+      "hook": null
+    },
+    {
+      "kind": "Service",
+      "name": "platform-api-psa",
+      "namespace": "psa-restricted-test",
+      "hook": null
+    },
+    {
+      "kind": "Deployment",
+      "name": "platform-api-psa",
+      "namespace": "psa-restricted-test",
+      "hook": null
+    },
+    {
+      "kind": "Pod",
+      "name": "platform-api-psa-test-connection",
+      "namespace": "psa-restricted-test",
+      "hook": "test"
+    }
+  ],
+  "artifact_sha256": {
+    "security/psa-test/rendered/platform-api-lab.yaml": "39804e875ae4efb5d21ef6fdedfd5dfd6a9bb7aa9cc91c8cb18deb66d195e5b0",
+    "security/psa-test/rendered/platform-api-hook.yaml": "193d77f86bd481161022bdc362f6c0b758166fc97954f3fbffc78a9556d22784"
+  },
+  "image": "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421",
+  "pod_security_context": {
+    "runAsGroup": 1000,
+    "runAsNonRoot": true,
+    "runAsUser": 1000,
+    "seccompProfile": {
+      "type": "RuntimeDefault"
+    }
+  },
+  "container_security_context": {
+    "allowPrivilegeEscalation": false,
+    "capabilities": {
+      "drop": [
+        "ALL"
+      ]
+    }
+  },
+  "assertions": "PASS: distinct names/namespace/selectors, preserved API digest/ports/probes/resources, one replica, verified IDs, no production ownership annotations or ownerReferences"
+}

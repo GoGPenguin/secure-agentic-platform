@@ -1,0 +1,104 @@
+# Generated lab-only artifact; not deployed. See ../platform-api-runtime.md.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: platform-api-psa
+  labels:
+    helm.sh/chart: web-app-0.2.1
+    app.kubernetes.io/name: web-app
+    app.kubernetes.io/instance: platform-api-psa
+    app.kubernetes.io/version: 1.16.0
+    app.kubernetes.io/managed-by: Helm
+  namespace: psa-restricted-test
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: platform-api-psa
+  labels:
+    helm.sh/chart: web-app-0.2.1
+    app.kubernetes.io/name: web-app
+    app.kubernetes.io/instance: platform-api-psa
+    app.kubernetes.io/version: 1.16.0
+    app.kubernetes.io/managed-by: Helm
+  namespace: psa-restricted-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: web-app
+    app.kubernetes.io/instance: platform-api-psa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-api-psa
+  labels:
+    helm.sh/chart: web-app-0.2.1
+    app.kubernetes.io/name: web-app
+    app.kubernetes.io/instance: platform-api-psa
+    app.kubernetes.io/version: 1.16.0
+    app.kubernetes.io/managed-by: Helm
+  namespace: psa-restricted-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: web-app
+      app.kubernetes.io/instance: platform-api-psa
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: platform-api-psa
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: web-app
+        app.kubernetes.io/version: 1.16.0
+    spec:
+      serviceAccountName: platform-api-psa
+      securityContext:
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: web-app
+        image: ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health/live
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 2
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health/ready
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi

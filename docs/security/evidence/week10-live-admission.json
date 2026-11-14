@@ -1,0 +1,25 @@
+{
+  "started_at_utc": "2026-11-14T13:41:05.032456+00:00",
+  "completed_at_utc": "2026-11-14T13:41:05.699660+00:00",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/test-psa-admission.py",
+    "--run",
+    "--context",
+    "kind-secure-platform"
+  ],
+  "runner_sha256": "234d012640fb11fd930960ebae46b9519d5d0833e85def5b58114a59888894f0",
+  "fixture_sha256": {
+    "compliant.yaml": "0f7140898384ff0276a4629b79fe326cd48809efb793d312e06256c29064ed5b",
+    "invalid-seccomp.yaml": "69847073a130da4c1689a1ce9d46b304ebd15b655ea43f1ffeae0383ebbe625f",
+    "missing-allow-privilege-escalation.yaml": "f8ec401ce963346f45eea898ac9496842c36f47b4a06cdb0b2bef18841802e8c",
+    "missing-drop-all.yaml": "a3d6955c1b67fe8360e15ee8647ebabddd730ec4ab6291df4bd08042614c4bb8",
+    "privileged.yaml": "3bb7d37a6b08a4a6163616f95e626d45efdaa4965ae335357143231ed7b40b99"
+  },
+  "exit_code": 0,
+  "stdout": "PASS compliant: ALLOWED (exit 0)\npod/compliant created (server dry run)\nPASS privileged: PSA_REJECTED (exit 1)\nError from server (Forbidden): error when creating \"/home/son-nguyen/Personal/Study/36W/secure-agentic-platform/security/psa-test/pods/privileged.yaml\": pods \"privileged\" is forbidden: violates PodSecurity \"restricted:v1.37\": privileged (container \"api\" must not set securityContext.privileged=true), allowPrivilegeEscalation != false (container \"api\" must set securityContext.allowPrivilegeEscalation=false)\nPASS missing-allow-privilege-escalation: PSA_REJECTED (exit 1)\nError from server (Forbidden): error when creating \"/home/son-nguyen/Personal/Study/36W/secure-agentic-platform/security/psa-test/pods/missing-allow-privilege-escalation.yaml\": pods \"missing-allow-privilege-escalation\" is forbidden: violates PodSecurity \"restricted:v1.37\": allowPrivilegeEscalation != false (container \"api\" must set securityContext.allowPrivilegeEscalation=false)\nPASS missing-drop-all: PSA_REJECTED (exit 1)\nError from server (Forbidden): error when creating \"/home/son-nguyen/Personal/Study/36W/secure-agentic-platform/security/psa-test/pods/missing-drop-all.yaml\": pods \"missing-drop-all\" is forbidden: violates PodSecurity \"restricted:v1.37\": unrestricted capabilities (container \"api\" must set securityContext.capabilities.drop=[\"ALL\"])\nPASS invalid-seccomp: PSA_REJECTED (exit 1)\nError from server (Forbidden): error when creating \"/home/son-nguyen/Personal/Study/36W/secure-agentic-platform/security/psa-test/pods/invalid-seccomp.yaml\": pods \"invalid-seccomp\" is forbidden: violates PodSecurity \"restricted:v1.37\": seccompProfile (container \"api\" must not set securityContext.seccompProfile.type to \"Unconfined\")\n",
+  "stderr": "",
+  "result": "PASS",
+  "note": "Existing guarded runner used without changes. All Pod submissions are server-side dry-run with strict validation."
+}

@@ -1,0 +1,567 @@
+{
+  "phase": "preflight",
+  "observed_at_utc": "2026-11-14T13:40:27.036517+00:00",
+  "commands": [
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "version",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "namespaces",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "applications.argoproj.io",
+        "-n",
+        "argocd",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "deployments",
+        "-n",
+        "gitops-apps",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "pods",
+        "-n",
+        "gitops-apps",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "replicasets",
+        "-n",
+        "gitops-apps",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "deployments",
+        "-n",
+        "monitoring",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "pods",
+        "-n",
+        "monitoring",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "kubectl",
+        "--context",
+        "kind-secure-platform",
+        "--request-timeout=10s",
+        "get",
+        "replicasets",
+        "-n",
+        "monitoring",
+        "-o",
+        "json"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "context": "kind-secure-platform",
+  "cluster_name": "kind-secure-platform",
+  "endpoint": "https://127.0.0.1:44663",
+  "server_version": {
+    "major": "1",
+    "minor": "37",
+    "emulationMajor": "1",
+    "emulationMinor": "37",
+    "minCompatibilityMajor": "1",
+    "minCompatibilityMinor": "36",
+    "gitVersion": "v1.37.0",
+    "gitCommit": "f54c212e3a2f75d674b717a9b29052b20b60aefc",
+    "gitTreeState": "clean",
+    "buildDate": "2026-08-26T10:44:25Z",
+    "goVersion": "go1.26.6",
+    "compiler": "gc",
+    "platform": "linux/amd64"
+  },
+  "namespaces": {
+    "argocd": {
+      "uid": "36d7898c-89e0-423a-bb54-d90b04abc31a",
+      "labels": {
+        "kubernetes.io/metadata.name": "argocd"
+      },
+      "psa_labels": {}
+    },
+    "default": {
+      "uid": "cd9aaec2-0101-4a6c-8654-dcd226116d4c",
+      "labels": {
+        "kubernetes.io/metadata.name": "default"
+      },
+      "psa_labels": {}
+    },
+    "gitops-apps": {
+      "uid": "1b25b152-5c84-48f2-88f3-f877c0dc8ea4",
+      "labels": {
+        "kubernetes.io/metadata.name": "gitops-apps"
+      },
+      "psa_labels": {}
+    },
+    "kube-node-lease": {
+      "uid": "5065d621-2e51-4578-871a-2a92f5589251",
+      "labels": {
+        "kubernetes.io/metadata.name": "kube-node-lease"
+      },
+      "psa_labels": {}
+    },
+    "kube-public": {
+      "uid": "4ce76e99-a139-4809-ab6a-f8665ad33764",
+      "labels": {
+        "kubernetes.io/metadata.name": "kube-public"
+      },
+      "psa_labels": {}
+    },
+    "kube-system": {
+      "uid": "7205a6ef-bd2d-4998-ba3f-87fa1f587006",
+      "labels": {
+        "kubernetes.io/metadata.name": "kube-system"
+      },
+      "psa_labels": {}
+    },
+    "local-path-storage": {
+      "uid": "de374c5f-b957-4ab5-a4d8-4d35c0d03cf2",
+      "labels": {
+        "kubernetes.io/metadata.name": "local-path-storage"
+      },
+      "psa_labels": {}
+    },
+    "monitoring": {
+      "uid": "b5df19bd-8eab-401e-852d-2ac51aa4b499",
+      "labels": {
+        "kubernetes.io/metadata.name": "monitoring"
+      },
+      "psa_labels": {}
+    }
+  },
+  "applications": {
+    "backend": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "frontend": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "grafana": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "platform-api": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "platform-rbac": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "platform-root": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "prometheus": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    },
+    "sandbox": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "conditions": []
+    }
+  },
+  "deployments": {
+    "gitops-apps/backend-web-app": {
+      "uid": "cc8692d1-dab3-44d1-9e4a-676f396a4f97",
+      "generation": 2,
+      "spec_sha256": "23112891d222b2aa16426649af51ac7f3f019e7d66f2001df94241d06a022116",
+      "pod_template_sha256": "77006fb752ee2a760a26df4120fcdcac064bf9013af4e0f44bedab97e3506006",
+      "desired": 1,
+      "observed_generation": 2,
+      "updated": 1,
+      "ready": 1,
+      "available": 1,
+      "replicas": 1
+    },
+    "gitops-apps/frontend-web-app": {
+      "uid": "46379b26-eb14-4c90-8f8b-8c76f938e80a",
+      "generation": 4,
+      "spec_sha256": "5283ff4898d2b2e61359c850ff60109f02229e25f8c12d911708b15a157a706a",
+      "pod_template_sha256": "05782eef448d4369c88804eb849766f2a091bc207a473b496dc45311e55b9d2d",
+      "desired": 2,
+      "observed_generation": 4,
+      "updated": 2,
+      "ready": 2,
+      "available": 2,
+      "replicas": 2
+    },
+    "gitops-apps/platform-api-web-app": {
+      "uid": "01ca6b8b-23b5-41fa-bc98-dc822648307d",
+      "generation": 3,
+      "spec_sha256": "04cf18410e9ec2ce562cf329311b9d6eac01ee47d39f561097463f4ec98f4a4b",
+      "pod_template_sha256": "6d868fff456ae83736163637b4e296285821deee4f550fa67f526aa86275f5a5",
+      "desired": 1,
+      "observed_generation": 3,
+      "updated": 1,
+      "ready": 1,
+      "available": 1,
+      "replicas": 1
+    },
+    "gitops-apps/sandbox-web-app": {
+      "uid": "86514e77-1860-4c81-b4b8-74d4c8f0a1bc",
+      "generation": 2,
+      "spec_sha256": "a31768c689d4b48a7738b99d6eabe390e8f463fad05f275f962923708326831f",
+      "pod_template_sha256": "fe82a55cadb2638fa5d6edfc5a9a323d4d44451bddeb6eae2fa6e0813f83b46b",
+      "desired": 1,
+      "observed_generation": 2,
+      "updated": 1,
+      "ready": 1,
+      "available": 1,
+      "replicas": 1
+    },
+    "monitoring/grafana": {
+      "uid": "4d854e81-66c7-4d6a-bc27-f82caa21ed2b",
+      "generation": 3,
+      "spec_sha256": "d6ec9049b8065f5db943dccc6beeb3d1832fdd630154ce3f161afd8a316be6f0",
+      "pod_template_sha256": "c1535b9792da669af30fac122e9d3836cac3db44d64d61f6888ff8b5875f38a4",
+      "desired": 1,
+      "observed_generation": 3,
+      "updated": 1,
+      "ready": 1,
+      "available": 1,
+      "replicas": 1
+    },
+    "monitoring/prometheus": {
+      "uid": "ec629a77-5247-4204-8914-5b37dd2147a5",
+      "generation": 2,
+      "spec_sha256": "d692a658ff5f330f2529ebd8e2650aa6f12200033ef5ef1095b13e3b3634bafa",
+      "pod_template_sha256": "0a19b33b111d7f55bb655d722ef73312f9dcd8ab32a26d19c116e86df6013e63",
+      "desired": 1,
+      "observed_generation": 2,
+      "updated": 1,
+      "ready": 1,
+      "available": 1,
+      "replicas": 1
+    }
+  },
+  "pods": {
+    "gitops-apps": [
+      {
+        "name": "backend-web-app-5c9d99cc9f-5t9md",
+        "uid": "ef7580dd-0a4e-408b-bcf5-bf654c19fe78",
+        "created": "2026-11-09T10:27:03Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "web-app",
+            "ready": true,
+            "restart_count": 5
+          }
+        ]
+      },
+      {
+        "name": "frontend-web-app-6d8fdf99db-clrv8",
+        "uid": "85e31b1a-128d-4bc8-938a-8dbad9b10555",
+        "created": "2026-11-09T10:27:03Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "web-app",
+            "ready": true,
+            "restart_count": 5
+          }
+        ]
+      },
+      {
+        "name": "frontend-web-app-6d8fdf99db-hb924",
+        "uid": "e2098925-b5f3-4b77-a9fc-392a873f3915",
+        "created": "2026-11-09T10:27:03Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "web-app",
+            "ready": true,
+            "restart_count": 5
+          }
+        ]
+      },
+      {
+        "name": "platform-api-web-app-7dc48d9bc9-8dtq8",
+        "uid": "de486ea6-f96a-4579-a996-d478b86b715b",
+        "created": "2026-11-10T13:25:04Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "web-app",
+            "ready": true,
+            "restart_count": 4
+          }
+        ]
+      },
+      {
+        "name": "sandbox-web-app-6b988dddd9-8jmb4",
+        "uid": "9876888b-169b-4b1f-80e4-5959e7b56c3f",
+        "created": "2026-11-09T10:27:03Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "web-app",
+            "ready": true,
+            "restart_count": 5
+          }
+        ]
+      }
+    ],
+    "monitoring": [
+      {
+        "name": "grafana-547554b54-7s7dk",
+        "uid": "52a1b662-d359-4378-8ed8-7a791f4574e0",
+        "created": "2026-11-11T07:53:03Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "grafana",
+            "ready": true,
+            "restart_count": 3
+          }
+        ]
+      },
+      {
+        "name": "prometheus-57675c6dc7-hmf8x",
+        "uid": "6a24c444-21e4-45c5-a25d-d72639cf4b06",
+        "created": "2026-11-10T15:10:23Z",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "prometheus",
+            "ready": true,
+            "restart_count": 4
+          }
+        ]
+      }
+    ]
+  },
+  "replicasets": {
+    "gitops-apps": [
+      {
+        "name": "backend-web-app-5c9d99cc9f",
+        "uid": "08348d2d-25a9-4b11-b9a7-3e5aa6fd495b",
+        "generation": 1,
+        "revision": "2",
+        "pod_template_sha256": "5c33ba91462b2ebe6b7a1dd96df19b80f2364ea5bb9e1d6b9735d9716c59b14c",
+        "replicas": 1
+      },
+      {
+        "name": "backend-web-app-79f5fc4484",
+        "uid": "ad83821a-b1a3-4a98-84f6-d5be80dfbada",
+        "generation": 2,
+        "revision": "1",
+        "pod_template_sha256": "75546fdd1e97e17c85fe446f6812197e728a78d12705aca81a981b0766ddbeb9",
+        "replicas": 0
+      },
+      {
+        "name": "frontend-web-app-69878645cc",
+        "uid": "2ac8041d-bb09-49a6-8253-d3b6c1d4b0ea",
+        "generation": 5,
+        "revision": "1",
+        "pod_template_sha256": "c3ffa9ee4cadd4945d3b6df00caa432cc667258b9c6aeb4350a911013c06e2c0",
+        "replicas": 0
+      },
+      {
+        "name": "frontend-web-app-6d8fdf99db",
+        "uid": "768d14f8-1651-416b-a910-9a00234ca441",
+        "generation": 2,
+        "revision": "2",
+        "pod_template_sha256": "3427cfb356d7aaffbe529b295ef92e521cb0fef276d2bb9f723c8c2299fc26a9",
+        "replicas": 2
+      },
+      {
+        "name": "platform-api-web-app-6dcf5787b9",
+        "uid": "e67cb964-d653-4815-9158-26b9131ba201",
+        "generation": 2,
+        "revision": "1",
+        "pod_template_sha256": "83054600defeb6b5a524dca2a4a4459e63e4819d9ebe77c062d6e222c1c45142",
+        "replicas": 0
+      },
+      {
+        "name": "platform-api-web-app-7dc48d9bc9",
+        "uid": "56233b20-291f-4d52-9eaf-020588d26552",
+        "generation": 1,
+        "revision": "3",
+        "pod_template_sha256": "a64a517711390826ac7f989d40e1526e9ffd03d28d4c1014a4d79bad85701967",
+        "replicas": 1
+      },
+      {
+        "name": "platform-api-web-app-9d5b76fcc",
+        "uid": "cb2ed9b4-0d14-4a27-b2e7-99c1754972e0",
+        "generation": 2,
+        "revision": "2",
+        "pod_template_sha256": "dab07304f84dc693a609b30a3d9c337ae1f281742dae22b685eda8ce40ee31ce",
+        "replicas": 0
+      },
+      {
+        "name": "sandbox-web-app-6b988dddd9",
+        "uid": "ed813739-baac-43d2-8a69-3ee87cdb117b",
+        "generation": 1,
+        "revision": "2",
+        "pod_template_sha256": "34b65bfa645b7b8e9a3cd18f25a52c9236f985a59872a790923a688951af1058",
+        "replicas": 1
+      },
+      {
+        "name": "sandbox-web-app-7888f574fd",
+        "uid": "4b04cffa-4df6-4c4d-b5e2-bef655f627fc",
+        "generation": 2,
+        "revision": "1",
+        "pod_template_sha256": "d2d54d70b34760f6a82105f47f2ea226bdc9135c2ced3dea97002dc7cc4f7523",
+        "replicas": 0
+      }
+    ],
+    "monitoring": [
+      {
+        "name": "grafana-547554b54",
+        "uid": "4e5d56ea-f9ac-4c11-a498-d70f55f5828c",
+        "generation": 1,
+        "revision": "3",
+        "pod_template_sha256": "f0b98d653e984fa334e58af0d2b8ed715cc6f7a9261a3a3eae507cc4f4427625",
+        "replicas": 1
+      },
+      {
+        "name": "grafana-79688b9c8f",
+        "uid": "39047b67-4acc-4422-8979-3820bb2b2802",
+        "generation": 2,
+        "revision": "1",
+        "pod_template_sha256": "bfc9d0adce9c641a62a530ea39cc4e7fcf03f70c7115fc425604b28dcd1c5e11",
+        "replicas": 0
+      },
+      {
+        "name": "grafana-79965cb758",
+        "uid": "aaa2afb9-bc8f-4e7f-a836-f6ebfb8870f3",
+        "generation": 2,
+        "revision": "2",
+        "pod_template_sha256": "c2f7817af53d215ba36b57634fd77de6f6a1469905158dfd17a581781c4119d3",
+        "replicas": 0
+      },
+      {
+        "name": "prometheus-57675c6dc7",
+        "uid": "b8f50bc7-7c57-4964-8f72-39c2ed4de6fd",
+        "generation": 1,
+        "revision": "2",
+        "pod_template_sha256": "8f2569be6eb615436ef5f5cf2bc5308555eff52935d3500946c5da809b9956da",
+        "replicas": 1
+      },
+      {
+        "name": "prometheus-6768545dc8",
+        "uid": "73ba20b3-625e-4bdf-969d-33923fa4b21a",
+        "generation": 2,
+        "revision": "1",
+        "pod_template_sha256": "fb7ca0ed50f7410f224a316cc4bab04b2543b83070fc9e04ea9bed2615beadac",
+        "replicas": 0
+      }
+    ]
+  },
+  "test_namespace_absence": {
+    "command": [
+      "kubectl",
+      "--context",
+      "kind-secure-platform",
+      "--request-timeout=10s",
+      "get",
+      "namespace",
+      "psa-restricted-test",
+      "-o",
+      "json"
+    ],
+    "exit_code": 1,
+    "response": "Error from server (NotFound): namespaces \"psa-restricted-test\" not found"
+  },
+  "result": "PASS",
+  "completed_at_utc": "2026-11-14T13:40:27.774042+00:00"
+}

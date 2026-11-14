@@ -1,0 +1,81 @@
+{
+  "reviewed_main": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+  "recorded_at_utc": "2026-11-14T14:39:25.800483+00:00",
+  "provenance": "Results of local tool executions during this review, summarized here; not a new live cluster observation. No cluster API requests, Helm installs or Argo operations performed.",
+  "results": [
+    {
+      "check": "Helm defaults, existing values and hardened profile",
+      "result": "PASS",
+      "detail": "13-group security suite runs lint/template for defaults and all four apps, hardened render, and schema negatives"
+    },
+    {
+      "check": "Lab overlay Helm lint and frozen-artifact equivalence",
+      "result": "PASS",
+      "detail": "Existing lab lint passed during preparation; delivery suite re-renders lab and requires parsed equality with both frozen artifacts"
+    },
+    {
+      "check": "Focused security checker regressions",
+      "result": "PASS",
+      "detail": "13 unittest groups; added malformed raw YAML, null/valid seccomp inheritance and artifact drift checks"
+    },
+    {
+      "check": "Static RBAC and checker regressions",
+      "result": "PASS",
+      "detail": "Exact six-resource policy, 270 expectations, four regression tests"
+    },
+    {
+      "check": "Prometheus and Grafana validators",
+      "result": "PASS",
+      "detail": "Config checksum; Grafana dashboard, alerts, provisioning, project and eight-resource render"
+    },
+    {
+      "check": "Prometheus promtool",
+      "result": "PASS",
+      "detail": "Deployed Prometheus v3.13.5 image, network disabled, read-only, UID 65534, dropped capabilities"
+    },
+    {
+      "check": "Workflow lint",
+      "result": "PASS",
+      "detail": "Local actionlint passed after explicit security-pipeline pipefail addition"
+    },
+    {
+      "check": "API lint/unit/E2E/build",
+      "result": "PASS",
+      "detail": "oxlint; 4 unit tests; 19 HTTP E2E tests; Nest build; no API source or dependency changes"
+    },
+    {
+      "check": "Historical evidence consistency",
+      "result": "PASS",
+      "detail": "12 local evidence invariants; live tests were not rerun"
+    },
+    {
+      "check": "Main-vs-candidate functional compatibility",
+      "result": "PASS",
+      "detail": "All four Pod specs/selectors identical; exact label differences recorded separately"
+    },
+    {
+      "check": "Zero-restart merge of full candidate",
+      "result": "FAIL",
+      "detail": "All four Pod templates lose helm.sh/chart; auto-sync would cause migration rollouts"
+    },
+    {
+      "check": "Evidence-only scope reconciliation",
+      "result": "PASS",
+      "detail": "Keeps all reconciled chart/config/bootstrap/monitoring/RBAC inputs at main contents; exact render equality by unchanged-input simulation"
+    }
+  ],
+  "whitespace_and_document_link_checks": {
+    "result": "PASS",
+    "local_links_resolve": true,
+    "stage1_links_resolve_without_stage2": true,
+    "evidence_index_exhaustive": true,
+    "no_new_trailing_whitespace": true,
+    "unchanged_preexisting_trailing_whitespace": [
+      [
+        "charts/web-app/values.yaml",
+        88
+      ]
+    ],
+    "inventory_files": 61
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "scope": "W10-B acceptance criteria mapped to the owner-approved isolated runtime plan; no separate repository W10-B criteria definition was found. This report does not mark Week 10 complete.",
+  "finalized_at_utc": "2026-11-14T14:18:53.422521+00:00",
+  "result": "PASS",
+  "criteria_passed": 22,
+  "criteria_total": 22,
+  "criteria": [
+    {
+      "id": "W10-B-01",
+      "criterion": "Approved context, version and namespace policy",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-authorized-preflight.json"
+      ],
+      "details": "kind-secure-platform; server v1.37.0; psa-restricted-test restricted:v1.37 for enforce/warn/audit"
+    },
+    {
+      "id": "W10-B-02",
+      "criterion": "Only three authorized resources explicitly created using exact reviewed manifest",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-create.json",
+        "week10-runtime-render.json"
+      ],
+      "details": "ServiceAccount, Service and Deployment/platform-api-psa; controller-created ReplicaSet and Pod expected; no hook"
+    },
+    {
+      "id": "W10-B-03",
+      "criterion": "Bounded successful rollout and Deployment Available",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-rollout.json",
+        "week10-runtime-security.json"
+      ],
+      "details": "120-second rollout timeout; one available replica"
+    },
+    {
+      "id": "W10-B-04",
+      "criterion": "Lab Pod Running/Ready",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json",
+        "week10-runtime-events-probes.json"
+      ],
+      "details": "platform-api-psa-69fff699d8-jqcm8"
+    },
+    {
+      "id": "W10-B-05",
+      "criterion": "Exact running image identity matches reviewed digest",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json"
+      ],
+      "details": "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421"
+    },
+    {
+      "id": "W10-B-06",
+      "criterion": "Actual process UID/GID 1000",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json"
+      ],
+      "details": "PID 1 real/effective/saved/filesystem UID/GID all 1000; exec identity also 1000"
+    },
+    {
+      "id": "W10-B-07",
+      "criterion": "NoNewPrivs enabled",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json"
+      ],
+      "details": "PID 1 NoNewPrivs=1"
+    },
+    {
+      "id": "W10-B-08",
+      "criterion": "Linux capability sets appropriately restricted",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json"
+      ],
+      "details": "All five capability sets zero, including CapEff=0000000000000000"
+    },
+    {
+      "id": "W10-B-09",
+      "criterion": "Seccomp filtering active with RuntimeDefault configuration",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json"
+      ],
+      "details": "Seccomp=2; Seccomp_filters=1; Pod RuntimeDefault"
+    },
+    {
+      "id": "W10-B-10",
+      "criterion": "Restricted controls preserved and service-account token disabled",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-security.json"
+      ],
+      "details": "No control weakened; no token file or projected volume"
+    },
+    {
+      "id": "W10-B-11",
+      "criterion": "Liveness and readiness probes succeed",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-events-probes.json"
+      ],
+      "details": "Kubelet counters: liveness successful=127; readiness successful=258 at observation"
+    },
+    {
+      "id": "W10-B-12",
+      "criterion": "/health/live HTTP verification",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-http.json"
+      ],
+      "details": "HTTP 200; {\"status\":\"ok\"}"
+    },
+    {
+      "id": "W10-B-13",
+      "criterion": "/health/ready HTTP verification",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-http.json"
+      ],
+      "details": "HTTP 200; {\"status\":\"ready\"}"
+    },
+    {
+      "id": "W10-B-14",
+      "criterion": "/api/v1/info HTTP verification",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-http.json"
+      ],
+      "details": "HTTP 200; service platform-api, version 0.1.1"
+    },
+    {
+      "id": "W10-B-15",
+      "criterion": "/metrics HTTP verification",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-http.json"
+      ],
+      "details": "HTTP 200; Prometheus exposition including HTTP metrics"
+    },
+    {
+      "id": "W10-B-16",
+      "criterion": "Localhost-only forwarding, stopped after HTTP checks",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-http.json"
+      ],
+      "details": "127.0.0.1:13000 -> lab Service port 3000; forwarding process terminated, lab retained"
+    },
+    {
+      "id": "W10-B-17",
+      "criterion": "Events/restarts show successful startup without security failures",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-events-probes.json"
+      ],
+      "details": "Only Normal Scheduled/Pulling/Pulled/Created/Started events; zero restarts"
+    },
+    {
+      "id": "W10-B-18",
+      "criterion": "Eight existing Argo Applications remain Synced/Healthy",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-authorized-preflight.json",
+        "week10-runtime-postruntime.json"
+      ],
+      "details": "All eight unchanged health statuses"
+    },
+    {
+      "id": "W10-B-19",
+      "criterion": "Six existing Deployments remain available; templates/Pods/ReplicaSets unchanged",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-authorized-preflight.json",
+        "week10-runtime-postruntime.json"
+      ],
+      "details": "Spec/template hashes, generations, replica counts, Pod UIDs and restart counts identical; no unexpected rollout"
+    },
+    {
+      "id": "W10-B-20",
+      "criterion": "Existing namespaces and production API image unchanged",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-authorized-preflight.json",
+        "week10-runtime-postruntime.json",
+        "week10-runtime-governance-before.json",
+        "week10-runtime-governance-after.json"
+      ],
+      "details": "All namespace UIDs/labels unchanged; production digest unchanged"
+    },
+    {
+      "id": "W10-B-21",
+      "criterion": "RBAC, monitoring, AppProjects and Application definitions unchanged",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-governance-before.json",
+        "week10-runtime-governance-after.json",
+        "week10-runtime-application-generation-investigation.json"
+      ],
+      "details": "All eight raw differences are Application metadata.generation only; exact-hash reconstruction proves other captured fields unchanged; documented separately"
+    },
+    {
+      "id": "W10-B-22",
+      "criterion": "No hook, production sync, cleanup, commit or PR; lab retained",
+      "result": "PASS",
+      "evidence": [
+        "week10-runtime-create.json",
+        "week10-runtime-postruntime.json"
+      ],
+      "details": "Only approved create and lab verification actions; no Helm install/upgrade, Argo mutation or deletion; no commit/PR commands issued"
+    }
+  ],
+  "runtime_image_identity": "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421",
+  "runtime_uid_gid": {
+    "uid": 1000,
+    "gid": 1000
+  },
+  "kernel_security": {
+    "Uid": "1000\t1000\t1000\t1000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapAmb": "0000000000000000",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Seccomp_filters": "1"
+  },
+  "application_generation_differences": "See week10-phase2b-argo-generation-only.md and week10-runtime-application-generation-investigation.json; raw governance hashes differ and were not overwritten.",
+  "unexpected_behavior": "Initial local HTTP test incorrectly expected readiness status ok; actual API correctly returned ready with HTTP 200. Original attempt retained, contract verified in source/tests, corrected verification passed without cluster changes. No application startup or security-control failure occurred.",
+  "retained_resources": [
+    {
+      "kind": "Deployment",
+      "name": "platform-api-psa",
+      "uid": "fc15031b-3cc7-430a-adee-d0c119aa1e8e"
+    },
+    {
+      "kind": "Service",
+      "name": "platform-api-psa",
+      "uid": "0eaef6d5-ddfa-4fc9-927d-cdf0f3590d1e"
+    },
+    {
+      "kind": "ServiceAccount",
+      "name": "default",
+      "uid": "59da0343-1c04-4b67-bd5d-588e95dc4eaf"
+    },
+    {
+      "kind": "ServiceAccount",
+      "name": "platform-api-psa",
+      "uid": "15da1971-0e42-4105-b669-b581da70ab9c"
+    },
+    {
+      "kind": "Pod",
+      "name": "platform-api-psa-69fff699d8-jqcm8",
+      "uid": "03759942-7ec9-4e05-a8a1-234a5f1320bb"
+    }
+  ],
+  "remaining_limits": [
+    "Evidence is a point-in-time isolated runtime test, not full PSS coverage or production rollout approval.",
+    "readOnlyRootFilesystem was not enabled or tested; it is outside this reviewed profile.",
+    "No load/soak, resilience or network-isolation test was performed.",
+    "Prometheus discovery/RBAC was not expanded to this lab; metrics were verified directly over localhost.",
+    "Future image digests require renewed identity/compatibility verification."
+  ]
+}

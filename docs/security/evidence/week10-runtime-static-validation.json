@@ -1,0 +1,14 @@
+{
+  "helm_lint": "PASS with all three values files (chart schema enabled)",
+  "helm_template": "PASS; exactly ServiceAccount, Service, Deployment, test hook Pod",
+  "focused_security_checker": "PASS for both rendered artifacts; not a complete PSS checker",
+  "security_test_groups": "PASS: 10 groups including schema, inheritance, negative fixtures, rollout stability, error classification",
+  "existing_app_renders": "PASS: all four byte-identical to this phase baseline",
+  "rbac_static": "PASS: exact grants and 270 expectations",
+  "prometheus_validator": "PASS",
+  "grafana_validator": "PASS",
+  "git_diff_check": "PASS",
+  "server_side_dry_run": "PASS: 4 resources, both invocations exit 0 without warnings",
+  "persistent_cluster_changes": "NONE",
+  "runtime_identity_security_health_http": "NOT RUN: awaiting explicit deployment authorization"
+}

@@ -1,0 +1,316 @@
+{
+  "reviewed_main": "626e134cc5c44b55a11a46a3abd5227f953f4a3e",
+  "scope": "All tracked modifications versus origin/main plus every non-ignored untracked file; generated build/cache outputs excluded by repository gitignore. No files staged or committed.",
+  "file_count": 61,
+  "stages": {
+    "1-evidence-only": 44,
+    "2-held-implementation": 17
+  },
+  "files": [
+    {
+      "path": ".github/workflows/platform-ci.yaml",
+      "status": "modified",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "charts/web-app/Chart.yaml",
+      "status": "modified",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "charts/web-app/templates/deployment.yaml",
+      "status": "modified",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "charts/web-app/templates/tests/test-connection.yaml",
+      "status": "modified",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "charts/web-app/values.schema.json",
+      "status": "modified",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "charts/web-app/values.yaml",
+      "status": "modified",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "status": "modified",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-delivery-evidence-validation.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-delivery-inventory.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-delivery-local-validation.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-delivery-reconciliation.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-final-preflight.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-final-render-comparison.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-admission.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-namespace-generated-resources.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-namespace.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-posttest.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-preflight-recording-attempt.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-preflight.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-live-summary.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-phase1-static.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-phase2b-acceptance.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-phase2b-argo-generation-only.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-phase2b-runtime-summary.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-application-generation-investigation.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-authorization-gate.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-authorization-preflight.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-authorized-preflight.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-create.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-events-probes.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-existing-render-comparison.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-governance-after.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-governance-before.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-http-initial-assertion.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-http.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-postruntime.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-postvalidation.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-preflight.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-render.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-rollout.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-security.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-server-dry-run.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/evidence/week10-runtime-static-validation.json",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/pod-security.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/week10-delivery-review.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/week10-evidence-index.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "docs/security/week10-final-review.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "environments/platform-api-restricted-values.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "scripts/check-pod-security.py",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "scripts/test-pod-security.py",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "scripts/test-psa-admission.py",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/namespace.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/platform-api-lab-values.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/platform-api-runtime.md",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "security/psa-test/pods/compliant.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/pods/invalid-seccomp.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/pods/missing-allow-privilege-escalation.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/pods/missing-drop-all.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/pods/privileged.yaml",
+      "status": "new",
+      "proposed_stage": "2-held-implementation"
+    },
+    {
+      "path": "security/psa-test/rendered/platform-api-hook.yaml",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    },
+    {
+      "path": "security/psa-test/rendered/platform-api-lab.yaml",
+      "status": "new",
+      "proposed_stage": "1-evidence-only"
+    }
+  ]
+}

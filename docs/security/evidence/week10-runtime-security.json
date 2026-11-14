@@ -1,0 +1,225 @@
+{
+  "observed_at_utc": "2026-11-14T13:51:32.237078+00:00",
+  "namespace": "psa-restricted-test",
+  "deployment": {
+    "name": "platform-api-psa",
+    "uid": "fc15031b-3cc7-430a-adee-d0c119aa1e8e",
+    "generation": 1,
+    "status": {
+      "availableReplicas": 1,
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-11-14T13:50:54Z",
+          "lastUpdateTime": "2026-11-14T13:50:54Z",
+          "message": "Deployment has minimum availability.",
+          "reason": "MinimumReplicasAvailable",
+          "status": "True",
+          "type": "Available"
+        },
+        {
+          "lastTransitionTime": "2026-11-14T13:50:41Z",
+          "lastUpdateTime": "2026-11-14T13:50:54Z",
+          "message": "ReplicaSet \"platform-api-psa-69fff699d8\" has successfully progressed.",
+          "reason": "NewReplicaSetAvailable",
+          "status": "True",
+          "type": "Progressing"
+        }
+      ],
+      "observedGeneration": 1,
+      "readyReplicas": 1,
+      "replicas": 1,
+      "terminatingReplicas": 0,
+      "updatedReplicas": 1
+    }
+  },
+  "service": {
+    "name": "platform-api-psa",
+    "uid": "0eaef6d5-ddfa-4fc9-927d-cdf0f3590d1e",
+    "spec": {
+      "clusterIP": "10.96.72.161",
+      "clusterIPs": [
+        "10.96.72.161"
+      ],
+      "internalTrafficPolicy": "Cluster",
+      "ipFamilies": [
+        "IPv4"
+      ],
+      "ipFamilyPolicy": "SingleStack",
+      "ports": [
+        {
+          "name": "http",
+          "port": 3000,
+          "protocol": "TCP",
+          "targetPort": "http"
+        }
+      ],
+      "selector": {
+        "app.kubernetes.io/instance": "platform-api-psa",
+        "app.kubernetes.io/name": "web-app"
+      },
+      "sessionAffinity": "None",
+      "type": "ClusterIP"
+    }
+  },
+  "serviceaccount": {
+    "name": "platform-api-psa",
+    "uid": "15da1971-0e42-4105-b669-b581da70ab9c",
+    "automountServiceAccountToken": false
+  },
+  "pod": {
+    "name": "platform-api-psa-69fff699d8-jqcm8",
+    "uid": "03759942-7ec9-4e05-a8a1-234a5f1320bb",
+    "node": "secure-platform-worker",
+    "phase": "Running",
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-14T13:50:41Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "PodReadyToStartContainers"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-14T13:50:41Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-14T13:50:54Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "Ready"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-14T13:50:54Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "ContainersReady"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-14T13:50:41Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "container_status": {
+      "allocatedResources": {
+        "cpu": "100m",
+        "memory": "128Mi"
+      },
+      "containerID": "containerd://66d279dad7d15cacba906b830df457a14579823b54947e19331d3031f16c638f",
+      "image": "sha256:92dcf47e4cdb2176fe9c43b615dc492adb32dcd3cde9aa9f35d9116436600ea5",
+      "imageID": "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421",
+      "lastState": {},
+      "name": "web-app",
+      "ready": true,
+      "resources": {
+        "limits": {
+          "cpu": "500m",
+          "memory": "256Mi"
+        },
+        "requests": {
+          "cpu": "100m",
+          "memory": "128Mi"
+        }
+      },
+      "restartCount": 0,
+      "started": true,
+      "state": {
+        "running": {
+          "startedAt": "2026-11-14T13:50:48Z"
+        }
+      },
+      "user": {
+        "linux": {
+          "gid": 1000,
+          "supplementalGroups": [
+            1000
+          ],
+          "uid": 1000
+        }
+      }
+    },
+    "image": "ghcr.io/gogpenguin/secure-agentic-platform/platform-api@sha256:9714e2a64a7ad5b3af396b0c9fd3958245259cf7a536d748df378e21e30f0421",
+    "pod_security_context": {
+      "runAsGroup": 1000,
+      "runAsNonRoot": true,
+      "runAsUser": 1000,
+      "seccompProfile": {
+        "type": "RuntimeDefault"
+      }
+    },
+    "container_security_context": {
+      "allowPrivilegeEscalation": false,
+      "capabilities": {
+        "drop": [
+          "ALL"
+        ]
+      }
+    },
+    "volumes": [],
+    "livenessProbe": {
+      "failureThreshold": 3,
+      "httpGet": {
+        "path": "/health/live",
+        "port": "http",
+        "scheme": "HTTP"
+      },
+      "initialDelaySeconds": 15,
+      "periodSeconds": 10,
+      "successThreshold": 1,
+      "timeoutSeconds": 2
+    },
+    "readinessProbe": {
+      "failureThreshold": 3,
+      "httpGet": {
+        "path": "/health/ready",
+        "port": "http",
+        "scheme": "HTTP"
+      },
+      "initialDelaySeconds": 5,
+      "periodSeconds": 5,
+      "successThreshold": 1,
+      "timeoutSeconds": 2
+    },
+    "resources": {
+      "limits": {
+        "cpu": "500m",
+        "memory": "256Mi"
+      },
+      "requests": {
+        "cpu": "100m",
+        "memory": "128Mi"
+      }
+    }
+  },
+  "process_security_exec": {
+    "exit_code": 0,
+    "stdout": "{\"pid1\":\"MainThread\",\"status\":{\"Uid\":\"1000\\t1000\\t1000\\t1000\",\"Gid\":\"1000\\t1000\\t1000\\t1000\",\"CapInh\":\"0000000000000000\",\"CapPrm\":\"0000000000000000\",\"CapEff\":\"0000000000000000\",\"CapBnd\":\"0000000000000000\",\"CapAmb\":\"0000000000000000\",\"NoNewPrivs\":\"1\",\"Seccomp\":\"2\",\"Seccomp_filters\":\"1\"},\"execUid\":1000,\"execGid\":1000,\"serviceAccountTokenPresent\":false}\n",
+    "stderr": ""
+  },
+  "process_security": {
+    "pid1": "MainThread",
+    "status": {
+      "Uid": "1000\t1000\t1000\t1000",
+      "Gid": "1000\t1000\t1000\t1000",
+      "CapInh": "0000000000000000",
+      "CapPrm": "0000000000000000",
+      "CapEff": "0000000000000000",
+      "CapBnd": "0000000000000000",
+      "CapAmb": "0000000000000000",
+      "NoNewPrivs": "1",
+      "Seccomp": "2",
+      "Seccomp_filters": "1"
+    },
+    "execUid": 1000,
+    "execGid": 1000,
+    "serviceAccountTokenPresent": false
+  }
+}
