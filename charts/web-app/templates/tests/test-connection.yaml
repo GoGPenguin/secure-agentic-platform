@@ -7,9 +7,20 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
+  {{- with .Values.podSecurityContext }}
+  securityContext:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if hasKey .Values.connectionTest "automountServiceAccountToken" }}
+  automountServiceAccountToken: {{ .Values.connectionTest.automountServiceAccountToken }}
+  {{- end }}
   containers:
     - name: wget
       image: busybox
+      {{- with .Values.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       command: ['wget']
       args: ['{{ include "web-app.fullname" . }}:{{ .Values.service.port }}{{ .Values.connectionTest.path }}']
   restartPolicy: Never
