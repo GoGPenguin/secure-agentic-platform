@@ -1,0 +1,106 @@
+rbac:
+  roles:
+    aggregate:
+      admin: false
+      view: false
+
+crds:
+  install: true
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    argocd.argoproj.io/sync-wave: "-1"
+  migration:
+    # Fresh install. Review storage migrations with the first upgrade.
+    enabled: false
+
+kyverno-api:
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    argocd.argoproj.io/sync-wave: "-1"
+
+config:
+  preserve: false
+  enableDefaultRegistryMutation: false
+
+features:
+  autoUpdateWebhooks:
+    enabled: true
+  excludeBootstrapResources:
+    enabled: true
+  generateValidatingAdmissionPolicy:
+    enabled: false
+  validatingAdmissionPolicyReports:
+    enabled: false
+
+# Argo CD owns lifecycle. An authorized operator coordinates webhook removal.
+webhooksCleanup:
+  enabled: false
+
+admissionController:
+  replicas: 2
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: kyverno
+            app.kubernetes.io/part-of: kyverno
+            app.kubernetes.io/component: admission-controller
+        topologyKey: kubernetes.io/hostname
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # Both workers already host a replica, so there is no third slot.
+      maxSurge: 0
+      maxUnavailable: 1
+  container:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 384Mi
+
+backgroundController:
+  replicas: 1
+  rbac:
+    createViewRoleBinding: false
+    coreClusterRole:
+      # No generate or mutate-existing policies need workload writes.
+      extraResources: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 128Mi
+
+cleanupController:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 128Mi
+
+reportsController:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 128Mi

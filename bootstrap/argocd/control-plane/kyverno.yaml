@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: secure-kyverno
+  sources:
+    - repoURL: https://kyverno.github.io/kyverno/
+      chart: kyverno
+      targetRevision: "3.10.0"
+      helm:
+        releaseName: kyverno
+        valueFiles:
+          - $platform/security/kyverno/values.yaml
+        kubeVersion: "1.37.0"
+        skipTests: true
+    - repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+      targetRevision: main
+      ref: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kyverno
+  # No automated sync. Use the normal sync with pruning unchecked.
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=true
+      - FailOnSharedResource=true
