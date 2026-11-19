@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-11-15
 **Roadmap:** Secure Agentic Platform — 36 Weeks
-**Current milestone:** Week 10 technical complete; production implementation pending migration authorization. Evidence PR #25 is merged. Implementation PR #26 remains Draft. Week 9, Week 6 and prior observability milestones remain closed.
+**Current milestone:** Week 11 **CONFIGURATION COMPLETE — STATIC VALIDATION PASSED**. Runtime verification and deployment are deferred. See the [Week 11 NetworkPolicy configuration](security/week11-network-policy.md). Week 10 technical work is complete and production implementation remains pending migration authorization. Evidence PR #25 is merged. Implementation PR #26 remains Draft.
 **Week 10 technical status:** COMPLETE — W10-A 5/5 live PSA cases and W10-B 22/22 isolated runtime acceptance checks passed; validated code and evidence are preserved in version control.
 **Production implementation status:** PENDING MIGRATION AUTHORIZATION — [PR #26](https://github.com/GoGPenguin/secure-agentic-platform/pull/26) remains Open/Draft. The zero-restart constraint remains active; no production chart synchronization or migration rollout is authorized.
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
@@ -283,4 +283,4 @@ This context does not independently establish completion of Weeks 7–8. Week 6
 remains complete per user confirmation. Preserve existing observability/security
 boundaries and the previously documented evidence limits. Remaining platform work
 includes full PSS tooling, legacy image compatibility, reproducible kind versions,
-network isolation, durable monitoring storage and further bootstrap hardening.
+NetworkPolicy runtime verification and separately authorized adoption, durable monitoring storage and further bootstrap hardening.
