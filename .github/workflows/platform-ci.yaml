@@ -90,6 +90,43 @@ jobs:
           helm lint charts/web-app -f environments/platform-api-values.yaml
           helm template platform-api charts/web-app -f environments/platform-api-values.yaml
 
+  kyverno-validation:
+    name: Kyverno Engine Static Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository and base history
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v4.3.2
+      - name: Install YAML parser
+        run: |
+          python3 -m venv "$RUNNER_TEMP/kyverno-venv"
+          "$RUNNER_TEMP/kyverno-venv/bin/pip" install PyYAML==6.0.3
+      - name: Verify and render the pinned chart
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          helm pull kyverno --repo https://kyverno.github.io/kyverno/ \
+            --version 3.10.0 --destination "$RUNNER_TEMP"
+          validation_args=()
+          if [[ -n "$PR_BASE" ]] && ! git diff --quiet "$PR_BASE" -- \
+            security/kyverno bootstrap/argocd/control-plane/kyverno.yaml \
+            bootstrap/argocd/control-plane/kyverno-namespace.yaml \
+            bootstrap/argocd/control-plane/secure-kyverno.yaml \
+            scripts/validate-kyverno.py scripts/test-kyverno-rbac.py \
+            docs/security/evidence/week12-engine-inventory.yaml; then
+            validation_args+=(--base "$PR_BASE")
+          fi
+          "$RUNNER_TEMP/kyverno-venv/bin/python" scripts/validate-kyverno.py \
+            "$RUNNER_TEMP/kyverno-3.10.0.tgz" "${validation_args[@]}"
+          "$RUNNER_TEMP/kyverno-venv/bin/python" scripts/test-kyverno-rbac.py
+
   platform-api-ci:
     name: Platform API CI
     runs-on: ubuntu-latest
