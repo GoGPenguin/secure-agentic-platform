@@ -4,6 +4,7 @@ metadata:
   name: disallow-latest-tag
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
+    gogpenguin.github.io/kyverno-rbac-readiness-refresh: "week12"
 spec:
   validationActions: [Audit]
   failurePolicy: Ignore

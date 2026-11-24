@@ -99,3 +99,44 @@ aggregate matches the pre-extension expectation. The 690 policy assertions
 and five mutation checks passed, along with existing RBAC tests, Helm lint,
 and local workflow syntax checks. The proposed extension has not been
 applied or verified at runtime.
+
+## Readiness refresh after RBAC activation
+
+On Machine B, the reviewed role aggregated successfully and the reports
+ServiceAccount passed the exact authorization checks. Three policy readiness
+conditions retained their original denial timestamps. Kyverno v1.20.0
+queues policy updates with a changed resourceVersion. The status controller
+subscribes to policy and webhook-state events and has no direct ClusterRole
+watch. A metadata update therefore gives Kyverno a reconciliation event
+without changing the policy contract. Kyverno can also run its normal
+webhook reconciliation. The annotation supplies no webhook or admission
+configuration. [Pinned policy-status controller](https://github.com/kyverno/kyverno/blob/f666af06e9bd310c7e730f1523c0430e90371a89/pkg/controllers/policystatus/controller.go) · [Pinned policy event handlers](https://github.com/kyverno/kyverno/blob/f666af06e9bd310c7e730f1523c0430e90371a89/pkg/utils/controller/handlers.go)
+
+The Git-managed annotation `gogpenguin.github.io/kyverno-rbac-readiness-refresh: "week12"`
+is limited to `require-non-root`, `restrict-image-registries` and
+`disallow-latest-tag`. Keep the value stable for this checkpoint.
+
+After separate owner approval:
+
+1. Confirm the reports identity still passes get, list and watch on
+   `pods/ephemeralcontainers` at all-namespaces scope. Record all five
+   resourceVersions, UIDs, generations, specs and conditions. Capture the
+   webhook rules, background PolicyReports and workload identity baseline.
+2. Compare the Argo render at the approved revision. The intended delta is
+   the annotation on those three policies. Manually sync only
+   `kyverno-policies` at that revision with Force, Replace and Prune disabled.
+3. Verify the annotation and a new resourceVersion on each affected policy.
+   All five must retain their original UID, spec, generation, Audit action
+   and namespace scope. Confirm the two previously Ready policies have no
+   readiness-refresh annotation.
+4. Allow normal reconciliation. Confirm all five policies report Ready,
+   `RBACPermissionsGranted=True`, and `WebhookConfigured=True`. Verify the
+   policy Application reaches Synced / Healthy.
+5. Compare webhook rules and scope, background reports and application health
+   with the baseline. Verify workload Pod identities, image digests,
+   readiness and restart counts remain stable.
+
+If readiness still reports False, preserve the sync operation, policy
+conditions and resourceVersions, Kyverno logs and authorization reviews.
+Stop after the first refresh attempt. Any further write requires separate
+approval.
