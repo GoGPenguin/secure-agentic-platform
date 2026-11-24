@@ -1,11 +1,12 @@
 # Week 11 NetworkPolicy
 
-**CONFIGURATION COMPLETE — STATIC VALIDATION PASSED**
+**LEARNING MILESTONE COMPLETE · STATIC VALIDATION PASSED**
 
 The [policy bundle](../../security/network-policy/) sits outside all reconciled
-GitOps source paths. Runtime verification is deferred. No cluster was created
-and the [Week 11 lab tooling](../../infrastructure/kind/week11/) was not executed
-for this exercise. The intended behavior below requires a policy-capable CNI.
+GitOps source paths. The owner chose to skip the isolated runtime rehearsal
+for the learning roadmap. The [lab configuration](../../infrastructure/kind/week11/)
+and [rehearsal plan](week11-network-policy-rehearsal.md) are retained for future
+validation. The intended behavior below requires a policy-capable CNI.
 
 ## Topology and default deny
 
@@ -85,14 +86,22 @@ The schema adapter recognizes the Kubernetes Swagger v2 encoding for
 integer-or-string ports. Exact policy checks also reject unknown fields,
 extra policies, and omitted peer or port restrictions.
 
-Static results cover schema and checked-in configuration. Packet enforcement,
-same-node and cross-node behavior, DNS Service routing, API discovery under
-isolation, and real allow and deny probes remain deferred.
+The following runtime acceptance checks are deferred:
+
+| Check | Status |
+| --- | --- |
+| Runtime ingress and egress enforcement | **NOT VERIFIED** |
+| Kindnet handling of the API Service versus its backing endpoint | **NOT VERIFIED** |
+| Prometheus discovery under default-deny | **NOT VERIFIED** |
+| Cross-node enforcement | **NOT VERIFIED** |
+
+DNS Service routing under isolation also remains untested.
 
 ## Future GitOps integration and rollback
 
-A separately authorized rollout needs a designated policy owner and a
-dedicated source path. The current application and monitoring AppProjects
+Production deployment requires separate runtime validation and explicit owner
+approval. A rollout needs a designated policy owner and a dedicated source
+path. The current application and monitoring AppProjects
 omit `networking.k8s.io/NetworkPolicy` from their allowlists. Review scoped
 AppProject destinations, resource kinds, and controller RBAC before integrating.
 Inventory additive policies and operational clients, resolve API discovery,
@@ -106,3 +115,22 @@ explicitly remove the exact policies introduced by the rollout if needed.
 Coordinate the desired Git state with any live removals to avoid self-heal
 restoring the policies. Verify API discovery, scraping, datasource queries,
 and expected isolation afterward.
+
+## Machine B read-only checkpoint
+
+On 2026-11-24, Machine B had zero NetworkPolicies in `gitops-apps` and
+`monitoring`. The seven live policies belonged to Argo CD in `argocd`.
+The Week 11 bundle remains outside reconciled GitOps paths.
+
+Kindnet and kube-proxy each had three Ready DaemonSet Pods. The Kubernetes
+API Service was `10.96.0.1:443` and its EndpointSlice exposed
+`172.18.0.3:6443` at inspection time. The current Platform API and Prometheus self
+scrape targets were up, and Grafana's health endpoint reported its database
+healthy. These observations establish the unisolated baseline and show
+the two API tuples to test. Runtime enforcement, translation order, and
+discovery of a new Pod under default-deny still need an isolated rehearsal.
+Keep activation gated on that verification.
+
+The [isolated runtime rehearsal design](week11-network-policy-rehearsal.md)
+defines the lab, destination checks, discovery and scrape matrix, evidence,
+and teardown approvals. It has not been executed.
