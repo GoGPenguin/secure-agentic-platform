@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno-policies
+  namespace: argocd
+spec:
+  project: secure-kyverno-policies
+  source:
+    repoURL: https://github.com/GoGPenguin/secure-agentic-platform.git
+    targetRevision: main
+    path: security/kyverno-policies
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kyverno
+  # Manual sync only. Leave pruning unchecked. Require the engine's CRD.
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=true
+      - FailOnSharedResource=true
+      - Prune=false

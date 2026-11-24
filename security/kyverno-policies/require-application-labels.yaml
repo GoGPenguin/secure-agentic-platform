@@ -1,0 +1,38 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-application-labels
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  validationActions: [Audit]
+  failurePolicy: Ignore
+  matchConstraints:
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: gitops-apps
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+      - apiGroups: [apps]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [deployments, daemonsets, replicasets, statefulsets]
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs, cronjobs]
+  variables:
+    - name: podMetadata
+      expression: >-
+        object.kind == 'Pod' ? object.metadata :
+        object.kind == 'CronJob' ? object.spec.jobTemplate.spec.template.metadata :
+        object.spec.template.metadata
+  validations:
+    - message: Pods and Pod templates must have nonempty name, instance and managed-by application labels.
+      expression: >-
+        ['app.kubernetes.io/name', 'app.kubernetes.io/instance', 'app.kubernetes.io/managed-by'].all(key,
+          key in variables.podMetadata.?labels.orValue({}) &&
+          variables.podMetadata.labels[key] != '')

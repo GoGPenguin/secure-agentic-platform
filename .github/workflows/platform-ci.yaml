@@ -127,6 +127,35 @@ jobs:
             "$RUNNER_TEMP/kyverno-3.10.0.tgz" "${validation_args[@]}"
           "$RUNNER_TEMP/kyverno-venv/bin/python" scripts/test-kyverno-rbac.py
 
+  kyverno-policy-validation:
+    name: Kyverno Audit Policy Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v4.3.1
+      - name: Install pinned test tools
+        run: |
+          set -euo pipefail
+          tool_dir="$RUNNER_TEMP/kyverno-policy-tools"
+          mkdir -p "$tool_dir"
+          curl --fail --silent --show-error --location --retry 3 \
+            https://github.com/kyverno/kyverno/releases/download/v1.20.0/kyverno-cli_v1.20.0_linux_x86_64.tar.gz \
+            --output "$tool_dir/kyverno.tar.gz"
+          echo "06b8f3ca7b5626473be8fb4d343ad54ab84e317142766f72420e7d44b80942e2  $tool_dir/kyverno.tar.gz" | sha256sum --check
+          tar -xzf "$tool_dir/kyverno.tar.gz" -C "$tool_dir" kyverno
+          python3 -m venv "$tool_dir/venv"
+          "$tool_dir/venv/bin/pip" install PyYAML==6.0.3
+      - name: Test policy contracts and workload compatibility offline
+        run: |
+          tool_dir="$RUNNER_TEMP/kyverno-policy-tools"
+          "$tool_dir/venv/bin/python" scripts/test-kyverno-policies.py --kyverno "$tool_dir/kyverno"
+
   platform-api-ci:
     name: Platform API CI
     runs-on: ubuntu-latest
