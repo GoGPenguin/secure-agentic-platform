@@ -3,7 +3,7 @@
 **Last updated:** 2026-11-24
 **Roadmap:** Secure Agentic Platform — 36 Weeks
 **Current milestone:** Week 12 **AUDIT RUNTIME ACCEPTED ON MACHINE B**. The engine, policies and reporting RBAC Applications are Synced/Healthy. All five Audit policies are Ready, and ephemeral-container admission passed. See the [Week 12 closure report](security/week12-closure.md).
-**Week 11:** NetworkPolicy configuration and static validation are complete. Machine B's read-only check confirmed the bundle is inactive. The isolated runtime test and Prometheus API egress verification remain open. See the [Week 11 runbook](security/week11-network-policy.md).
+**Week 11:** Complete for the learning roadmap. Static NetworkPolicy validation and all ten negative cases passed. The owner skipped the isolated rehearsal and deferred runtime enforcement verification. The Machine B inventory showed zero NetworkPolicies in `gitops-apps` and `monitoring`. Production deployment requires separate runtime validation and owner approval. See the [Week 11 runbook](security/week11-network-policy.md).
 **Week 10 technical status:** COMPLETE — W10-A 5/5 live PSA cases and W10-B 22/22 isolated runtime acceptance checks passed; validated code and evidence are preserved in version control.
 **Production implementation status:** PENDING MIGRATION AUTHORIZATION — [PR #26](https://github.com/GoGPenguin/secure-agentic-platform/pull/26) remains Open/Draft. The zero-restart constraint remains active; no production chart synchronization or migration rollout is authorized.
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
@@ -47,7 +47,7 @@ The Week 10 evidence merge was `060b2b08081b9356a1f4efbe2d14fb808eec633a`, mergi
 | W10-A | PASS — 5/5 actual server-side Pod dry-run admission cases in psa-restricted-test against restricted:v1.37; no test fixture Pods persisted |
 | W10-B | PASS — 22/22 owner-plan acceptance checks: exact API digest, UID/GID 1000, NoNewPrivs 1, capabilities zero, Seccomp 2, probes and four HTTP endpoints; isolated lab retained |
 | Week 10 technical status | COMPLETE — isolated W10-A/W10-B acceptance passed; evidence-only PR #25 merged |
-| Week 11 NetworkPolicy | Static validation passed. The six-policy bundle is inactive on Machine B. Prometheus API egress and policy enforcement remain open. |
+| Week 11 NetworkPolicy | Learning milestone complete. Static validation and all ten negative cases passed. Runtime ingress and egress, Kindnet API Service versus endpoint behavior, Prometheus discovery under default-deny, and cross-node enforcement are **NOT VERIFIED**. |
 | Week 12 Kyverno | Machine B engine and five Audit policies accepted. Reporting RBAC and the metadata-only readiness refresh passed. Ephemeral admission passed with no persistent debug container. |
 | Production implementation | PENDING MIGRATION AUTHORIZATION — PR #26 remains Draft; merging its chart changes into auto-synced main would roll all four existing application Deployments |
 
@@ -283,9 +283,10 @@ helm template platform-api charts/web-app -n gitops-apps -f environments/platfor
 
 After reviewed merges, inspect root/API/Prometheus/Grafana separately, ApplicationSet conditions, rollout and selected image. Root health alone does not establish child query/evaluation health. Use localhost-bound port-forwards for API/Grafana/Prometheus access.
 
-Next: complete the Week 11 isolated NetworkPolicy rehearsal, including the
-Prometheus API egress path. Keep the live Week 12 policies in Audit while
-workload compatibility fixes are reviewed and verified separately.
+The owner deferred the Week 11 runtime rehearsal. The
+[rehearsal plan](security/week11-network-policy-rehearsal.md) remains available
+for future production validation. Keep the live Week 12 policies in Audit
+while workload compatibility fixes are reviewed and verified separately.
 
 Preserve the two separate Week 10 states: **Week 10 technical complete** and
 **production implementation pending migration authorization**. Keep PR #26 Draft,
