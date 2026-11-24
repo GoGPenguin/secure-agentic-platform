@@ -1,11 +1,12 @@
 # Machine B Kyverno reporting readiness
 
-The five Audit ValidatingPolicies remain installed. The policy Application is
-Synced / Degraded because the non-root, registry, and latest-tag policies
-match `pods/ephemeralcontainers` and report `RBACPermissionsGranted=False`.
-All five report `WebhookConfigured=True`. The resource and label policies
-are Ready. The existing Deployment background reports match the compatibility
-matrix. No cluster changes were made during this diagnosis.
+Machine B's reporting RBAC extension is deployed and the five Audit policies
+are Ready. During Audit activation, the non-root, registry and latest-tag
+policies reported `RBACPermissionsGranted=False`. The extension satisfied the
+permission checks. The separate metadata-only refresh triggered a recheck
+and cleared all three conditions. The [Week 12 closure report](week12-closure.md)
+records the final acceptance. The diagnosis and approval steps below cover
+repeating this work in a separate environment.
 
 ## Cause and effective access
 
@@ -43,7 +44,7 @@ and verify its effective permissions after deployment.
 
 ## Ownership and deployment order
 
-The proposed `kyverno-reporting-rbac` Application owns one standalone
+The `kyverno-reporting-rbac` Application owns one standalone
 ClusterRole. Its only rule grants get/list/watch on the core
 `pods/ephemeralcontainers` subresource. Kyverno's existing aggregation label
 adds this rule to the reports role. The existing ClusterRoleBinding supplies
@@ -97,8 +98,8 @@ Offline tests verify the proposed aggregation union, reject removal of each
 required verb, and reject widened access or automatic sync. The existing live
 aggregate matches the pre-extension expectation. The 690 policy assertions
 and five mutation checks passed, along with existing RBAC tests, Helm lint,
-and local workflow syntax checks. The proposed extension has not been
-applied or verified at runtime.
+and local workflow syntax checks. Machine B runtime verification subsequently confirmed the projected grant and
+the readiness refresh.
 
 ## Readiness refresh after RBAC activation
 
