@@ -1,0 +1,75 @@
+Version: v1.20.0
+Time: 2026-11-11T12:42:56Z
+Git commit ID: f666af06e9bd310c7e730f1523c0430e90371a89
+v4.3.1+gc0d08d0
+PyYAML 6.0.3
+Kyverno CLI archive SHA-256
+06b8f3ca7b5626473be8fb4d343ad54ab84e317142766f72420e7d44b80942e2
+Offline Kyverno CLI policy results
+Policy fixtures (CREATE)
+Test Summary: 310 tests passed and 0 tests failed
+Ephemeral-container subresource (CREATE)
+Test Summary: 10 tests passed and 0 tests failed
+Policy fixtures (UPDATE)
+Test Summary: 310 tests passed and 0 tests failed
+Ephemeral-container subresource (UPDATE)
+Test Summary: 10 tests passed and 0 tests failed
+Current Helm renders
+Test Summary: 40 tests passed and 0 tests failed
+{
+  "backend-web-app": [
+    "disallow-latest-tag",
+    "require-non-root",
+    "restrict-image-registries"
+  ],
+  "backend-web-app-test-connection": [
+    "disallow-latest-tag",
+    "require-cpu-memory",
+    "require-non-root",
+    "restrict-image-registries"
+  ],
+  "frontend-web-app": [
+    "require-non-root",
+    "restrict-image-registries"
+  ],
+  "frontend-web-app-test-connection": [
+    "disallow-latest-tag",
+    "require-cpu-memory",
+    "require-non-root",
+    "restrict-image-registries"
+  ],
+  "platform-api-web-app": [
+    "require-non-root"
+  ],
+  "platform-api-web-app-test-connection": [
+    "disallow-latest-tag",
+    "require-cpu-memory",
+    "require-non-root",
+    "restrict-image-registries"
+  ],
+  "sandbox-web-app": [
+    "require-non-root",
+    "restrict-image-registries"
+  ],
+  "sandbox-web-app-test-connection": [
+    "disallow-latest-tag",
+    "require-cpu-memory",
+    "require-non-root",
+    "restrict-image-registries"
+  ]
+}
+Detected permissive mutation in disallow-latest-tag
+Detected permissive mutation in require-application-labels
+Detected permissive mutation in require-cpu-memory
+Detected permissive mutation in require-non-root
+Detected permissive mutation in restrict-image-registries
+Additional local checks
+PASS: Five manifests validated against the upstream Kyverno v1.20.0 ValidatingPolicy v1 CRD schema.
+PASS: New GitHub Actions job parsed as YAML and its inline Bash scripts passed bash -n.
+PASS: Existing static RBAC checks, four RBAC regression tests and five Kyverno RBAC aggregation tests.
+PASS: Existing Prometheus checksum, Grafana config validation and web-app Helm lint.
+PASS: Platform API lint, four unit tests, nineteen HTTP tests and build.
+PASS: Kyverno engine chart checksum and 73-resource render, including unchanged workload templates and image selections.
+PASS: Week 11 NetworkPolicy schema, application selectors, traffic matrix, and ten negative cases.
+PASS: Platform API local Docker image build and containerized promtool configuration check.
+PASS: Existing CI job definitions are identical to origin/main.
