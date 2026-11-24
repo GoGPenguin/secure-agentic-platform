@@ -119,6 +119,7 @@ jobs:
             security/kyverno bootstrap/argocd/control-plane/kyverno.yaml \
             bootstrap/argocd/control-plane/kyverno-namespace.yaml \
             bootstrap/argocd/control-plane/secure-kyverno.yaml \
+            bootstrap/argocd/opt-in/kyverno-reporting-rbac security/kyverno-reporting-rbac \
             scripts/validate-kyverno.py scripts/test-kyverno-rbac.py \
             docs/security/evidence/week12-engine-inventory.yaml; then
             validation_args+=(--base "$PR_BASE")

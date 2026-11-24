@@ -12,6 +12,7 @@ import yaml
 VALIDATOR = runpy.run_path(str(Path(__file__).with_name("validate-kyverno.py")))
 VALIDATE = VALIDATOR["validate_aggregation"]
 ADMISSION = "kyverno:admission-controller"
+REPORTS = VALIDATOR["REPORTS_AGGREGATE"]
 EXTRA_RULE = {"apiGroups": [""], "resources": ["secrets"], "verbs": ["list"]}
 
 
@@ -54,6 +55,57 @@ class AggregationTest(unittest.TestCase):
     def test_changed_selector(self):
         self.observed[ADMISSION]["aggregationRule"]["clusterRoleSelectors"].clear()
         with self.assertRaisesRegex(SystemExit, "aggregation selectors changed"):
+            self.validate()
+
+    def test_reporting_extension_effective_union(self):
+        role = yaml.safe_load(VALIDATOR["REPORTING_ROLE"].read_text())
+        self.observed[role["metadata"]["name"]] = role
+        self.observed[REPORTS]["rules"] += deepcopy(role["rules"])
+        VALIDATE(self.reviewed, list(self.observed.values()), live=True, reporting_role=role)
+        self.observed[REPORTS]["rules"].pop()
+        with self.assertRaisesRegex(SystemExit, "effective rules differ"):
+            VALIDATE(self.reviewed, list(self.observed.values()), live=True, reporting_role=role)
+
+
+class ReportingRoleTest(unittest.TestCase):
+    def setUp(self):
+        self.role = yaml.safe_load(VALIDATOR["REPORTING_ROLE"].read_text())
+        directory = VALIDATOR["REPORTING_BOOTSTRAP"]
+        self.project = yaml.safe_load((directory / "project.yaml").read_text())
+        self.app = yaml.safe_load((directory / "application.yaml").read_text())
+
+    def validate(self):
+        VALIDATOR["validate_reporting_rbac"](self.role, self.project, self.app)
+
+    def test_reviewed_manifests(self):
+        self.validate()
+
+    def test_each_required_permission(self):
+        for verb in ("get", "list", "watch"):
+            with self.subTest(verb=verb):
+                self.role["rules"][0]["verbs"] = [v for v in ("get", "list", "watch") if v != verb]
+                with self.assertRaisesRegex(SystemExit, "must grant only"):
+                    self.validate()
+
+    def test_reject_unrelated_access(self):
+        for key, value in (("verbs", "update"), ("resources", "secrets"), ("resources", "*")):
+            with self.subTest(key=key, value=value):
+                rule = self.role["rules"][0]
+                rule[key].append(value)
+                with self.assertRaisesRegex(SystemExit, "must grant only"):
+                    self.validate()
+                rule[key].pop()
+
+    def test_reject_wider_project(self):
+        self.project["spec"]["clusterResourceWhitelist"].append(
+            {"group": "rbac.authorization.k8s.io", "kind": "ClusterRoleBinding"}
+        )
+        with self.assertRaisesRegex(SystemExit, "AppProject must permit only ClusterRole"):
+            self.validate()
+
+    def test_reject_automation(self):
+        self.app["spec"]["syncPolicy"]["automated"] = {"enabled": True}
+        with self.assertRaisesRegex(SystemExit, "Application must be manual"):
             self.validate()
 
 

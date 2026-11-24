@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: secure-kyverno-reporting-rbac
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/GoGPenguin/secure-agentic-platform.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: kyverno
+  clusterResourceWhitelist:
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+  namespaceResourceBlacklist:
+    - group: '*'
+      kind: '*'

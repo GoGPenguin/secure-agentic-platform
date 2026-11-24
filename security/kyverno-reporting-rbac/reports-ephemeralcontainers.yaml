@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kyverno-reports-ephemeralcontainers
+  labels:
+    rbac.kyverno.io/aggregate-to-reports-controller: "true"
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+rules:
+  - apiGroups: [""]
+    resources: [pods/ephemeralcontainers]
+    verbs: [get, list, watch]
