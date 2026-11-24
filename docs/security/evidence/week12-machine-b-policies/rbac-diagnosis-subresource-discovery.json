@@ -1,0 +1,9 @@
+{
+  "name": "pods/ephemeralcontainers",
+  "namespaced": true,
+  "verbs": [
+    "get",
+    "patch",
+    "update"
+  ]
+}

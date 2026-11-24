@@ -1,0 +1,12 @@
+kyverno-reports-controller -A get pods/ephemeralcontainers: no
+kyverno-reports-controller -A list pods/ephemeralcontainers: no
+kyverno-reports-controller -A watch pods/ephemeralcontainers: no
+kyverno-reports-controller -n gitops-apps get pods/ephemeralcontainers: no
+kyverno-reports-controller -n gitops-apps list pods/ephemeralcontainers: no
+kyverno-reports-controller -n gitops-apps watch pods/ephemeralcontainers: no
+kyverno-admission-controller -A get pods/ephemeralcontainers: no
+kyverno-admission-controller -A list pods/ephemeralcontainers: no
+kyverno-admission-controller -A watch pods/ephemeralcontainers: no
+kyverno-admission-controller -n gitops-apps get pods/ephemeralcontainers: no
+kyverno-admission-controller -n gitops-apps list pods/ephemeralcontainers: no
+kyverno-admission-controller -n gitops-apps watch pods/ephemeralcontainers: no
