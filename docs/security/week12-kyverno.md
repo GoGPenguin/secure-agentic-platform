@@ -1,17 +1,19 @@
 # Week 12 Kyverno engine runbook
 
-W12-A.1 prepares the persistent Kyverno engine for a later authorized
-deployment. The checked-in configuration installs no Kyverno policies or
-PolicyExceptions. Week 10 production PSA adoption and Week 11 NetworkPolicy
-deployment remain separate checkpoints.
+Machine B passed runtime acceptance for Kyverno v1.20.0 and the five Audit
+policies. Machine A is a separate cluster with its own acceptance evidence.
+See the [Week 12 closure report](week12-closure.md) for delivery revisions,
+runtime results and open work. The engine chart itself installs the engine
+and CRDs. Audit policies and reporting RBAC have separate Applications and
+approval gates.
 
 ## GitOps ownership and install order
 
 1. `platform-root` watches the nonrecursive `bootstrap/argocd/control-plane`
    directory on `main`. It owns the `kyverno` Namespace at wave −2,
    `secure-kyverno` AppProject at wave −1 and `kyverno` Application at
-   wave 1. A merge to `main` authorizes root to reconcile those objects
-   immediately. The engine is a standalone child outside the workload
+   wave 1. The root reconciles those objects automatically from `main`. The engine
+   sync requires separate approval. The engine is a standalone child outside the workload
    ApplicationSet.
 2. The child reads official chart `3.10.0` and the values-only Git source.
    Chart metadata and all active runtime and hook images resolve to
@@ -179,9 +181,11 @@ remain common failure points.
    deployment generations, Pod identities/restarts, API readiness/info and
    metrics, Prometheus readiness and scrape target, and Grafana health.
    Record any diff, webhook error or unexpected restart before advancing.
-5. **Policy approval.** This checkpoint ends with the engine configuration
-   and static evidence. Any later policy implementation, Audit deployment,
-   or enforcement scope has its own approval gate.
+5. **Policy approval.** After engine acceptance, the opt-in Audit
+   Application and the reporting RBAC extension require their own approval
+   and manual sync. The [policy runbook](week12-kyverno-policies.md) and
+   [reporting RBAC runbook](week12-kyverno-reporting-rbac.md) record the
+   delivery and verification steps. Deny requires a separate review.
 
 ## Rollback and recovery
 

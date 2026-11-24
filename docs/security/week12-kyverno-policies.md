@@ -1,8 +1,11 @@
 # Week 12 Kyverno Audit policy readiness
 
-The five policies are implemented and verified offline. The Audit rollout still
-requires runtime acceptance. The current workload renders contain violations
-that block a move to Deny.
+Machine B passed runtime acceptance for all five Audit policies at
+`88db5fbb7f246416b14bba7645f779659284ddf3`. All five are Ready and the policy
+Application is Synced/Healthy. The background compatibility matrix and the
+ephemeral-container admission test passed. The observed workload violations
+still block a move to Deny. See the [Week 12 closure report](week12-closure.md)
+for evidence, ownership and remaining work.
 
 ## Policy contracts
 

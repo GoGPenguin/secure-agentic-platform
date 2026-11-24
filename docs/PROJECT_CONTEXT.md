@@ -1,9 +1,9 @@
 # Secure Agentic Platform — Project Context
 
-**Last updated:** 2026-11-15
+**Last updated:** 2026-11-24
 **Roadmap:** Secure Agentic Platform — 36 Weeks
-**Current milestone:** Week 11 **CONFIGURATION COMPLETE — STATIC VALIDATION PASSED**. Runtime verification and deployment are deferred. See the [Week 11 NetworkPolicy configuration](security/week11-network-policy.md). Week 10 technical work is complete and production implementation remains pending migration authorization. Evidence PR #25 is merged. Implementation PR #26 remains Draft.
-**Week 12 checkpoint W12-A.1:** Kyverno engine GitOps configuration and static validation are prepared on the feature branch. The [engine runbook](security/week12-kyverno.md) records the reviewed chart inventory and separate bootstrap, engine sync and policy approval gates.
+**Current milestone:** Week 12 **AUDIT RUNTIME ACCEPTED ON MACHINE B**. The engine, policies and reporting RBAC Applications are Synced/Healthy. All five Audit policies are Ready, and ephemeral-container admission passed. See the [Week 12 closure report](security/week12-closure.md).
+**Week 11:** NetworkPolicy configuration and static validation are complete. Machine B's read-only check confirmed the bundle is inactive. The isolated runtime test and Prometheus API egress verification remain open. See the [Week 11 runbook](security/week11-network-policy.md).
 **Week 10 technical status:** COMPLETE — W10-A 5/5 live PSA cases and W10-B 22/22 isolated runtime acceptance checks passed; validated code and evidence are preserved in version control.
 **Production implementation status:** PENDING MIGRATION AUTHORIZATION — [PR #26](https://github.com/GoGPenguin/secure-agentic-platform/pull/26) remains Open/Draft. The zero-restart constraint remains active; no production chart synchronization or migration rollout is authorized.
 **Repository:** https://github.com/GoGPenguin/secure-agentic-platform
@@ -18,7 +18,14 @@ Preserve existing workloads and favor incremental, reversible changes. Do not re
 
 ## Current checkpoint and evidence boundaries
 
-The latest fetched `origin/main` is `060b2b08081b9356a1f4efbe2d14fb808eec633a`, merging the evidence-only [PR #25](https://github.com/GoGPenguin/secure-agentic-platform/pull/25) on 2026-11-14 at 16:58:13 UTC. The evidence commit is `7d779a5d3795380a3cf640b29acc15925e43f492`. Implementation commit `abc6ea6c8878c5791e313d3ceb3fead2724ef3b0` is preserved on `feature/week10-restricted-opt-in` in Draft PR #26 and is not merged. Its current base remains `docs/week10-security-evidence`; do not merge implementation into that branch. The pre-Week-10 baseline was `626e134cc5c44b55a11a46a3abd5227f953f4a3e`. The earlier Week 9 evidence revision was `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
+Machine A and Machine B are independent Kubernetes environments that share this
+repository. Machine A's earlier engine acceptance belongs to Machine A. The
+Week 12 closure uses Machine B's separate engine, Audit, reporting RBAC,
+readiness refresh and admission evidence. Machine B's final accepted Git
+revision is `88db5fbb7f246416b14bba7645f779659284ddf3`. Verify cluster identity
+before comparing live state with either environment's evidence.
+
+The Week 10 evidence merge was `060b2b08081b9356a1f4efbe2d14fb808eec633a`, merging the evidence-only [PR #25](https://github.com/GoGPenguin/secure-agentic-platform/pull/25) on 2026-11-14 at 16:58:13 UTC. The evidence commit is `7d779a5d3795380a3cf640b29acc15925e43f492`. Implementation commit `abc6ea6c8878c5791e313d3ceb3fead2724ef3b0` is preserved on `feature/week10-restricted-opt-in` in Draft PR #26 and is not merged. Its current base remains `docs/week10-security-evidence`; do not merge implementation into that branch. The pre-Week-10 baseline was `626e134cc5c44b55a11a46a3abd5227f953f4a3e`. The earlier Week 9 evidence revision was `00bbe81`, merging Week 9 evidence in [PR #23](https://github.com/GoGPenguin/secure-agentic-platform/pull/23). Implementation deployed at `d83cb4c418bf538e6ceaa156f768de82ed375d36` through [PR #22](https://github.com/GoGPenguin/secure-agentic-platform/pull/22). Both PRs passed required checks before merge. Historical Week 5 cleanup was committed as `30c8376` and merged in PR #20; Git history retains the removed exercise.
 
 | Checkpoint | Status and evidence |
 | --- | --- |
@@ -40,6 +47,8 @@ The latest fetched `origin/main` is `060b2b08081b9356a1f4efbe2d14fb808eec633a`, 
 | W10-A | PASS — 5/5 actual server-side Pod dry-run admission cases in psa-restricted-test against restricted:v1.37; no test fixture Pods persisted |
 | W10-B | PASS — 22/22 owner-plan acceptance checks: exact API digest, UID/GID 1000, NoNewPrivs 1, capabilities zero, Seccomp 2, probes and four HTTP endpoints; isolated lab retained |
 | Week 10 technical status | COMPLETE — isolated W10-A/W10-B acceptance passed; evidence-only PR #25 merged |
+| Week 11 NetworkPolicy | Static validation passed. The six-policy bundle is inactive on Machine B. Prometheus API egress and policy enforcement remain open. |
+| Week 12 Kyverno | Machine B engine and five Audit policies accepted. Reporting RBAC and the metadata-only readiness refresh passed. Ephemeral admission passed with no persistent debug container. |
 | Production implementation | PENDING MIGRATION AUTHORIZATION — PR #26 remains Draft; merging its chart changes into auto-synced main would roll all four existing application Deployments |
 
 Historical read-only checks after the Week 5 cleanup merge found `platform-root`, `platform-api`, `prometheus` and `grafana` Synced/Healthy. Frontend, backend and sandbox were also Synced/Healthy. API rollout completed with one Ready replica on the production digest below and no lab environment variables. At that historical checkpoint, a hard refresh cleared a cached Prometheus `directory.recurse: false` diff. Week 9 found a recurring normalization difference instead; see the investigation below.
@@ -274,7 +283,11 @@ helm template platform-api charts/web-app -n gitops-apps -f environments/platfor
 
 After reviewed merges, inspect root/API/Prometheus/Grafana separately, ApplicationSet conditions, rollout and selected image. Root health alone does not establish child query/evaluation health. Use localhost-bound port-forwards for API/Grafana/Prometheus access.
 
-Next: preserve the two separate states: **Week 10 technical complete** and
+Next: complete the Week 11 isolated NetworkPolicy rehearsal, including the
+Prometheus API egress path. Keep the live Week 12 policies in Audit while
+workload compatibility fixes are reviewed and verified separately.
+
+Preserve the two separate Week 10 states: **Week 10 technical complete** and
 **production implementation pending migration authorization**. Keep PR #26 Draft,
 retain the PSA lab, and do not synchronize the production chart, merge the
 implementation or perform cleanup. Review the documentation-only status follow-up
